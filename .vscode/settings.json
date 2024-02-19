@@ -1,0 +1,8 @@
+{
+    "java.compile.nullAnalysis.mode": "interactive",
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "cSpell.words": [
+        "MODID",
+        "peoplemobsmod"
+    ]
+}
