@@ -15,6 +15,7 @@
         "MCP_MAPPINGS": "official_1.20.2"
       },
       "preLaunchTask": "runClient"
+      // "preLaunchTask": "prepareRunClientCompile"
     },
     {
       "type": "java",
