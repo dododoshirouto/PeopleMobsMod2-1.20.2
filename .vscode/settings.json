@@ -1,5 +1,5 @@
 {
-    "java.compile.nullAnalysis.mode": "interactive",
+    "java.compile.nullAnalysis.mode": "automatic",
     "java.configuration.updateBuildConfiguration": "automatic",
     "cSpell.words": [
         "MODID",
