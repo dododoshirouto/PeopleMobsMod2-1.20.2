@@ -2,14 +2,6 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "runClient",
-      "type": "shell",
-      "command": "./gradlew runClient",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      }
-    },
-    {
       "label": "prepareRunClientCompile",
       "type": "shell",
       "command": "./gradlew prepareRunClientCompile",

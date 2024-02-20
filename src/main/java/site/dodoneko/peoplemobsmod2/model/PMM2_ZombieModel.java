@@ -1,14 +1,14 @@
 package site.dodoneko.peoplemobsmod2.model;
 
 import net.minecraft.client.model.AnimationUtils;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidModel;
 
 @OnlyIn(Dist.CLIENT)
-public class PMM2_ZombieModel<T extends Zombie> extends HumanoidModel<T> {
+public class PMM2_ZombieModel<T extends Zombie> extends PMM2_HumanoidModel<T> {
     public PMM2_ZombieModel(ModelPart modelPart) {
         super(modelPart);
     }

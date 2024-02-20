@@ -3,7 +3,7 @@ package site.dodoneko.peoplemobsmod2.base;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-import net.minecraft.client.model.HumanoidModel;
+// import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
@@ -18,7 +18,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends HumanoidModel<T>> extends MobRenderer<T, M> {
+public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends PMM2_HumanoidModel<T>> extends MobRenderer<T, M> {
 
     public static final Map<Class<?>, ResourceLocation> TEXTURES_MAP = Maps.newHashMap();
     public static final ResourceLocation TEXTURE_DEFAULT = new ResourceLocation(
@@ -58,7 +58,7 @@ public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends Humanoid
     @SuppressWarnings({ "null" })
     @Override
     public ResourceLocation getTextureLocation(T entity) {
-        PeopleMobsMod2.LOGGER.info("[PMM2] getTextureLocation(T entity)", entity.toString());
+        // PeopleMobsMod2.LOGGER.info("[PMM2] getTextureLocation(T entity)", entity.toString());
         if (TEXTURES_MAP.containsKey(entity.getClass())) {
             return TEXTURES_MAP.get(entity.getClass());
         }
@@ -69,7 +69,7 @@ public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends Humanoid
 
     @SuppressWarnings("null")
     protected boolean isShaking(T entity) {
-        PeopleMobsMod2.LOGGER.info("[PMM2] isShaking(T entity)", entity.toString());
+        // PeopleMobsMod2.LOGGER.info("[PMM2] isShaking(T entity)", entity.toString());
         if (entity instanceof Zombie)
             return super.isShaking(entity) || ((Zombie) entity).isUnderWaterConverting();
 
