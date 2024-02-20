@@ -2,8 +2,17 @@
     "java.compile.nullAnalysis.mode": "automatic",
     "java.configuration.updateBuildConfiguration": "automatic",
     "cSpell.words": [
+        "Ageable",
         "Elytra",
+        "humanoidarm",
+        "meshdefinition",
+        "minecraftforge",
+        "modelpart",
         "MODID",
-        "peoplemobsmod"
+        "partdefinition",
+        "peoplemobsmod",
+        "rotlerp",
+        "XROT",
+        "YROT"
     ]
 }
