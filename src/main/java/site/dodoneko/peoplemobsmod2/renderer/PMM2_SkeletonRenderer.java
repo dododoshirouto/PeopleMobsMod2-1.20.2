@@ -1,7 +1,6 @@
 package site.dodoneko.peoplemobsmod2.renderer;
 
 import net.minecraft.client.model.SkeletonModel;
-import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.SkeletonRenderer;
 import net.minecraft.world.entity.monster.Skeleton;
