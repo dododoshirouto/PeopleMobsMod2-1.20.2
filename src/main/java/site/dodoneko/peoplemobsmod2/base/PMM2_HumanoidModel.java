@@ -1,7 +1,6 @@
 package site.dodoneko.peoplemobsmod2.base;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -22,9 +21,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
@@ -117,44 +114,35 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
         this.pHead = root.getChild("pHead");
         this.pBody = root.getChild("pBody");
-        // this.pArmL = null;
-        // this.pArmR = null;
-        // this.pLegL = null;
-        // this.pLegR = null;
-        this.pBUpper = null;
-        this.pBLower = null;
-        // this.pHeadWear = null;
-        // this.pBodyWear = null;
-        // this.pArmLWear = null;
-        // this.pArmRWear = null;
-        // this.pLegLWear = null;
-        // this.pLegRWear = null;
-        this.pBUpperWear = null;
-        this.pBLowerWear = null;
-        // this.pAhoge = null;
-        // this.pKemomimi = null;
-        // this.pShippo = null;
-        this.pEyebrowL = null;
-        this.pEyebrowR = null;
         this.pArmL = pBody.getChild("pArmL");
         this.pArmR = pBody.getChild("pArmR");
         this.pLegL = pBody.getChild("pLegL");
         this.pLegR = pBody.getChild("pLegR");
-        // this.pBUpper = pBody.getChild("pBUpper");
-        // this.pBLower = pBody.getChild("pBLower");
+        this.pBUpper = pBody.getChild("pBUpper");
+        this.pBLower = pBUpper.getChild("pBLower");
         this.pHeadWear = pHead.getChild("pHeadWear");
         this.pBodyWear = pBody.getChild("pBodyWear");
         this.pArmLWear = pArmL.getChild("pArmLWear");
         this.pArmRWear = pArmR.getChild("pArmRWear");
         this.pLegLWear = pLegL.getChild("pLegLWear");
         this.pLegRWear = pLegR.getChild("pLegRWear");
-        // this.pBUpperWear = pBUpper.getChild("pBUpperWear");
-        // this.pBLowerWear = pBLower.getChild("pBLowerWear");
+        // this.pBUpperWear = null;
+        // this.pBLowerWear = null;
+        this.pBUpperWear = pBUpper.getChild("pBUpperWear");
+        this.pBLowerWear = pBLower.getChild("pBLowerWear");
         this.pAhoge = pHead.getChild("pAhoge");
         this.pKemomimi = pHead.getChild("pKemomimi");
-        this.pShippo = pBody.getChild("pShippo");
+        this.pShippo = null;
+        this.pEyebrowL = null;
+        this.pEyebrowR = null;
+        // this.pShippo = pBody.getChild("pShippo");
         // this.pEyebrowL = pHead.getChild("pEyebrowL");
         // this.pEyebrowR = pHead.getChild("pEyebrowR");
+
+        this.doWalkBounding = true;
+        this.useChildModel = false;
+        this.modelScale = 1.0F;
+        this.bHeight = 0.5F;
 
         // AgeableListModel
         this.scaleHead = true;
@@ -192,10 +180,10 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
                 CubeListBuilder.create().texOffs(16, 16).addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, cube),
                 PartPose.offset(0, yOffset, 0));
         PartDefinition pArmL = pBody.addOrReplaceChild("pArmL",
-                CubeListBuilder.create().texOffs(32, 48).addBox(-1.0F, -2.0F, -2.0F, 3, 12, 4, cube),
+                CubeListBuilder.create().texOffs(32, 48).addBox(-1.0F, -1.2F, -2.0F, 3, 12, 4, cube),
                 PartPose.offset(5.0F, 2.5F + yOffset, 0.0F));
         PartDefinition pArmR = pBody.addOrReplaceChild("pArmR",
-                CubeListBuilder.create().texOffs(40, 16).addBox(-2.0F, -2.0F, -2.0F, 3, 12, 4, cube),
+                CubeListBuilder.create().texOffs(40, 16).addBox(-2.0F, -1.2F, -2.0F, 3, 12, 4, cube),
                 PartPose.offset(-5.0F, 2.5F + yOffset, 0.0F));
         PartDefinition pLegL = pBody.addOrReplaceChild("pLegL",
                 CubeListBuilder.create().texOffs(16, 48).addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, cube),
@@ -203,11 +191,13 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         PartDefinition pLegR = pBody.addOrReplaceChild("pLegR",
                 CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, cube),
                 PartPose.offset(-2.2F, 12.0F + yOffset, 0.0F));
+        PartDefinition pBUpper = pBody.addOrReplaceChild("pBUpper",
+                CubeListBuilder.create().texOffs(16, 21).addBox(-4.0F, 0.0F, -4.0F, 8, 4, 4, cube.extend(-0.05F)),
+                PartPose.offset(0, 0 + yOffset, -2));
+        PartDefinition pBLower = pBUpper.addOrReplaceChild("pBLower",
+                CubeListBuilder.create().texOffs(16, 25).addBox(-4.0F, 0.0F, -4.0F, 8, 3, 4, cube.extend(-0.02F)),
+                PartPose.offset(0, 0 + yOffset, -4));
 
-        PartDefinition pBUpper = pBody.addOrReplaceChild("pBUpper", CubeListBuilder.create(),
-                PartPose.offset(0, 0 + yOffset, 0));
-        PartDefinition pBLower = pBody.addOrReplaceChild("pBLower", CubeListBuilder.create(),
-                PartPose.offset(0, 0 + yOffset, 0));
         pHead.addOrReplaceChild("pHeadWear",
                 CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, cube.extend(0.5F)),
                 PartPose.offset(0, 0 + yOffset, 0));
@@ -226,17 +216,20 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         pLegR.addOrReplaceChild("pLegRWear",
                 CubeListBuilder.create().texOffs(0, 32).addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, cube.extend(0.4F)),
                 PartPose.offset(0, 0 + yOffset, 0));
-        pBUpper.addOrReplaceChild("pBUpperWear", CubeListBuilder.create(), PartPose.offset(0, 0 + yOffset, 0));
-        pBLower.addOrReplaceChild("pBLowerWear", CubeListBuilder.create(), PartPose.offset(0, 0 + yOffset, 0));
+        pBUpper.addOrReplaceChild("pBUpperWear", CubeListBuilder.create().texOffs(16, 36).addBox(-4.0F, 0.125F, -4.125F,
+                8, 4, 4, cube.extend(0.45F - 0.05F)), PartPose.offset(0, 0 + yOffset, 0));
+        pBLower.addOrReplaceChild("pBLowerWear", CubeListBuilder.create().texOffs(16, 40).addBox(-4.0F, 0.125F, -4.125F,
+                8, 3, 4, cube.extend(0.45F - 0.02F)), PartPose.offset(0, 0 + yOffset, 0));
         pHead.addOrReplaceChild("pAhoge",
                 CubeListBuilder.create().texOffs(24, 0).addBox(-3.5F, -3.0F, 0.0F, 7, 3, 1, cube),
-                PartPose.offset(0, 8.0F + yOffset, 1.0F));
+                PartPose.offset(0, -8.0F + yOffset, 1.0F));
         pHead.addOrReplaceChild("pKemomimi",
                 CubeListBuilder.create().texOffs(24, 4).addBox(-3.5F, -3.0F, -1.0F, 7, 3, 1, cube),
-                PartPose.offset(0, 8.0F + yOffset, -1.0F));
-        pBody.addOrReplaceChild("pShippo",
-                CubeListBuilder.create().texOffs(54, 16).addBox(-5.0F, 0.0F, 0.0F, 10, 12, 0, cube),
-                PartPose.offset(0, 10 + yOffset, 2));
+                PartPose.offset(0, -8.0F + yOffset, -1.0F));
+        // pBody.addOrReplaceChild("pShippo",
+        // CubeListBuilder.create().texOffs(54, 16).addBox(-5.0F, 0.0F, 0.0F, 10, 12, 0,
+        // cube),
+        // PartPose.offset(0, 10 + yOffset, 2));
         pHead.addOrReplaceChild("pEyebrowL", CubeListBuilder.create(), PartPose.offset(0, 0 + yOffset, 0));
         pHead.addOrReplaceChild("pEyebrowR", CubeListBuilder.create(), PartPose.offset(0, 0 + yOffset, 0));
 
@@ -258,29 +251,131 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         super.prepareMobModel(entity, p_102862_, p_102863_, p_102864_);
     }
 
+    public void resetPartsPosAndRot()
+    {
+        this.pHead.x = 0;
+        this.pHead.y = 0;
+        this.pHead.z = 0;
+        this.pHead.xRot = 0;
+        this.pHead.yRot = 0;
+        this.pHead.zRot = 0;
+        this.pBody.x = 0;
+        this.pBody.y = 0;
+        this.pBody.z = 0;
+        this.pBody.xRot = 0;
+        this.pBody.yRot = 0;
+        this.pBody.zRot = 0;
+        this.pArmL.x = 5.0F;
+        this.pArmL.y = 2.5F;
+        this.pArmL.z = 0.0F;
+        this.pArmL.xRot = 0;
+        this.pArmL.yRot = 0;
+        this.pArmL.zRot = 0;
+        this.pArmR.x = -5.0F;
+        this.pArmR.y = 2.5F;
+        this.pArmR.z = 0.0F;
+        this.pArmR.xRot = 0;
+        this.pArmR.yRot = 0;
+        this.pArmR.zRot = 0;
+        this.pLegL.x = 2.2F;
+        this.pLegL.y = 12.0F;
+        this.pLegL.z = 0.0F;
+        this.pLegL.xRot = 0;
+        this.pLegL.yRot = 0;
+        this.pLegL.zRot = 0;
+        this.pLegR.x = -2.2F;
+        this.pLegR.y = 12.0F;
+        this.pLegR.z = 0.0F;
+        this.pLegR.xRot = 0;
+        this.pLegR.yRot = 0;
+        this.pLegR.zRot = 0;
+        this.pBUpper.x = 0;
+        this.pBUpper.y = 0;
+        this.pBUpper.z = -2;
+        this.pBUpper.xRot = 0;
+        this.pBUpper.yRot = 0;
+        this.pBUpper.zRot = 0;
+        this.pBLower.x = 0;
+        this.pBLower.y = 0;
+        this.pBLower.z = -4;
+        this.pBLower.xRot = 0;
+        this.pBLower.yRot = 0;
+        this.pBLower.zRot = 0;
+
+        this.pHeadWear.x = 0;
+        this.pHeadWear.y = 0;
+        this.pHeadWear.z = 0;
+        this.pHeadWear.xRot = 0;
+        this.pHeadWear.yRot = 0;
+        this.pHeadWear.zRot = 0;
+        this.pBodyWear.x = 0;
+        this.pBodyWear.y = 0;
+        this.pBodyWear.z = 0;
+        this.pBodyWear.xRot = 0;
+        this.pBodyWear.yRot = 0;
+        this.pBodyWear.zRot = 0;
+        this.pArmLWear.x = 0;
+        this.pArmLWear.y = 0;
+        this.pArmLWear.z = 0;
+        this.pArmLWear.xRot = 0;
+        this.pArmLWear.yRot = 0;
+        this.pArmLWear.zRot = 0;
+        this.pArmRWear.x = 0;
+        this.pArmRWear.y = 0;
+        this.pArmRWear.z = 0;
+        this.pArmRWear.xRot = 0;
+        this.pArmRWear.yRot = 0;
+        this.pArmRWear.zRot = 0;
+        this.pLegLWear.x = 0;
+        this.pLegLWear.y = 0;
+        this.pLegLWear.z = 0;
+        this.pLegLWear.xRot = 0;
+        this.pLegLWear.yRot = 0;
+        this.pLegLWear.zRot = 0;
+        this.pLegRWear.x = 0;
+        this.pLegRWear.y = 0;
+        this.pLegRWear.z = 0;
+        this.pLegRWear.xRot = 0;
+        this.pLegRWear.yRot = 0;
+        this.pLegRWear.zRot = 0;
+
+        this.pAhoge.x = 0;
+        this.pAhoge.y = -8;
+        this.pAhoge.z = 1;
+        this.pAhoge.xRot = 0;
+        this.pAhoge.yRot = 0;
+        this.pAhoge.zRot = 0;
+        this.pKemomimi.x = 0;
+        this.pKemomimi.y = -8;
+        this.pKemomimi.z = -1;
+        this.pKemomimi.xRot = 0;
+        this.pKemomimi.yRot = 0;
+        this.pKemomimi.zRot = 0;
+
+    }
+
     @SuppressWarnings("null")
     @Override
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
             float headPitch) {
-
         this.entity = entity;
         this.isAggressive = ((Mob) entity).isAggressive();
         this.limbSwing = limbSwing;
-        this.limbSwingAmount = limbSwingAmount;
+        // this.limbSwingAmount = limbSwingAmount * 1.2F;
+        this.limbSwingAmount = limbSwingAmount * 1.2F * (1F / this.modelScale);
         this.ageInTicks = (float) Util.getMillis() / 100 + this.entityId * 10;
         this.headRotY = netHeadYaw;
         this.headRotX = headPitch;
         this.rightArmPose = ArmPose.EMPTY;
         this.leftArmPose = ArmPose.EMPTY;
 
-        // from 1.14.4 PMM2
-        this.pBody.xRot = 0;
-        this.pBody.xRot = 0;
+        this.resetPartsPosAndRot();
 
+        // from 1.14.4 PMM2
         if (this.setPreAnimations()) {
             return;
         }
-        
+
         // 頭の回転
         this.setHeadYawAndPitch();
 
@@ -454,6 +549,45 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         // }
 
         // this.hat.copyFrom(this.head);
+
+        this.setAddAnimations();
+
+        // 死亡時のモーション
+        // if (((LivingEntity) this.entity).getPose() == Pose.DYING) {
+        if (this.entity.isDeadOrDying()) {
+            setDeadAnimations();
+        }
+
+        this.setBoobsAnimations();
+        this.setShippoAnimations();
+        this.setAhogeAnimations();
+        this.setTwinkleAnimations();
+
+        this.setPostAnimations();
+
+        // 足の角度による接続部の整合性
+        float gapLY = 0.0F, gapRY = 0.0F;
+        if (this.pLegL.xRot < 0.0F) {
+            this.pLegL.y += gapLY = (float) Math.sin(this.pLegL.xRot) * 2.0F;
+            this.pLegL.z += (1F - (float) Math.cos(this.pLegL.xRot)) * 2.0F;
+        } else {
+            this.pLegL.y += gapLY = (float) PMath
+                    .sin(-PMath.min(this.pLegL.xRot, PMath.toRad(30F))) * 2.0F;
+            this.pLegL.z -= (1F
+                    - (float) PMath.cos(-PMath.min(this.pLegL.xRot, PMath.toRad(30F)))) * 2.0F;
+        }
+        if (this.pLegR.xRot < 0.0F) {
+            this.pLegR.y += gapRY = (float) PMath.sin(this.pLegR.xRot) * 2.0F;
+            this.pLegR.z += (1F - (float) PMath.cos(this.pLegR.xRot)) * 2.0F;
+        } else {
+            this.pLegR.y += gapRY = (float) PMath
+                    .sin(-PMath.min(this.pLegR.xRot, PMath.toRad(30F))) * 2.0F;
+            this.pLegR.z -= (1F
+                    - (float) PMath.cos(-PMath.min(this.pLegR.xRot, PMath.toRad(30F)))) * 2.0F;
+        }
+        float y = PMath.min(gapLY, gapRY);
+        this.pBody.y -= y;
+        this.pHead.y -= y;
     }
 
     protected boolean setPreAnimations() {
@@ -462,52 +596,123 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
     /** 頭の回転 */
     protected void setHeadYawAndPitch() {
-        this.pHead.yRot = PMM2_Math.toRad(this.headRotY);
-        this.pHead.xRot = PMM2_Math.toRad(this.headRotX);
+        this.pHead.yRot = PMath.toRad(this.headRotY);
+        this.pHead.xRot = PMath.toRad(this.headRotX);
     }
 
     /** 何もしてないときのモーション */
     protected void setStayAnimations() {
-        this.pArmL.zRot = -PMM2_Math.cos(this.ageInTicks * 0.09F) * 0.05F - 0.05F;
-        this.pArmR.zRot = PMM2_Math.cos(this.ageInTicks * 0.09F) * 0.05F + 0.05F;
-        this.pArmL.xRot = -PMM2_Math.sin(this.ageInTicks * 0.067F) * 0.05F;
-        this.pArmR.xRot = PMM2_Math.sin(this.ageInTicks * 0.067F) * 0.05F;
+        this.pArmL.zRot = PMath.toRad(-PMath.cos1(this.ageInTicks / 110F) * 3F - 3F);
+        this.pArmR.zRot = PMath.toRad(PMath.cos1(this.ageInTicks / 110F) * 3F + 3F);
+        this.pArmL.xRot = PMath.toRad(-PMath.sin1(this.ageInTicks / 150F) * 3F);
+        this.pArmR.xRot = PMath.toRad(PMath.sin1(this.ageInTicks / 150F) * 3F);
     }
 
     /** 歩いてる時のモーション */
     protected void setWalkingAnimations() {
         // if (speed < 0.5) {
-        this.pArmR.yRot = 0.5F * this.limbSwingAmount;
-        this.pArmL.yRot = -0.5F * this.limbSwingAmount;
-        this.pArmR.xRot = PMM2_Math.cos(this.limbSwing * 1.3324F + (float) Math.PI) * 2.0F
-                * this.limbSwingAmount * 0.5F;
-        this.pArmL.xRot = PMM2_Math.cos(this.limbSwing * 1.3324F) * 2.0F * this.limbSwingAmount * 0.5F;
-        this.pArmR.zRot = 0.3F * this.limbSwingAmount;
-        this.pArmL.zRot = -0.3F * this.limbSwingAmount;
-        this.pLegR.zRot = 0.075F * this.limbSwingAmount;
-        this.pLegL.zRot = -0.075F * this.limbSwingAmount;
-        this.pLegR.yRot = 0.15F * this.limbSwingAmount;
-        this.pLegL.yRot = -0.15F * this.limbSwingAmount;
-        this.pLegR.xRot = PMM2_Math.cos(this.limbSwing * 1.3324F) * 1.4F * this.limbSwingAmount;
-        this.pLegL.xRot = PMM2_Math.cos(this.limbSwing * 1.3324F + (float) Math.PI) * 1.4F
-                * this.limbSwingAmount;
-        this.pLegR.z = PMM2_Math.sin(this.limbSwing * 1.3324F) * 1F * this.limbSwingAmount
-                + 1F * this.limbSwingAmount;
-        this.pLegL.z = PMM2_Math.sin(this.limbSwing * 1.3324F + (float) Math.PI) * 1F
-                * this.limbSwingAmount + 1F * this.limbSwingAmount;
+        this.pArmR.yRot = PMath.toRad(17F * this.limbSwingAmount);
+        this.pArmL.yRot = PMath.toRad(-17F * this.limbSwingAmount);
+        this.pArmR.xRot = PMath.toRad(PMath.cos1(this.limbSwing / 7.4F) * 60F * this.limbSwingAmount);
+        this.pArmL.xRot = PMath.toRad(-PMath.cos1(this.limbSwing / 7.4F) * 60F * this.limbSwingAmount);
+        this.pArmR.zRot = PMath.toRad(19F * this.limbSwingAmount);
+        this.pArmL.zRot = PMath.toRad(-19F * this.limbSwingAmount);
+        this.pLegR.zRot = PMath.toRad(4.3F * this.limbSwingAmount);
+        this.pLegL.zRot = PMath.toRad(-4.3F * this.limbSwingAmount);
+        this.pLegR.yRot = PMath.toRad(5F * this.limbSwingAmount);
+        this.pLegL.yRot = PMath.toRad(-5F * this.limbSwingAmount);
+        this.pLegR.xRot = PMath.toRad(PMath.cos1(this.limbSwing / 7.4F) * 80F * this.limbSwingAmount);
+        this.pLegL.xRot = PMath.toRad(-PMath.cos1(this.limbSwing / 7.4F) * 80F * this.limbSwingAmount);
+        this.pLegR.z = PMath
+                .toRad(PMath.sin1(this.limbSwing / 7.4F) * 60F * this.limbSwingAmount + 60F * this.limbSwingAmount);
+        this.pLegL.z = PMath
+                .toRad(-PMath.sin1(this.limbSwing / 7.4F) * 60F * this.limbSwingAmount + 60F * this.limbSwingAmount);
 
         // } else { // running
 
         // }
 
         if (this.doWalkBounding) {
-            this.pBody.y += PMM2_Math.abs(PMM2_Math.cos(limbSwing * 1.3314F)) * limbSwingAmount
-                    * this.modelScale * 0.0625F * 4
-                    - 0.0625F * 2 * limbSwingAmount * (false/* this.isChild */ ? 0.5F : 1F) * this.modelScale;
-            this.pHead.y += PMM2_Math.abs(PMM2_Math.cos(limbSwing * 1.3314F)) * limbSwingAmount
-                    * this.modelScale * 0.0625F * 4
-                    - 0.0625F * 2 * limbSwingAmount * (false/* this.isChild */ ? 0.5F : 1F) * this.modelScale;
+            this.pBody.y -= (PMath.abs(PMath.sin1(limbSwing * 7.4F)) * 2F
+                    - 1F * (false/* this.isChild */ ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
+            this.pHead.y -= (PMath.abs(PMath.sin1(limbSwing * 7.4F)) * 2F
+                    - 1F * (false/* this.isChild */ ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
         }
+    }
+
+    //
+    //
+    //
+
+    protected void setAddAnimations() {
+    }
+
+    // 死亡時のモーション
+    protected void setDeadAnimations() {
+        this.pArmR.zRot = PMath.toRad(15);
+        this.pArmL.zRot = PMath.toRad(-15);
+        this.pArmR.xRot = PMath.toRad(-130);
+        this.pArmL.xRot = PMath.toRad(-130);
+        this.pArmR.z = -1.5f;
+        this.pArmL.z = -1.5f;
+
+        this.pLegR.zRot = PMath.toRad(-2);
+        this.pLegL.zRot = PMath.toRad(2);
+        this.pLegR.xRot = PMath.toRad(-35);
+        this.pLegL.xRot = PMath.toRad(-35);
+
+        this.pBody.xRot = PMath.toRad(12);
+        this.pHead.yRot = PMath.toRad((PMath.sin1(ageInTicks / 90) * 18));
+        this.pHead.xRot = PMath.toRad(16);
+
+        // this.pEyelidL.z = this.pEyelidR.z = 0F;
+        // this.pEyelidL.y = this.pEyelidR.y = 0F;
+    }
+
+    /** おっぱい部分のアニメーション */
+    protected void setBoobsAnimations() {
+        this.pBUpper.y = this.bHeight * 1F;
+        this.pBUpper.xRot = -PMath.asin(this.bHeight) + PMath.PI / 2;
+        float h = this.bHeight;
+        if (this.bHeight > 0.5F)
+            h = 1.0F - h;
+        this.pBLower.xRot = -(this.pBUpper.xRot - PMath.PI / 2) * (2 + h);
+
+        if (true /* this.boobsSwing */) {
+            this.pBUpper.y += PMath.max(
+                    PMath.min(-(this.pBody.y + (float) this.entity.getDeltaMovement().y) * this.bHeight * 1.5F, 1.0F),
+                    -0.8F);
+            this.pBUpper.xRot += PMath.max(PMath.min(
+                    -(this.pBody.y + (float) this.entity.getDeltaMovement().y) * this.bHeight * 0.4F * PMath.PI,
+                    0.25F * PMath.PI), 0.05F * PMath.PI);
+
+            float f = this.bHeight;
+            if (this.bHeight > 0.5F)
+                f = 1.0F - f;
+            this.pBLower.xRot = -(this.pBUpper.xRot - PMath.PI / 2) * (2 + f);
+        }
+    }
+
+    /** しっぽのアニメーション */
+    protected void setShippoAnimations() {
+    }
+
+    /** あほげとけもみみのアニメーション */
+    protected void setAhogeAnimations() {
+        float f1 = -0.6F * (float) this.entity.getDeltaMovement().length() * 10F;
+        if (this.doWalkBounding)
+            f1 += PMath.abs(PMath.cos(limbSwing * 1.3314F - 1.3F)) * this.limbSwingAmount;
+        if (true /* this.ahogeSwing */)
+            this.pAhoge.xRot = f1;
+        if (true /* this.kemomimiSwing */)
+            this.pKemomimi.xRot = f1 * 0.65F;
+    }
+
+    /** まばたき */
+    protected void setTwinkleAnimations() {
+    }
+
+    protected void setPostAnimations() {
     }
 
     @SuppressWarnings("null")
