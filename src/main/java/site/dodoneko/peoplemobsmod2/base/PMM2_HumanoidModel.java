@@ -21,6 +21,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.item.ItemStack;
@@ -100,6 +101,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     public boolean useChildModel = false;
     public float modelScale = 1.0F;
     public float bHeight = 0.5F;
+    private boolean hasBow;
 
     public PMM2_HumanoidModel(ModelPart root) {
         this(root, RenderType::entityCutoutNoCull);
@@ -414,8 +416,41 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         // 手に何か持ってるとき
         this.setArmHasAnythingAnimations(this.pArmL, this.leftArmPose);
         this.setArmHasAnythingAnimations(this.pArmR, this.rightArmPose);
-        PeopleMobsMod2.LOGGER
-                .debug("[PPM2] ArmPoseRight " + this.rightArmPose + " Entity " + entity.getClass().getName());
+
+        // スニーク時のモーション
+        if (((LivingEntity) this.entity).getPose() == Pose.CROUCHING) {
+            this.setSneakAnimations();
+        }
+
+        // プレイヤーに迫ってくるときのモーション
+        if (this.isAggressive) {
+            setAggressiveAnimations();
+        }
+
+        // ダメージ時のモーション
+        if (this.entity.hurtTime > 1) {
+            this.setDamagedAnimations();
+        }
+
+        // 水中にいるとき
+        else if (entity.getPose() == Pose.SWIMMING) {
+            this.setSwimmingAnimations();
+        }
+
+        // 空中にいるの時のモーション
+        else if (entity.getPose() == Pose.FALL_FLYING) {
+            this.setJumpAnimations();
+        }
+
+        // 空中にいるの時のモーション
+        else if (!this.entity.onGround()) {
+            // 水中にいるとき
+            if (this.entity.isInWater()) {
+                this.setSwimmingAnimations();
+            } else {
+                this.setJumpAnimations();
+            }
+        }
 
         // boolean flag = entity.getFallFlyingTicks() > 4;
         // boolean flag1 = entity.isVisuallySwimming();
@@ -584,7 +619,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
         // 死亡時のモーション
         // if (((LivingEntity) this.entity).getPose() == Pose.DYING) {
-        if (this.entity.isDeadOrDying()) {
+        if (this.entity.isDeadOrDying() || this.entity.getPose() == Pose.DYING) {
             setDeadAnimations();
         }
 
@@ -632,10 +667,10 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
     /** 何もしてないときのモーション */
     protected void setStayAnimations() {
-        this.pArmL.zRot = PMath.toRad(-PMath.cos1(this.ageInTicks / 110F) * 3F - 3F);
-        this.pArmR.zRot = PMath.toRad(PMath.cos1(this.ageInTicks / 110F) * 3F + 3F);
-        this.pArmL.xRot = PMath.toRad(-PMath.sin1(this.ageInTicks / 150F) * 3F);
-        this.pArmR.xRot = PMath.toRad(PMath.sin1(this.ageInTicks / 150F) * 3F);
+        this.pArmL.zRot = PMath.toRad(-PMath.cos1(this.ageInTicks / 70F) * 3F - 3F);
+        this.pArmR.zRot = PMath.toRad(PMath.cos1(this.ageInTicks / 70F) * 3F + 3F);
+        this.pArmL.xRot = PMath.toRad(-PMath.sin1(this.ageInTicks / 93F) * 3F);
+        this.pArmR.xRot = PMath.toRad(PMath.sin1(this.ageInTicks / 93F) * 3F);
     }
 
     /** 歩いてる時のモーション */
@@ -643,29 +678,29 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         // if (speed < 0.5) {
         this.pArmR.yRot = PMath.toRad(17F * this.limbSwingAmount);
         this.pArmL.yRot = PMath.toRad(-17F * this.limbSwingAmount);
-        this.pArmR.xRot = PMath.toRad(PMath.cos1(this.limbSwing / 7.4F) * 60F * this.limbSwingAmount);
-        this.pArmL.xRot = PMath.toRad(-PMath.cos1(this.limbSwing / 7.4F) * 60F * this.limbSwingAmount);
+        this.pArmR.xRot = PMath.toRad(PMath.cos1(this.limbSwing / 4.7F) * 60F * this.limbSwingAmount);
+        this.pArmL.xRot = PMath.toRad(-PMath.cos1(this.limbSwing / 4.7F) * 60F * this.limbSwingAmount);
         this.pArmR.zRot = PMath.toRad(19F * this.limbSwingAmount);
         this.pArmL.zRot = PMath.toRad(-19F * this.limbSwingAmount);
         this.pLegR.zRot = PMath.toRad(4.3F * this.limbSwingAmount);
         this.pLegL.zRot = PMath.toRad(-4.3F * this.limbSwingAmount);
         this.pLegR.yRot = PMath.toRad(5F * this.limbSwingAmount);
         this.pLegL.yRot = PMath.toRad(-5F * this.limbSwingAmount);
-        this.pLegR.xRot = PMath.toRad(PMath.cos1(this.limbSwing / 7.4F) * 80F * this.limbSwingAmount);
-        this.pLegL.xRot = PMath.toRad(-PMath.cos1(this.limbSwing / 7.4F) * 80F * this.limbSwingAmount);
+        this.pLegR.xRot = PMath.toRad(PMath.cos1(this.limbSwing / 4.7F) * 80F * this.limbSwingAmount);
+        this.pLegL.xRot = PMath.toRad(-PMath.cos1(this.limbSwing / 4.7F) * 80F * this.limbSwingAmount);
         this.pLegR.z = PMath
-                .toRad(PMath.sin1(this.limbSwing / 7.4F) * 60F * this.limbSwingAmount + 60F * this.limbSwingAmount);
+                .toRad(PMath.sin1(this.limbSwing / 4.7F) * 60F * this.limbSwingAmount + 60F * this.limbSwingAmount);
         this.pLegL.z = PMath
-                .toRad(-PMath.sin1(this.limbSwing / 7.4F) * 60F * this.limbSwingAmount + 60F * this.limbSwingAmount);
+                .toRad(-PMath.sin1(this.limbSwing / 4.7F) * 60F * this.limbSwingAmount + 60F * this.limbSwingAmount);
 
         // } else { // running
 
         // }
 
         if (this.doWalkBounding) {
-            this.pBody.y -= (PMath.abs(PMath.sin1(limbSwing * 7.4F)) * 2F
+            this.pBody.y -= (PMath.abs(PMath.sin1(limbSwing * 4.7F)) * 2F
                     - 1F * (false/* this.isChild */ ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
-            this.pHead.y -= (PMath.abs(PMath.sin1(limbSwing * 7.4F)) * 2F
+            this.pHead.y -= (PMath.abs(PMath.sin1(limbSwing * 4.7F)) * 2F
                     - 1F * (false/* this.isChild */ ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
         }
     }
@@ -706,8 +741,8 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         PeopleMobsMod2.LOGGER
                 .debug("[PPM2] ArmPoseRight " + this.rightArmPose + " Entity " + entity.getClass().getName());
 
-        this.rightArmPose = this.entity.getMainArm() == HumanoidArm.RIGHT? mainArmPose : otherArmPose;
-        this.leftArmPose = this.entity.getMainArm() == HumanoidArm.LEFT? mainArmPose : otherArmPose;
+        this.rightArmPose = this.entity.getMainArm() == HumanoidArm.RIGHT ? mainArmPose : otherArmPose;
+        this.leftArmPose = this.entity.getMainArm() == HumanoidArm.LEFT ? mainArmPose : otherArmPose;
     }
 
     // 手に何か持ってるとき
@@ -727,6 +762,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
                 arm.yRot = PMath.toRad(30) * armSide;
                 break;
             case BOW_AND_ARROW:
+                this.hasBow = true;
                 other.yRot = PMath.toRad(-28) * armSide;
                 arm.yRot = PMath.toRad(5.7F) * armSide;
                 other.xRot = PMath.toRad(-90);
@@ -744,8 +780,10 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
             case THROW_SPEAR:
                 break;
             case CROSSBOW_CHARGE:
+                this.hasBow = true;
                 break;
             case CROSSBOW_HOLD:
+                this.hasBow = true;
                 break;
             case SPYGLASS:
                 break;
@@ -754,6 +792,71 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
             case BRUSH:
                 break;
         }
+    }
+
+    /** スニーク時のモーション */
+    protected void setSneakAnimations() {
+        this.pBody.xRot += 0.5F;
+        this.pArmR.xRot += 0.2F;
+        this.pArmL.xRot += 0.2F;
+        this.pArmR.zRot += 0.2F;
+        this.pArmL.zRot -= 0.2F;
+        this.pLegR.xRot -= 0.75F;
+        this.pLegL.xRot -= 0.75F;
+        this.pHead.y += 3.0F;
+        this.pBody.y += 3.0F;
+        this.pHead.z -= 1.5F;
+        this.pBody.z -= 1.5F;
+    }
+
+    // プレイヤーに迫ってくるときのモーション
+    protected void setAggressiveAnimations() {
+        if (this.hasBow)
+            return;
+        this.pArmR.xRot = PMath.toRad(PMath.cos1(this.limbSwing / 2.3F - 4.4f) * 8.5F - 85F);
+        this.pArmL.xRot = PMath.toRad(PMath.cos1(this.limbSwing / 2.3F - 4.4F) * 8.5F - 85F);
+        this.pArmR.y = 2.5F + PMath.cos1(this.limbSwing / 2.3F - 2.2F) * 0.5F + 0.5F;
+        this.pArmL.y = 2.5F + PMath.cos1(this.limbSwing / 2.3F - 2.2F) * 0.5F + 0.5F;
+    }
+
+    /** ダメージ受けた時のアニメーション */
+    protected void setDamagedAnimations() {
+        this.setWalkingAnimations();
+        this.pHead.xRot = PMath.toRad(15F);
+        this.pLegL.xRot -= PMath.toRad(20F);
+        this.pLegR.xRot -= PMath.toRad(20F);
+        this.pArmL.zRot -= PMath.toRad(80F);
+        this.pArmR.zRot += PMath.toRad(80F);
+        this.pArmL.yRot -= PMath.toRad(80F);
+        this.pArmR.yRot += PMath.toRad(80F);
+    }
+
+    /** 水中にいるときのモーション */
+    protected void setSwimmingAnimations() {
+        float vy = (float) this.entity.getDeltaMovement().length();
+        this.pLegR.xRot = PMath.toRad(PMath.cos1(this.ageInTicks / 10F) * -30F + 12F + 23F * (1 - vy));
+        this.pLegL.xRot = PMath.toRad(-PMath.cos1(this.ageInTicks / 10F) * -30F + 12F + 23F * (1 - vy));
+        this.pLegR.zRot = PMath.toRad(2.8F);
+        this.pLegL.zRot = PMath.toRad(-2.8F);
+
+        this.pArmR.zRot = PMath.toRad(PMath.cos1(this.ageInTicks / 14F) * (75F + 45F * vy) + 57F + 75F * vy);
+        this.pArmL.zRot = PMath.toRad(-PMath.cos1(this.ageInTicks / 14F) * (75F + 45F * vy) - 57F - 75F * vy);
+        this.pArmR.xRot = PMath.toRad((PMath.cos1(this.ageInTicks / 14F) * -45F - 57F) * (1 - vy));
+        this.pArmL.xRot = PMath.toRad((PMath.cos1(this.ageInTicks / 14F) * -45F - 57F) * (1 - vy));
+
+        this.pBody.xRot = PMath.toRad(11.4F + 63F * vy);
+        this.pHead.z = this.pBody.z = -6F * (float) this.entity.getDeltaMovement().length();
+    }
+
+    /** onGroundじゃない時のモーション */
+    protected void setJumpAnimations() {
+        float fallingSpeed = PMath.clamp((float) entity.getDeltaMovement().y, -1.0F, 1.0F);
+        this.pArmL.zRot = -PMath.toRad(80F - 30F * fallingSpeed);
+        this.pArmR.zRot = PMath.toRad(80F - 30F * fallingSpeed);
+        this.pLegL.yRot = PMath.toRad(-fallingSpeed * 40);
+        this.pLegL.yRot = PMath.toRad(fallingSpeed * 40);
+        this.pLegL.xRot = PMath.toRad(fallingSpeed * 75);
+        this.pLegR.xRot = PMath.toRad(fallingSpeed * 75);
     }
 
     //
@@ -778,7 +881,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.pLegL.xRot = PMath.toRad(-35);
 
         this.pBody.xRot = PMath.toRad(12);
-        this.pHead.yRot = PMath.toRad((PMath.sin1(ageInTicks / 90) * 18));
+        this.pHead.yRot = PMath.toRad((PMath.sin1(ageInTicks / 30) * 18));
         this.pHead.xRot = PMath.toRad(16);
 
         // this.pEyelidL.z = this.pEyelidR.z = 0F;

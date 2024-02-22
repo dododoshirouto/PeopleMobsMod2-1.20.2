@@ -40,4 +40,9 @@ public class PMath {
     public static float min(float a, float b) {
         return Math.min(a, b);
     }
+    public static float clamp(float v, float a, float b) {
+        float min = min(a, b);
+        float max = max(a, b);
+        return max(min, min(max, v));
+    }
 }
