@@ -3,6 +3,10 @@ package site.dodoneko.peoplemobsmod2.base;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.vertex.PoseStack;
+
+import net.minecraft.client.model.EndermanModel;
+import net.minecraft.client.renderer.MultiBufferSource;
 // import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -12,13 +16,16 @@ import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends PMM2_HumanoidModel<T>> extends MobRenderer<T, M> {
+public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends PMM2_HumanoidModel<T>>
+        extends MobRenderer<T, M> {
 
     public static final Map<Class<?>, ResourceLocation> TEXTURES_MAP = Maps.newHashMap();
     public static final ResourceLocation TEXTURE_DEFAULT = new ResourceLocation(
@@ -28,11 +35,11 @@ public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends PMM2_Hum
 
     @SuppressWarnings("null")
     public PMM2_HumanoidMobRenderer(EntityRendererProvider.Context entity, M model, float modelScale) {
-        super(entity, model, modelScale/2);
+        super(entity, model, modelScale / 2);
         PeopleMobsMod2.LOGGER.info(
                 "[PMM2] PMM2_HumanoidMobRenderer(EntityRendererProvider.Context entity, M model, float shadowRadius)");
         this.modelScale = modelScale;
-        
+
         this.addLayer(new CustomHeadLayer<>(this, entity.getModelSet(), modelScale, modelScale, modelScale,
                 entity.getItemInHandRenderer()));
         this.addLayer(new ElytraLayer<>(this, entity.getModelSet()));
@@ -58,11 +65,26 @@ public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends PMM2_Hum
     @SuppressWarnings({ "null" })
     @Override
     public ResourceLocation getTextureLocation(T entity) {
-        // PeopleMobsMod2.LOGGER.info("[PMM2] getTextureLocation(T entity)", entity.toString());
+        // PeopleMobsMod2.LOGGER.info("[PMM2] getTextureLocation(T entity)",
+        // entity.toString());
         if (TEXTURES_MAP.containsKey(entity.getClass())) {
             return TEXTURES_MAP.get(entity.getClass());
         }
         return TEXTURE_DEFAULT;
+    }
+
+    @SuppressWarnings("null")
+    @Override
+    public void render(T entity, float p_115456_, float p_115457_, PoseStack p_115458_, MultiBufferSource p_115459_,
+            int p_115460_) {
+        if (entity instanceof EnderMan) {
+            BlockState block = ((EnderMan)entity).getCarriedBlock();
+            PMM2_HumanoidModel<T> model = this.getModel();
+            model.carrying = block != null;
+            model.creepy = ((EnderMan)entity).isCreepy();
+        }
+
+        super.render(entity, p_115456_, p_115457_, p_115458_, p_115459_, p_115460_);
     }
 
     // individual methods

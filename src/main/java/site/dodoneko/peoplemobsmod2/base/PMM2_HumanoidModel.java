@@ -22,6 +22,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
@@ -87,6 +90,10 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     public float headRotY;
     public float headRotX;
     public int entityId;
+    /// Is carrying any block
+    public boolean carrying;
+    /// Is screaming of Enderman
+    public boolean creepy;
 
     // model options
     public boolean doWalkBounding = true;
@@ -246,13 +253,22 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         return ImmutableList.of(this.pBody);
     }
 
-    public void prepareMobModel(@SuppressWarnings("null") T entity, float p_102862_, float p_102863_, float p_102864_) {
-        this.swimAmount = entity.getSwimAmount(p_102864_);
-        super.prepareMobModel(entity, p_102862_, p_102863_, p_102864_);
+    @SuppressWarnings("null")
+    @Override
+    public void prepareMobModel(T entity, float limbSwing, float limbSwingAmount, float ticks) {
+        // this.swimAmount = entity.getSwimAmount(ticks);
+        super.prepareMobModel(entity, limbSwing, limbSwingAmount, ticks);
+
+        @SuppressWarnings("unused")
+        ArmPose mainArmPose = entity.getMainArm() == HumanoidArm.LEFT ? this.leftArmPose : this.rightArmPose;
+        @SuppressWarnings("unused")
+        ArmPose otherArmPose = entity.getMainArm() == HumanoidArm.LEFT ? this.rightArmPose : this.leftArmPose;
+
+        this.entity = entity;
+        this.setArmPoses();
     }
 
-    public void resetPartsPosAndRot()
-    {
+    public void resetPartsPosAndRot() {
         this.pHead.x = 0;
         this.pHead.y = 0;
         this.pHead.z = 0;
@@ -359,6 +375,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
             float headPitch) {
         this.entity = entity;
+        this.entityId = entity.getId();
         this.isAggressive = ((Mob) entity).isAggressive();
         this.limbSwing = limbSwing;
         // this.limbSwingAmount = limbSwingAmount * 1.2F;
@@ -368,6 +385,8 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.headRotX = headPitch;
         this.rightArmPose = ArmPose.EMPTY;
         this.leftArmPose = ArmPose.EMPTY;
+
+        this.prepareMobModel(entity, limbSwing, this.limbSwingAmount, this.ageInTicks);
 
         this.resetPartsPosAndRot();
 
@@ -386,6 +405,17 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         if (this.limbSwingAmount > 0.01F) {
             this.setWalkingAnimations();
         }
+
+        // 乗ってる時のモーション
+        if (this.riding) {
+            this.setRidingAnimations();
+        }
+
+        // 手に何か持ってるとき
+        this.setArmHasAnythingAnimations(this.pArmL, this.leftArmPose);
+        this.setArmHasAnythingAnimations(this.pArmR, this.rightArmPose);
+        PeopleMobsMod2.LOGGER
+                .debug("[PPM2] ArmPoseRight " + this.rightArmPose + " Entity " + entity.getClass().getName());
 
         // boolean flag = entity.getFallFlyingTicks() > 4;
         // boolean flag1 = entity.isVisuallySwimming();
@@ -637,6 +667,92 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
                     - 1F * (false/* this.isChild */ ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
             this.pHead.y -= (PMath.abs(PMath.sin1(limbSwing * 7.4F)) * 2F
                     - 1F * (false/* this.isChild */ ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
+        }
+    }
+
+    /** 何かに乗ってる時のモーション */
+    protected void setRidingAnimations() {
+        this.pArmR.xRot = PMath.toRad(-12F);
+        this.pArmL.xRot = PMath.toRad(-12F);
+        this.pLegR.xRot = PMath.toRad(-80);
+        this.pLegR.yRot = PMath.toRad(5);
+        this.pLegR.zRot = PMath.toRad(4.5F);
+        this.pLegL.xRot = PMath.toRad(-80);
+        this.pLegL.yRot = PMath.toRad(-5);
+        this.pLegL.zRot = PMath.toRad(-4.5F);
+    }
+
+    @SuppressWarnings("null")
+    protected void setArmPoses() {
+        @SuppressWarnings("unused")
+        ArmPose mainArmPose = this.entity.getMainArm() == HumanoidArm.LEFT ? this.leftArmPose : this.rightArmPose;
+        @SuppressWarnings("unused")
+        ArmPose otherArmPose = this.entity.getMainArm() == HumanoidArm.LEFT ? this.rightArmPose : this.leftArmPose;
+
+        mainArmPose = PMM2_HumanoidModel.ArmPose.EMPTY;
+        otherArmPose = PMM2_HumanoidModel.ArmPose.EMPTY;
+        ItemStack itemStack = this.entity.getItemInHand(InteractionHand.MAIN_HAND);
+        if (itemStack.is(Items.BOW)) {
+            mainArmPose = PMM2_HumanoidModel.ArmPose.BOW_AND_ARROW;
+        } else if (this.carrying) {
+            mainArmPose = PMM2_HumanoidModel.ArmPose.BLOCK;
+        } else if (itemStack.isEmpty()) {
+
+        } else {
+            mainArmPose = PMM2_HumanoidModel.ArmPose.ITEM;
+        }
+        PeopleMobsMod2.LOGGER
+                .debug("[PPM2] mainArmPose " + mainArmPose + " Entity " + entity.getClass().getName());
+        PeopleMobsMod2.LOGGER
+                .debug("[PPM2] ArmPoseRight " + this.rightArmPose + " Entity " + entity.getClass().getName());
+
+        this.rightArmPose = this.entity.getMainArm() == HumanoidArm.RIGHT? mainArmPose : otherArmPose;
+        this.leftArmPose = this.entity.getMainArm() == HumanoidArm.LEFT? mainArmPose : otherArmPose;
+    }
+
+    // 手に何か持ってるとき
+    protected void setArmHasAnythingAnimations(ModelPart arm, ArmPose pose) {
+        float armSide = arm == this.pArmL ? 1f : -1f;
+        ModelPart other = arm == this.pArmL ? this.pArmR : this.pArmL;
+
+        switch (pose) {
+            case EMPTY:
+                break;
+            case ITEM:
+                arm.xRot = arm.xRot * 0.5F - PMath.toRad(5.7F);
+                arm.yRot = PMath.toRad(0.0F);
+                break;
+            case BLOCK:
+                arm.xRot = arm.xRot * 0.5F - PMath.toRad(18);
+                arm.yRot = PMath.toRad(30) * armSide;
+                break;
+            case BOW_AND_ARROW:
+                other.yRot = PMath.toRad(-28) * armSide;
+                arm.yRot = PMath.toRad(5.7F) * armSide;
+                other.xRot = PMath.toRad(-90);
+                arm.xRot = PMath.toRad(-90);
+                if (this.isAggressive) {
+                    other.yRot += this.pHead.yRot;
+                    arm.yRot += this.pHead.yRot;
+                    other.xRot += this.pHead.xRot;
+                    arm.xRot += this.pHead.xRot;
+                } else {
+                    other.xRot += PMath.toRad(45);
+                    arm.xRot += PMath.toRad(45);
+                }
+                break;
+            case THROW_SPEAR:
+                break;
+            case CROSSBOW_CHARGE:
+                break;
+            case CROSSBOW_HOLD:
+                break;
+            case SPYGLASS:
+                break;
+            case TOOT_HORN:
+                break;
+            case BRUSH:
+                break;
         }
     }
 

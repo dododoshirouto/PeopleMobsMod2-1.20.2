@@ -2,6 +2,9 @@ package site.dodoneko.peoplemobsmod2;
 
 import com.mojang.logging.LogUtils;
 
+import net.minecraft.client.model.EndermanModel;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.ZombieModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;
@@ -22,6 +25,10 @@ import org.slf4j.Logger;
 public class PeopleMobsMod2 {
     public static final String MODID = "peoplemobsmod2";
     public static final Logger LOGGER = LogUtils.getLogger();
+
+    HumanoidModel<Zombie> ref_humanoidModel;
+    ZombieModel<Zombie> ref_zombieModel;
+    EndermanModel<EnderMan> ref_endermanModel;
 
     public static final ModelLayerLocation PMM2_HUMANOID_LAYER = new ModelLayerLocation(
             new ResourceLocation(MODID, "humanoid_layer"), "main");
