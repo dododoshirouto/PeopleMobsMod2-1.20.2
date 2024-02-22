@@ -1,6 +1,7 @@
 package site.dodoneko.peoplemobsmod2.base;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -85,6 +86,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     // model options
     public boolean doWalkBounding = true;
     public boolean useChildModel = false;
+    public boolean flyFlap = false;
     public float modelScale = 1.0F;
     public float bHeight = 0.5F;
 
@@ -190,10 +192,10 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
                 PartPose.offset(0, yOffset, 0));
         PartDefinition pArmL = pBody.addOrReplaceChild("pArmL",
                 CubeListBuilder.create().texOffs(32, 48).addBox(-1.0F, -1.2F, -2.0F, 3, 12, 4, cube),
-                PartPose.offset(5.0F, 2.5F + yOffset, 0.0F));
+                PartPose.offset(5.0F, 1.5F + yOffset, 0.0F));
         PartDefinition pArmR = pBody.addOrReplaceChild("pArmR",
                 CubeListBuilder.create().texOffs(40, 16).addBox(-2.0F, -1.2F, -2.0F, 3, 12, 4, cube),
-                PartPose.offset(-5.0F, 2.5F + yOffset, 0.0F));
+                PartPose.offset(-5.0F, 1.5F + yOffset, 0.0F));
         PartDefinition pLegL = pBody.addOrReplaceChild("pLegL",
                 CubeListBuilder.create().texOffs(16, 48).addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, cube),
                 PartPose.offset(2.2F, 12.0F + yOffset, 0.0F));
@@ -271,46 +273,46 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     }
 
     public void resetPartsPosAndRot() {
-        this.pHead.setPos(0,0,0);
+        this.pHead.setPos(0, 0, 0);
         this.pHead.setRotation(0, 0, 0);
-        this.pBody.setPos(0,0,0);
+        this.pBody.setPos(0, 0, 0);
         this.pBody.setRotation(0, 0, 0);
-        this.pArmL.setPos(5.0F,2.5F,0.0F);
+        this.pArmL.setPos(5.0F, 2.5F, 0.0F);
         this.pArmL.setRotation(0, 0, 0);
-        this.pArmR.setPos(-5.0F,2.5F,0.0F);
+        this.pArmR.setPos(-5.0F, 2.5F, 0.0F);
         this.pArmR.setRotation(0, 0, 0);
-        this.pLegL.setPos(2.2F,12.0F,0.0F);
+        this.pLegL.setPos(2.2F, 12.0F, 0.0F);
         this.pLegL.setRotation(0, 0, 0);
-        this.pLegR.setPos(-2.2F,12.0F,0.0F);
+        this.pLegR.setPos(-2.2F, 12.0F, 0.0F);
         this.pLegR.setRotation(0, 0, 0);
-        this.pBUpper.setPos(0,0,-2);
+        this.pBUpper.setPos(0, 0, -2);
         this.pBUpper.setRotation(0, 0, 0);
-        this.pBLower.setPos(0,0,-4);
+        this.pBLower.setPos(0, 0, -4);
         this.pBLower.setRotation(0, 0, 0);
 
-        this.pHeadWear.setPos(0,0,0);
+        this.pHeadWear.setPos(0, 0, 0);
         this.pHeadWear.setRotation(0, 0, 0);
-        this.pBodyWear.setPos(0,0,0);
+        this.pBodyWear.setPos(0, 0, 0);
         this.pBodyWear.setRotation(0, 0, 0);
-        this.pArmLWear.setPos(0,0,0);
+        this.pArmLWear.setPos(0, 0, 0);
         this.pArmLWear.setRotation(0, 0, 0);
-        this.pArmRWear.setPos(0,0,0);
+        this.pArmRWear.setPos(0, 0, 0);
         this.pArmRWear.setRotation(0, 0, 0);
-        this.pLegLWear.setPos(0,0,0);
+        this.pLegLWear.setPos(0, 0, 0);
         this.pLegLWear.setRotation(0, 0, 0);
-        this.pLegRWear.setPos(0,0,0);
+        this.pLegRWear.setPos(0, 0, 0);
         this.pLegRWear.setRotation(0, 0, 0);
 
-        this.pAhoge.setPos(0,-8,1);
+        this.pAhoge.setPos(0, -8, 1);
         this.pAhoge.setRotation(0, 0, 0);
-        this.pKemomimi.setPos(0,-8,-1);
+        this.pKemomimi.setPos(0, -8, -1);
         this.pKemomimi.setRotation(0, 0, 0);
 
     }
 
     @SuppressWarnings("null")
     public void setEntityStatus(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
-    float headPitch) {
+            float headPitch) {
         this.entity = entity;
         this.entityId = entity.getId();
         this.limbSwing = limbSwing;
@@ -320,15 +322,15 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.headRotX = headPitch;
         this.isChild = this.entity.isBaby();
         this.isAggressive = entity.isAggressive();
-        this.hasBow = this.entity.getItemInHand(InteractionHand.MAIN_HAND).is(Items.BOW) || this.entity.getItemInHand(InteractionHand.MAIN_HAND).is(Items.CROSSBOW);
-        
+        this.hasBow = this.entity.getItemInHand(InteractionHand.MAIN_HAND).is(Items.BOW)
+                || this.entity.getItemInHand(InteractionHand.MAIN_HAND).is(Items.CROSSBOW);
+
         if (entity instanceof Creeper) {
-            this.isSwelling = ((Creeper)entity).getSwelling(this.limbSwingAmount) > 0F;
+            this.isSwelling = ((Creeper) entity).getSwelling(this.limbSwingAmount) > 0F;
             // this.isSwelling = ((Creeper)entity).isIgnited();
-        } else
-        if (entity instanceof EnderMan) {
-            this.carrying = ((EnderMan)entity).getCarriedBlock() != null;
-            this.isCreepy = ((EnderMan)entity).isCreepy();
+        } else if (entity instanceof EnderMan) {
+            this.carrying = ((EnderMan) entity).getCarriedBlock() != null;
+            this.isCreepy = ((EnderMan) entity).isCreepy();
         }
 
         // set pose
@@ -344,7 +346,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         if (this.entity.isDeadOrDying()) {
             this.entity.setPose(Pose.DYING);
         }
-        
+
         this.prepareMobModel(this.entity, this.limbSwing, this.limbSwingAmount, this.ageInTicks);
     }
 
@@ -403,7 +405,10 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
         // 空中にいるの時のモーション
         else if (entity.getPose() == Pose.FALL_FLYING) {
-            this.setJumpAnimations();
+            if (flyFlap)
+                this.setFlapFlyingAnimations();
+            else
+                this.setJumpAnimations();
         }
 
         // 爆発しそうなモーション
@@ -495,9 +500,9 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
         if (this.doWalkBounding) {
             this.pBody.y -= (PMath.abs(PMath.sin1(limbSwing * 4.7F)) * 2F
-                    - 1F * (this.isChild ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
+                    - 1F * (this.isChild||this.useChildModel ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
             this.pHead.y -= (PMath.abs(PMath.sin1(limbSwing * 4.7F)) * 2F
-                    - 1F * (this.isChild ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
+                    - 1F * (this.isChild||this.useChildModel ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
         }
     }
 
@@ -646,10 +651,11 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.pLegR.xRot = PMath.toRad(fallingSpeed * 75);
     }
 
-    // 
+    //
     // Entity個別のアニメーション
-    // 
+    //
 
+    // 膨張アニメーション：クリーパー
     protected void setSwellingAnimations() {
         this.pArmR.zRot = PMath.toRad(-15F);
         this.pArmL.zRot = PMath.toRad(15F);
@@ -668,7 +674,20 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.pHead.xRot = PMath.toRad(16.2F);
 
         // this.bipedLeftEyelid.z = this.bipedRightEyelid.z = 0F;
-        // this.bipedLeftEyelid.rotationPointY = this.bipedRightEyelid.rotationPointY = 0F;
+        // this.bipedLeftEyelid.rotationPointY = this.bipedRightEyelid.rotationPointY =
+        // 0F;
+    }
+
+    // 羽ばたくアニメーション
+    protected void setFlapFlyingAnimations() {
+        this.pArmR.zRot = PMath.toRad(PMath.cos1(this.ageInTicks / 2F) * 57F + 90F);
+        this.pArmL.zRot = PMath.toRad(-PMath.cos1(this.ageInTicks / 2F) * 57F - 90F);
+        this.pLegR.xRot = PMath.toRad(-(float) this.entity.getDeltaMovement().y * 225F);
+        this.pLegL.xRot = PMath.toRad(-(float) this.entity.getDeltaMovement().y * 225F);
+        this.pLegR.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y * 60F);
+        this.pLegL.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y * 60F);
+        this.pBody.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y * 50F);
+        this.pBody.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y * 50F);
     }
 
     //
@@ -793,7 +812,8 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     @Override
     public void renderToBuffer(PoseStack pose, VertexConsumer vertex, int p_102036_, int p_102037_,
             float p_102038_, float p_102039_, float p_102040_, float p_102041_) {
-        if (this.young) {
+
+        if (this.young || this.isChild || this.useChildModel) {
             pose.pushPose();
             if (this.scaleHead) {
                 pose.scale(this.babyHeadScale, this.babyHeadScale, this.babyHeadScale);
@@ -813,7 +833,12 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
                         p_102041_);
             });
             pose.popPose();
+
         } else {
+            
+            pose.translate(0, 1F - this.modelScale, 0);
+            pose.scale(this.modelScale, this.modelScale, this.modelScale);
+
             this.headParts().forEach((part) -> {
                 part.render(pose, vertex, p_102036_, p_102037_, p_102038_, p_102039_, p_102040_,
                         p_102041_);

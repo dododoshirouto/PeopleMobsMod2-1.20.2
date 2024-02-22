@@ -30,14 +30,12 @@ public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends PMM2_Hum
             "textures/entity/" + "sample-chan" + ".png");
     // public static final Map<Class<?>, Class<PMM2_HumanoidModel>> MODEL_MAP = Maps.newHashMap();
 
-    public float modelScale = 0.8F;
+    // public float modelScale = 0.8F;
 
     @SuppressWarnings("null")
     public PMM2_HumanoidMobRenderer(EntityRendererProvider.Context entity, M model, float modelScale) {
         super(entity, model, modelScale / 2);
-        PeopleMobsMod2.LOGGER.info(
-                "[PMM2] PMM2_HumanoidMobRenderer(EntityRendererProvider.Context entity, M model, float shadowRadius)");
-        this.modelScale = modelScale;
+        this.getModel().modelScale = modelScale;
 
         this.addLayer(new CustomHeadLayer<>(this, entity.getModelSet(), modelScale, modelScale, modelScale,
                 entity.getItemInHandRenderer()));
@@ -47,8 +45,6 @@ public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends PMM2_Hum
 
     @SuppressWarnings("null")
     public void addArmorLayers(EntityRendererProvider.Context entity, M innerArmorModel, M outerArmorModel) {
-        PeopleMobsMod2.LOGGER.info(
-                "[PMM2] addArmorLayers(EntityRendererProvider.Context entity, M innerArmorModel, M outerArmorModel)");
         this.addLayer(new HumanoidArmorLayer<>(this, innerArmorModel, outerArmorModel, entity.getModelManager()));
     }
 

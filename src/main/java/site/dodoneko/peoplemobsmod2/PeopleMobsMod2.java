@@ -56,6 +56,8 @@ public class PeopleMobsMod2 {
             EntityRenderers.register(EntityType.ZOMBIE, PMM2_ZombieRenderer::new);
             EntityRenderers.register(EntityType.SKELETON, PMM2_SkeletonRenderer::new);
             EntityRenderers.register(EntityType.CREEPER, PMM2_CreeperRenderer::new);
+            EntityRenderers.register(EntityType.CHICKEN, PMM2_ChickenRenderer::new);
+            EntityRenderers.register(EntityType.COW, PMM2_CowRenderer::new);
         }
 
         @SuppressWarnings("null")
