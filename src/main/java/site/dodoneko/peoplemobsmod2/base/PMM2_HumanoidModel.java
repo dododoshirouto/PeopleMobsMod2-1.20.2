@@ -24,6 +24,7 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
@@ -82,26 +83,25 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     public final float babyBodyScale;
     public final float bodyYOffset;
 
-    // 1.4.4 PMM2
-    public T entity;
-    public boolean isAggressive;
-    public float limbSwing;
-    public float limbSwingAmount;
-    public float ageInTicks;
-    public float headRotY;
-    public float headRotX;
-    public int entityId;
-    /// Is carrying any block
-    public boolean carrying;
-    /// Is screaming of Enderman
-    public boolean creepy;
-
     // model options
     public boolean doWalkBounding = true;
     public boolean useChildModel = false;
     public float modelScale = 1.0F;
     public float bHeight = 0.5F;
-    private boolean hasBow;
+
+    // entity status
+    public T entity;
+    public int entityId;
+    public float limbSwing;
+    public float limbSwingAmount;
+    public float ageInTicks;
+    public float headRotY;
+    public float headRotX;
+    public boolean isChild;
+    public boolean isAggressive;
+    public boolean hasBow;
+    public boolean carrying;
+    public boolean creepy;
 
     public PMM2_HumanoidModel(ModelPart root) {
         this(root, RenderType::entityCutoutNoCull);
@@ -157,8 +157,8 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.scaleHead = true;
         this.babyYHeadOffset = 16.0F;
         this.babyZHeadOffset = 0.0F;
-        this.babyHeadScale = 2.0F;
-        this.babyBodyScale = 2.0F;
+        this.babyHeadScale = 0.5F * 1.5F;
+        this.babyBodyScale = 0.5F;
         this.bodyYOffset = 24.0F;
     }
 
@@ -271,124 +271,82 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     }
 
     public void resetPartsPosAndRot() {
-        this.pHead.x = 0;
-        this.pHead.y = 0;
-        this.pHead.z = 0;
-        this.pHead.xRot = 0;
-        this.pHead.yRot = 0;
-        this.pHead.zRot = 0;
-        this.pBody.x = 0;
-        this.pBody.y = 0;
-        this.pBody.z = 0;
-        this.pBody.xRot = 0;
-        this.pBody.yRot = 0;
-        this.pBody.zRot = 0;
-        this.pArmL.x = 5.0F;
-        this.pArmL.y = 2.5F;
-        this.pArmL.z = 0.0F;
-        this.pArmL.xRot = 0;
-        this.pArmL.yRot = 0;
-        this.pArmL.zRot = 0;
-        this.pArmR.x = -5.0F;
-        this.pArmR.y = 2.5F;
-        this.pArmR.z = 0.0F;
-        this.pArmR.xRot = 0;
-        this.pArmR.yRot = 0;
-        this.pArmR.zRot = 0;
-        this.pLegL.x = 2.2F;
-        this.pLegL.y = 12.0F;
-        this.pLegL.z = 0.0F;
-        this.pLegL.xRot = 0;
-        this.pLegL.yRot = 0;
-        this.pLegL.zRot = 0;
-        this.pLegR.x = -2.2F;
-        this.pLegR.y = 12.0F;
-        this.pLegR.z = 0.0F;
-        this.pLegR.xRot = 0;
-        this.pLegR.yRot = 0;
-        this.pLegR.zRot = 0;
-        this.pBUpper.x = 0;
-        this.pBUpper.y = 0;
-        this.pBUpper.z = -2;
-        this.pBUpper.xRot = 0;
-        this.pBUpper.yRot = 0;
-        this.pBUpper.zRot = 0;
-        this.pBLower.x = 0;
-        this.pBLower.y = 0;
-        this.pBLower.z = -4;
-        this.pBLower.xRot = 0;
-        this.pBLower.yRot = 0;
-        this.pBLower.zRot = 0;
+        this.pHead.setPos(0,0,0);
+        this.pHead.setRotation(0, 0, 0);
+        this.pBody.setPos(0,0,0);
+        this.pBody.setRotation(0, 0, 0);
+        this.pArmL.setPos(5.0F,2.5F,0.0F);
+        this.pArmL.setRotation(0, 0, 0);
+        this.pArmR.setPos(-5.0F,2.5F,0.0F);
+        this.pArmR.setRotation(0, 0, 0);
+        this.pLegL.setPos(2.2F,12.0F,0.0F);
+        this.pLegL.setRotation(0, 0, 0);
+        this.pLegR.setPos(-2.2F,12.0F,0.0F);
+        this.pLegR.setRotation(0, 0, 0);
+        this.pBUpper.setPos(0,0,-2);
+        this.pBUpper.setRotation(0, 0, 0);
+        this.pBLower.setPos(0,0,-4);
+        this.pBLower.setRotation(0, 0, 0);
 
-        this.pHeadWear.x = 0;
-        this.pHeadWear.y = 0;
-        this.pHeadWear.z = 0;
-        this.pHeadWear.xRot = 0;
-        this.pHeadWear.yRot = 0;
-        this.pHeadWear.zRot = 0;
-        this.pBodyWear.x = 0;
-        this.pBodyWear.y = 0;
-        this.pBodyWear.z = 0;
-        this.pBodyWear.xRot = 0;
-        this.pBodyWear.yRot = 0;
-        this.pBodyWear.zRot = 0;
-        this.pArmLWear.x = 0;
-        this.pArmLWear.y = 0;
-        this.pArmLWear.z = 0;
-        this.pArmLWear.xRot = 0;
-        this.pArmLWear.yRot = 0;
-        this.pArmLWear.zRot = 0;
-        this.pArmRWear.x = 0;
-        this.pArmRWear.y = 0;
-        this.pArmRWear.z = 0;
-        this.pArmRWear.xRot = 0;
-        this.pArmRWear.yRot = 0;
-        this.pArmRWear.zRot = 0;
-        this.pLegLWear.x = 0;
-        this.pLegLWear.y = 0;
-        this.pLegLWear.z = 0;
-        this.pLegLWear.xRot = 0;
-        this.pLegLWear.yRot = 0;
-        this.pLegLWear.zRot = 0;
-        this.pLegRWear.x = 0;
-        this.pLegRWear.y = 0;
-        this.pLegRWear.z = 0;
-        this.pLegRWear.xRot = 0;
-        this.pLegRWear.yRot = 0;
-        this.pLegRWear.zRot = 0;
+        this.pHeadWear.setPos(0,0,0);
+        this.pHeadWear.setRotation(0, 0, 0);
+        this.pBodyWear.setPos(0,0,0);
+        this.pBodyWear.setRotation(0, 0, 0);
+        this.pArmLWear.setPos(0,0,0);
+        this.pArmLWear.setRotation(0, 0, 0);
+        this.pArmRWear.setPos(0,0,0);
+        this.pArmRWear.setRotation(0, 0, 0);
+        this.pLegLWear.setPos(0,0,0);
+        this.pLegLWear.setRotation(0, 0, 0);
+        this.pLegRWear.setPos(0,0,0);
+        this.pLegRWear.setRotation(0, 0, 0);
 
-        this.pAhoge.x = 0;
-        this.pAhoge.y = -8;
-        this.pAhoge.z = 1;
-        this.pAhoge.xRot = 0;
-        this.pAhoge.yRot = 0;
-        this.pAhoge.zRot = 0;
-        this.pKemomimi.x = 0;
-        this.pKemomimi.y = -8;
-        this.pKemomimi.z = -1;
-        this.pKemomimi.xRot = 0;
-        this.pKemomimi.yRot = 0;
-        this.pKemomimi.zRot = 0;
+        this.pAhoge.setPos(0,-8,1);
+        this.pAhoge.setRotation(0, 0, 0);
+        this.pKemomimi.setPos(0,-8,-1);
+        this.pKemomimi.setRotation(0, 0, 0);
 
+    }
+
+    @SuppressWarnings("null")
+    public void setEntityStatus(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+    float headPitch) {
+        this.entity = entity;
+        this.entityId = entity.getId();
+        this.limbSwing = limbSwing;
+        this.limbSwingAmount = limbSwingAmount;
+        this.ageInTicks = (float) Util.getMillis() / 100 + this.entityId * 10;
+        this.headRotY = netHeadYaw;
+        this.headRotX = headPitch;
+        this.isChild = this.entity.isBaby();
+        this.isAggressive = entity.isAggressive();
+        this.hasBow = this.entity.getItemInHand(InteractionHand.MAIN_HAND).is(Items.BOW) || this.entity.getItemInHand(InteractionHand.MAIN_HAND).is(Items.CROSSBOW);
+
+        if (entity instanceof EnderMan) {
+            this.carrying = ((EnderMan)entity).getCarriedBlock() != null;
+            this.creepy = ((EnderMan)entity).isCreepy();
+        }
+
+        // set pose
+        if (!this.entity.onGround()) {
+            if (this.entity.isInWater()) {
+                this.entity.setPose(Pose.SWIMMING);
+            } else {
+                this.entity.setPose(Pose.FALL_FLYING);
+            }
+        }
+        if (this.entity.isDeadOrDying()) {
+            this.entity.setPose(Pose.DYING);
+        }
+        
+        this.prepareMobModel(this.entity, this.limbSwing, this.limbSwingAmount, this.ageInTicks);
     }
 
     @SuppressWarnings("null")
     @Override
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
             float headPitch) {
-        this.entity = entity;
-        this.entityId = entity.getId();
-        this.isAggressive = ((Mob) entity).isAggressive();
-        this.limbSwing = limbSwing;
-        // this.limbSwingAmount = limbSwingAmount * 1.2F;
-        this.limbSwingAmount = limbSwingAmount * 1.2F * (1F / this.modelScale);
-        this.ageInTicks = (float) Util.getMillis() / 100 + this.entityId * 10;
-        this.headRotY = netHeadYaw;
-        this.headRotX = headPitch;
-        this.rightArmPose = ArmPose.EMPTY;
-        this.leftArmPose = ArmPose.EMPTY;
-
-        this.prepareMobModel(entity, limbSwing, this.limbSwingAmount, this.ageInTicks);
+        this.setEntityStatus(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 
         this.resetPartsPosAndRot();
 
@@ -442,15 +400,15 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
             this.setJumpAnimations();
         }
 
-        // 空中にいるの時のモーション
-        else if (!this.entity.onGround()) {
-            // 水中にいるとき
-            if (this.entity.isInWater()) {
-                this.setSwimmingAnimations();
-            } else {
-                this.setJumpAnimations();
-            }
-        }
+        // // 空中にいるの時のモーション
+        // else if (!this.entity.onGround()) {
+        //     // 水中にいるとき
+        //     if (this.entity.isInWater()) {
+        //         this.setSwimmingAnimations();
+        //     } else {
+        //         this.setJumpAnimations();
+        //     }
+        // }
 
         // boolean flag = entity.getFallFlyingTicks() > 4;
         // boolean flag1 = entity.isVisuallySwimming();
@@ -619,7 +577,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
         // 死亡時のモーション
         // if (((LivingEntity) this.entity).getPose() == Pose.DYING) {
-        if (this.entity.isDeadOrDying() || this.entity.getPose() == Pose.DYING) {
+        if (this.entity.getPose() == Pose.DYING) {
             setDeadAnimations();
         }
 
@@ -699,9 +657,9 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
         if (this.doWalkBounding) {
             this.pBody.y -= (PMath.abs(PMath.sin1(limbSwing * 4.7F)) * 2F
-                    - 1F * (false/* this.isChild */ ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
+                    - 1F * (this.isChild ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
             this.pHead.y -= (PMath.abs(PMath.sin1(limbSwing * 4.7F)) * 2F
-                    - 1F * (false/* this.isChild */ ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
+                    - 1F * (this.isChild ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
         }
     }
 
@@ -719,9 +677,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
     @SuppressWarnings("null")
     protected void setArmPoses() {
-        @SuppressWarnings("unused")
         ArmPose mainArmPose = this.entity.getMainArm() == HumanoidArm.LEFT ? this.leftArmPose : this.rightArmPose;
-        @SuppressWarnings("unused")
         ArmPose otherArmPose = this.entity.getMainArm() == HumanoidArm.LEFT ? this.rightArmPose : this.leftArmPose;
 
         mainArmPose = PMM2_HumanoidModel.ArmPose.EMPTY;
@@ -736,10 +692,10 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         } else {
             mainArmPose = PMM2_HumanoidModel.ArmPose.ITEM;
         }
-        PeopleMobsMod2.LOGGER
-                .debug("[PPM2] mainArmPose " + mainArmPose + " Entity " + entity.getClass().getName());
-        PeopleMobsMod2.LOGGER
-                .debug("[PPM2] ArmPoseRight " + this.rightArmPose + " Entity " + entity.getClass().getName());
+        // PeopleMobsMod2.LOGGER
+        //         .debug("[PPM2] mainArmPose " + mainArmPose + " Entity " + entity.getClass().getName());
+        // PeopleMobsMod2.LOGGER
+        //         .debug("[PPM2] ArmPoseRight " + this.rightArmPose + " Entity " + entity.getClass().getName());
 
         this.rightArmPose = this.entity.getMainArm() == HumanoidArm.RIGHT ? mainArmPose : otherArmPose;
         this.leftArmPose = this.entity.getMainArm() == HumanoidArm.LEFT ? mainArmPose : otherArmPose;
@@ -762,7 +718,6 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
                 arm.yRot = PMath.toRad(30) * armSide;
                 break;
             case BOW_AND_ARROW:
-                this.hasBow = true;
                 other.yRot = PMath.toRad(-28) * armSide;
                 arm.yRot = PMath.toRad(5.7F) * armSide;
                 other.xRot = PMath.toRad(-90);
@@ -780,10 +735,8 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
             case THROW_SPEAR:
                 break;
             case CROSSBOW_CHARGE:
-                this.hasBow = true;
                 break;
             case CROSSBOW_HOLD:
-                this.hasBow = true;
                 break;
             case SPYGLASS:
                 break;
@@ -935,149 +888,6 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     }
 
     @SuppressWarnings("null")
-    private void poseRightArm(T entity) {
-        switch (this.rightArmPose) {
-            case EMPTY:
-                this.pArmR.yRot = 0.0F;
-                break;
-            case BLOCK:
-                this.pArmR.xRot = this.pArmR.xRot * 0.5F - 0.9424779F;
-                this.pArmR.yRot = (-(float) Math.PI / 6F);
-                break;
-            case ITEM:
-                this.pArmR.xRot = this.pArmR.xRot * 0.5F - ((float) Math.PI / 10F);
-                this.pArmR.yRot = 0.0F;
-                break;
-            case THROW_SPEAR:
-                this.pArmR.xRot = this.pArmR.xRot * 0.5F - (float) Math.PI;
-                this.pArmR.yRot = 0.0F;
-                break;
-            case BOW_AND_ARROW:
-                this.pArmR.yRot = -0.1F + this.pHead.yRot;
-                this.pArmL.yRot = 0.1F + this.pHead.yRot + 0.4F;
-                this.pArmR.xRot = (-(float) Math.PI / 2F) + this.pHead.xRot;
-                this.pArmL.xRot = (-(float) Math.PI / 2F) + this.pHead.xRot;
-                break;
-            case CROSSBOW_CHARGE:
-                AnimationUtils.animateCrossbowCharge(this.rightArm, this.leftArm, entity, true);
-                break;
-            case CROSSBOW_HOLD:
-                AnimationUtils.animateCrossbowHold(this.rightArm, this.leftArm, this.head, true);
-                break;
-            case BRUSH:
-                this.pArmR.xRot = this.pArmR.xRot * 0.5F - ((float) Math.PI / 5F);
-                this.pArmR.yRot = 0.0F;
-                break;
-            case SPYGLASS:
-                this.pArmR.xRot = Mth.clamp(
-                        this.pHead.xRot - 1.9198622F - (entity.isCrouching() ? 0.2617994F : 0.0F), -2.4F, 3.3F);
-                this.pArmR.yRot = this.pHead.yRot - 0.2617994F;
-                break;
-            case TOOT_HORN:
-                this.pArmR.xRot = Mth.clamp(this.pHead.xRot, -1.2F, 1.2F) - 1.4835298F;
-                this.pArmR.yRot = this.pHead.yRot - ((float) Math.PI / 6F);
-            default:
-                this.rightArmPose.applyTransform(this, entity, net.minecraft.world.entity.HumanoidArm.RIGHT);
-        }
-
-    }
-
-    @SuppressWarnings("null")
-    private void poseLeftArm(T entity) {
-        switch (this.leftArmPose) {
-            case EMPTY:
-                this.pArmL.yRot = 0.0F;
-                break;
-            case BLOCK:
-                this.pArmL.xRot = this.pArmL.xRot * 0.5F - 0.9424779F;
-                this.pArmL.yRot = ((float) Math.PI / 6F);
-                break;
-            case ITEM:
-                this.pArmL.xRot = this.pArmL.xRot * 0.5F - ((float) Math.PI / 10F);
-                this.pArmL.yRot = 0.0F;
-                break;
-            case THROW_SPEAR:
-                this.pArmL.xRot = this.pArmL.xRot * 0.5F - (float) Math.PI;
-                this.pArmL.yRot = 0.0F;
-                break;
-            case BOW_AND_ARROW:
-                this.pArmR.yRot = -0.1F + this.pHead.yRot - 0.4F;
-                this.pArmL.yRot = 0.1F + this.pHead.yRot;
-                this.pArmR.xRot = (-(float) Math.PI / 2F) + this.pHead.xRot;
-                this.pArmL.xRot = (-(float) Math.PI / 2F) + this.pHead.xRot;
-                break;
-            case CROSSBOW_CHARGE:
-                AnimationUtils.animateCrossbowCharge(this.pArmR, this.pArmL, entity, false);
-                break;
-            case CROSSBOW_HOLD:
-                AnimationUtils.animateCrossbowHold(this.pArmR, this.pArmL, this.head, false);
-                break;
-            case BRUSH:
-                this.pArmL.xRot = this.pArmL.xRot * 0.5F - ((float) Math.PI / 5F);
-                this.pArmL.yRot = 0.0F;
-                break;
-            case SPYGLASS:
-                this.pArmL.xRot = Mth.clamp(
-                        this.pHead.xRot - 1.9198622F - (entity.isCrouching() ? 0.2617994F : 0.0F), -2.4F, 3.3F);
-                this.pArmL.yRot = this.pHead.yRot + 0.2617994F;
-                break;
-            case TOOT_HORN:
-                this.pArmL.xRot = Mth.clamp(this.pHead.xRot, -1.2F, 1.2F) - 1.4835298F;
-                this.pArmL.yRot = this.pHead.yRot + ((float) Math.PI / 6F);
-            default:
-                this.leftArmPose.applyTransform(this, entity, net.minecraft.world.entity.HumanoidArm.LEFT);
-        }
-
-    }
-
-    protected void setupAttackAnimation(@SuppressWarnings("null") T entity, float p_102859_) {
-        // if (!(this.attackTime <= 0.0F)) {
-        // HumanoidArm humanoidarm = this.getAttackArm(entity);
-        // ModelPart modelpart = this.getArm(humanoidarm);
-        // float f = this.attackTime;
-        // this.body.yRot = Mth.sin(Mth.sqrt(f) * ((float) Math.PI * 2F)) * 0.2F;
-        // if (humanoidarm == HumanoidArm.LEFT) {
-        // this.body.yRot *= -1.0F;
-        // }
-
-        // this.pArmR.z = Mth.sin(this.body.yRot) * 5.0F;
-        // this.pArmR.x = -Mth.cos(this.body.yRot) * 5.0F;
-        // this.pArmL.z = -Mth.sin(this.body.yRot) * 5.0F;
-        // this.pArmL.x = Mth.cos(this.body.yRot) * 5.0F;
-        // this.pArmR.yRot += this.body.yRot;
-        // this.pArmL.yRot += this.body.yRot;
-        // this.pArmL.xRot += this.body.yRot;
-        // f = 1.0F - this.attackTime;
-        // f *= f;
-        // f *= f;
-        // f = 1.0F - f;
-        // float f1 = Mth.sin(f * (float) Math.PI);
-        // float f2 = Mth.sin(this.attackTime * (float) Math.PI) * -(this.head.xRot -
-        // 0.7F) * 0.75F;
-        // modelpart.xRot -= f1 * 1.2F + f2;
-        // modelpart.yRot += this.body.yRot * 2.0F;
-        // modelpart.zRot += Mth.sin(this.attackTime * (float) Math.PI) * -0.4F;
-        // }
-    }
-
-    protected float rotlerpRad(float time, float rotA, float rotB) {
-        float f = (rotB - rotA) % ((float) Math.PI * 2F);
-        if (f < -(float) Math.PI) {
-            f += ((float) Math.PI * 2F);
-        }
-
-        if (f >= (float) Math.PI) {
-            f -= ((float) Math.PI * 2F);
-        }
-
-        return rotA + time * f;
-    }
-
-    private float quadraticArmUpdate(float value) {
-        return -65.0F * value + value * value;
-    }
-
-    @SuppressWarnings("null")
     public void copyPropertiesTo(PMM2_HumanoidModel<T> model) {
         super.copyPropertiesTo(model);
         model.leftArmPose = this.leftArmPose;
@@ -1116,11 +926,6 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         return this.pHead;
     }
 
-    private HumanoidArm getAttackArm(T entity) {
-        HumanoidArm humanoidarm = entity.getMainArm();
-        return entity.swingingArm == InteractionHand.MAIN_HAND ? humanoidarm : humanoidarm.getOpposite();
-    }
-
     // extended methods
 
     // AgeableListModel
@@ -1132,42 +937,34 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         if (this.young) {
             pose.pushPose();
             if (this.scaleHead) {
-                float f = 1.5F / this.babyHeadScale;
-                pose.scale(f, f, f);
+                pose.scale(this.babyHeadScale, this.babyHeadScale, this.babyHeadScale);
             }
 
             pose.translate(0.0F, this.babyYHeadOffset / 16.0F, this.babyZHeadOffset / 16.0F);
-            this.headParts().forEach((p_102081_) -> {
-                p_102081_.render(pose, vertex, p_102036_, p_102037_, p_102038_, p_102039_, p_102040_,
+            this.headParts().forEach((part) -> {
+                part.render(pose, vertex, p_102036_, p_102037_, p_102038_, p_102039_, p_102040_,
                         p_102041_);
             });
             pose.popPose();
             pose.pushPose();
-            float f1 = 1.0F / this.babyBodyScale;
-            pose.scale(f1, f1, f1);
+            pose.scale(this.babyBodyScale, this.babyBodyScale, this.babyBodyScale);
             pose.translate(0.0F, this.bodyYOffset / 16.0F, 0.0F);
-            this.bodyParts().forEach((p_102071_) -> {
-                p_102071_.render(pose, vertex, p_102036_, p_102037_, p_102038_, p_102039_, p_102040_,
+            this.bodyParts().forEach((part) -> {
+                part.render(pose, vertex, p_102036_, p_102037_, p_102038_, p_102039_, p_102040_,
                         p_102041_);
             });
             pose.popPose();
         } else {
-            this.headParts().forEach((p_102061_) -> {
-                p_102061_.render(pose, vertex, p_102036_, p_102037_, p_102038_, p_102039_, p_102040_,
+            this.headParts().forEach((part) -> {
+                part.render(pose, vertex, p_102036_, p_102037_, p_102038_, p_102039_, p_102040_,
                         p_102041_);
             });
-            this.bodyParts().forEach((p_102051_) -> {
-                p_102051_.render(pose, vertex, p_102036_, p_102037_, p_102038_, p_102039_, p_102040_,
+            this.bodyParts().forEach((part) -> {
+                part.render(pose, vertex, p_102036_, p_102037_, p_102038_, p_102039_, p_102040_,
                         p_102041_);
             });
         }
 
-    }
-
-    // individual methods
-
-    public boolean isAggressive(T entity) {
-        return entity.isAggressive();
     }
 
     @OnlyIn(Dist.CLIENT)
