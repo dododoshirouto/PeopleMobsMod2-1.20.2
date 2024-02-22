@@ -91,7 +91,7 @@ public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends PMM2_Hum
             BlockState block = ((EnderMan) entity).getCarriedBlock();
             PMM2_HumanoidModel<T> model = this.getModel();
             model.carrying = block != null;
-            model.creepy = ((EnderMan) entity).isCreepy();
+            model.isCreepy = ((EnderMan) entity).isCreepy();
         }
 
         super.render(entity, p_115456_, p_115457_, p_115458_, p_115459_, p_115460_);

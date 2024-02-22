@@ -22,6 +22,7 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -99,7 +100,8 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     public boolean isAggressive;
     public boolean hasBow;
     public boolean carrying;
-    public boolean creepy;
+    public boolean isCreepy;
+    public boolean isSwelling;
 
     public PMM2_HumanoidModel(ModelPart root) {
         this(root, RenderType::entityCutoutNoCull);
@@ -319,10 +321,14 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.isChild = this.entity.isBaby();
         this.isAggressive = entity.isAggressive();
         this.hasBow = this.entity.getItemInHand(InteractionHand.MAIN_HAND).is(Items.BOW) || this.entity.getItemInHand(InteractionHand.MAIN_HAND).is(Items.CROSSBOW);
-
+        
+        if (entity instanceof Creeper) {
+            this.isSwelling = ((Creeper)entity).getSwelling(this.limbSwingAmount) > 0F;
+            // this.isSwelling = ((Creeper)entity).isIgnited();
+        } else
         if (entity instanceof EnderMan) {
             this.carrying = ((EnderMan)entity).getCarriedBlock() != null;
-            this.creepy = ((EnderMan)entity).isCreepy();
+            this.isCreepy = ((EnderMan)entity).isCreepy();
         }
 
         // set pose
@@ -400,178 +406,10 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
             this.setJumpAnimations();
         }
 
-        // // 空中にいるの時のモーション
-        // else if (!this.entity.onGround()) {
-        //     // 水中にいるとき
-        //     if (this.entity.isInWater()) {
-        //         this.setSwimmingAnimations();
-        //     } else {
-        //         this.setJumpAnimations();
-        //     }
-        // }
-
-        // boolean flag = entity.getFallFlyingTicks() > 4;
-        // boolean flag1 = entity.isVisuallySwimming();
-        // this.pHead.yRot = netHeadYaw * ((float) Math.PI / 180F);
-        // if (flag) {
-        // this.pHead.xRot = (-(float) Math.PI / 4F);
-        // } else if (this.swimAmount > 0.0F) {
-        // if (flag1) {
-        // this.pHead.xRot = this.rotlerpRad(this.swimAmount, this.pHead.xRot, (-(float)
-        // Math.PI / 4F));
-        // } else {
-        // this.pHead.xRot = this.rotlerpRad(this.swimAmount, this.pHead.xRot,
-        // headPitch * ((float) Math.PI / 180F));
-        // }
-        // } else {
-        // this.pHead.xRot = headPitch * ((float) Math.PI / 180F);
-        // }
-
-        // this.pBody.yRot = 0.0F;
-        // this.pArmR.z = 0.0F;
-        // this.pArmR.x = -5.0F;
-        // this.pArmL.z = 0.0F;
-        // this.pArmL.x = 5.0F;
-        // float f = 1.0F;
-        // if (flag) {
-        // f = (float) entity.getDeltaMovement().lengthSqr();
-        // f /= 0.2F;
-        // f *= f * f;
-        // }
-
-        // if (f < 1.0F) {
-        // f = 1.0F;
-        // }
-
-        // this.pArmR.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F *
-        // limbSwingAmount * 0.5F / f;
-        // this.pArmL.xRot = Mth.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount *
-        // 0.5F
-        // / f;
-        // this.pArmR.zRot = 0.0F;
-        // this.pArmL.zRot = 0.0F;
-        // this.pLegR.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f;
-        // this.pLegL.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F *
-        // limbSwingAmount / f;
-        // this.pLegR.yRot = 0.005F;
-        // this.pLegL.yRot = -0.005F;
-        // this.pLegR.zRot = 0.005F;
-        // this.pLegL.zRot = -0.005F;
-        // if (this.riding) {
-        // this.pArmR.xRot += (-(float) Math.PI / 5F);
-        // this.pArmL.xRot += (-(float) Math.PI / 5F);
-        // this.pLegR.xRot = -1.4137167F;
-        // this.pLegR.yRot = ((float) Math.PI / 10F);
-        // this.pLegR.zRot = 0.07853982F;
-        // this.pLegL.xRot = -1.4137167F;
-        // this.pLegL.yRot = (-(float) Math.PI / 10F);
-        // this.pLegL.zRot = -0.07853982F;
-        // }
-
-        // this.pArmR.yRot = 0.0F;
-        // this.pArmL.yRot = 0.0F;
-        // boolean flag2 = entity.getMainArm() == HumanoidArm.RIGHT;
-        // if (entity.isUsingItem()) {
-        // boolean flag3 = entity.getUsedItemHand() == InteractionHand.MAIN_HAND;
-        // if (flag3 == flag2) {
-        // this.poseRightArm(entity);
-        // } else {
-        // this.poseLeftArm(entity);
-        // }
-        // } else {
-        // boolean flag4 = flag2 ? this.leftArmPose.isTwoHanded() :
-        // this.rightArmPose.isTwoHanded();
-        // if (flag2 != flag4) {
-        // this.poseLeftArm(entity);
-        // this.poseRightArm(entity);
-        // } else {
-        // this.poseRightArm(entity);
-        // this.poseLeftArm(entity);
-        // }
-        // }
-
-        // this.setupAttackAnimation(entity, ageInTicks);
-        // if (this.crouching) {
-        // this.pBody.xRot = 0.5F;
-        // this.pArmR.xRot += 0.4F;
-        // this.pArmL.xRot += 0.4F;
-        // this.pLegR.z = 4.0F;
-        // this.pLegL.z = 4.0F;
-        // this.pLegR.y = 12.2F;
-        // this.pLegL.y = 12.2F;
-        // this.pHead.y = 4.2F;
-        // this.pBody.y = 3.2F;
-        // this.pArmL.y = 5.2F;
-        // this.pArmR.y = 5.2F;
-        // } else {
-        // this.pBody.xRot = 0.0F;
-        // this.pLegR.z = 0.0F;
-        // this.pLegL.z = 0.0F;
-        // this.pLegR.y = 12.0F;
-        // this.pLegL.y = 12.0F;
-        // this.pHead.y = 0.0F;
-        // this.pBody.y = 0.0F;
-        // this.pArmL.y = 2.0F;
-        // this.pArmR.y = 2.0F;
-        // }
-
-        // if (this.rightArmPose != PMM2_HumanoidModel.ArmPose.SPYGLASS) {
-        // AnimationUtils.bobModelPart(this.pArmR, ageInTicks, 1.0F);
-        // }
-
-        // if (this.leftArmPose != PMM2_HumanoidModel.ArmPose.SPYGLASS) {
-        // AnimationUtils.bobModelPart(this.pArmL, ageInTicks, -1.0F);
-        // }
-
-        // if (this.swimAmount > 0.0F) {
-        // float f5 = limbSwing % 26.0F;
-        // HumanoidArm humanoidarm = this.getAttackArm(entity);
-        // float f1 = humanoidarm == HumanoidArm.RIGHT && this.attackTime > 0.0F ? 0.0F
-        // : this.swimAmount;
-        // float f2 = humanoidarm == HumanoidArm.LEFT && this.attackTime > 0.0F ? 0.0F :
-        // this.swimAmount;
-        // if (!entity.isUsingItem()) {
-        // if (f5 < 14.0F) {
-        // this.pArmL.xRot = this.rotlerpRad(f2, this.pArmL.xRot, 0.0F);
-        // this.pArmR.xRot = Mth.lerp(f1, this.pArmR.xRot, 0.0F);
-        // this.pArmL.yRot = this.rotlerpRad(f2, this.pArmL.yRot, (float) Math.PI);
-        // this.pArmR.yRot = Mth.lerp(f1, this.pArmR.yRot, (float) Math.PI);
-        // this.pArmL.zRot = this.rotlerpRad(f2, this.pArmL.zRot, (float) Math.PI
-        // + 1.8707964F * this.quadraticArmUpdate(f5) / this.quadraticArmUpdate(14.0F));
-        // this.pArmR.zRot = Mth.lerp(f1, this.pArmR.zRot, (float) Math.PI
-        // - 1.8707964F * this.quadraticArmUpdate(f5) / this.quadraticArmUpdate(14.0F));
-        // } else if (f5 >= 14.0F && f5 < 22.0F) {
-        // float f6 = (f5 - 14.0F) / 8.0F;
-        // this.pArmL.xRot = this.rotlerpRad(f2, this.pArmL.xRot, ((float) Math.PI /
-        // 2F) * f6);
-        // this.pArmR.xRot = Mth.lerp(f1, this.pArmR.xRot, ((float) Math.PI / 2F)
-        // * f6);
-        // this.pArmL.yRot = this.rotlerpRad(f2, this.pArmL.yRot, (float) Math.PI);
-        // this.pArmR.yRot = Mth.lerp(f1, this.pArmR.yRot, (float) Math.PI);
-        // this.pArmL.zRot = this.rotlerpRad(f2, this.pArmL.zRot, 5.012389F -
-        // 1.8707964F * f6);
-        // this.pArmR.zRot = Mth.lerp(f1, this.pArmR.zRot, 1.2707963F + 1.8707964F
-        // * f6);
-        // } else if (f5 >= 22.0F && f5 < 26.0F) {
-        // float f3 = (f5 - 22.0F) / 4.0F;
-        // this.pArmL.xRot = this.rotlerpRad(f2, this.pArmL.xRot,
-        // ((float) Math.PI / 2F) - ((float) Math.PI / 2F) * f3);
-        // this.pArmR.xRot = Mth.lerp(f1, this.pArmR.xRot,
-        // ((float) Math.PI / 2F) - ((float) Math.PI / 2F) * f3);
-        // this.pArmL.yRot = this.rotlerpRad(f2, this.pArmL.yRot, (float) Math.PI);
-        // this.pArmR.yRot = Mth.lerp(f1, this.pArmR.yRot, (float) Math.PI);
-        // this.pArmL.zRot = this.rotlerpRad(f2, this.pArmL.zRot, (float) Math.PI);
-        // this.pArmR.zRot = Mth.lerp(f1, this.pArmR.zRot, (float) Math.PI);
-        // }
-        // }
-
-        // this.pLegL.xRot = Mth.lerp(this.swimAmount, this.pLegL.xRot,
-        // 0.3F * Mth.cos(limbSwing * 0.33333334F + (float) Math.PI));
-        // this.pLegR.xRot = Mth.lerp(this.swimAmount, this.pLegR.xRot,
-        // 0.3F * Mth.cos(limbSwing * 0.33333334F));
-        // }
-
-        // this.hat.copyFrom(this.head);
+        // 爆発しそうなモーション
+        if (this.isSwelling) {
+            this.setSwellingAnimations();
+        }
 
         this.setAddAnimations();
 
@@ -692,10 +530,6 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         } else {
             mainArmPose = PMM2_HumanoidModel.ArmPose.ITEM;
         }
-        // PeopleMobsMod2.LOGGER
-        //         .debug("[PPM2] mainArmPose " + mainArmPose + " Entity " + entity.getClass().getName());
-        // PeopleMobsMod2.LOGGER
-        //         .debug("[PPM2] ArmPoseRight " + this.rightArmPose + " Entity " + entity.getClass().getName());
 
         this.rightArmPose = this.entity.getMainArm() == HumanoidArm.RIGHT ? mainArmPose : otherArmPose;
         this.leftArmPose = this.entity.getMainArm() == HumanoidArm.LEFT ? mainArmPose : otherArmPose;
@@ -810,6 +644,31 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.pLegL.yRot = PMath.toRad(fallingSpeed * 40);
         this.pLegL.xRot = PMath.toRad(fallingSpeed * 75);
         this.pLegR.xRot = PMath.toRad(fallingSpeed * 75);
+    }
+
+    // 
+    // Entity個別のアニメーション
+    // 
+
+    protected void setSwellingAnimations() {
+        this.pArmR.zRot = PMath.toRad(-15F);
+        this.pArmL.zRot = PMath.toRad(15F);
+        this.pArmR.xRot = PMath.toRad(-20F);
+        this.pArmL.xRot = PMath.toRad(-20F);
+        this.pArmR.z = -1.5F;
+        this.pArmL.z = -1.5F;
+
+        this.pLegR.zRot = PMath.toRad(-2F);
+        this.pLegL.zRot = PMath.toRad(2F);
+        this.pLegR.xRot = PMath.toRad(-36F);
+        this.pLegL.xRot = PMath.toRad(-36F);
+
+        this.pBody.xRot = PMath.toRad(12.6F);
+        this.pHead.yRot = PMath.toRad((PMath.sin1(ageInTicks / 30F) * 18F));
+        this.pHead.xRot = PMath.toRad(16.2F);
+
+        // this.bipedLeftEyelid.z = this.bipedRightEyelid.z = 0F;
+        // this.bipedLeftEyelid.rotationPointY = this.bipedRightEyelid.rotationPointY = 0F;
     }
 
     //
