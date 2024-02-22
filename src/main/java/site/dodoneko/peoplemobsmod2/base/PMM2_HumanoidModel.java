@@ -7,7 +7,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import java.util.function.Function;
 
 import net.minecraft.Util;
-import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -18,7 +17,6 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
@@ -334,6 +332,8 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
             } else {
                 this.entity.setPose(Pose.FALL_FLYING);
             }
+        } else if (this.entity.getPose() == Pose.FALL_FLYING) {
+            this.entity.setPose(Pose.STANDING);
         }
         if (this.entity.isDeadOrDying()) {
             this.entity.setPose(Pose.DYING);
@@ -636,8 +636,8 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         // if (speed < 0.5) {
         this.pArmR.yRot = PMath.toRad(17F * this.limbSwingAmount);
         this.pArmL.yRot = PMath.toRad(-17F * this.limbSwingAmount);
-        this.pArmR.xRot = PMath.toRad(PMath.cos1(this.limbSwing / 4.7F) * 60F * this.limbSwingAmount);
-        this.pArmL.xRot = PMath.toRad(-PMath.cos1(this.limbSwing / 4.7F) * 60F * this.limbSwingAmount);
+        this.pArmR.xRot = PMath.toRad(-PMath.cos1(this.limbSwing / 4.7F) * 60F * this.limbSwingAmount);
+        this.pArmL.xRot = PMath.toRad(PMath.cos1(this.limbSwing / 4.7F) * 60F * this.limbSwingAmount);
         this.pArmR.zRot = PMath.toRad(19F * this.limbSwingAmount);
         this.pArmL.zRot = PMath.toRad(-19F * this.limbSwingAmount);
         this.pLegR.zRot = PMath.toRad(4.3F * this.limbSwingAmount);

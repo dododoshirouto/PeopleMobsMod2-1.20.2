@@ -17,6 +17,5 @@ public class PMM2_CreeperRenderer<T extends Creeper> extends PMM2_HumanoidMobRen
     @SuppressWarnings("null")
     public PMM2_CreeperRenderer(EntityRendererProvider.Context entity) {
         super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), 0.7F);
-        PeopleMobsMod2.LOGGER.info("[PMM2] PMM2_CreeperRenderer(EntityRendererProvider.Context entity)");
     }
 }

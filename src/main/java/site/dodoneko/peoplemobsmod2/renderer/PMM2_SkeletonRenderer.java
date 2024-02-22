@@ -19,7 +19,6 @@ public class PMM2_SkeletonRenderer<T extends Skeleton> extends PMM2_HumanoidMobR
     @SuppressWarnings("null")
     public PMM2_SkeletonRenderer(EntityRendererProvider.Context entity) {
         super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), 0.8F);
-        PeopleMobsMod2.LOGGER.info("[PMM2] PMM2_SkeletonRenderer(EntityRendererProvider.Context entity)");
         this.addArmorLayers(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)));
     }
 }

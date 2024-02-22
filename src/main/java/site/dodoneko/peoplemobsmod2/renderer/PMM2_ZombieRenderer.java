@@ -22,7 +22,6 @@ public class PMM2_ZombieRenderer<T extends Zombie> extends PMM2_HumanoidMobRende
     public PMM2_ZombieRenderer(EntityRendererProvider.Context entity) {
         // super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(ModelLayers.ZOMBIE)), 0.8F);
         super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), 0.8F);
-        PeopleMobsMod2.LOGGER.info("[PMM2] PMM2_ZombieRenderer(EntityRendererProvider.Context entity)");
         this.addArmorLayers(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)));
     }
 }

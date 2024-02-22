@@ -5,9 +5,7 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.model.EndermanModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-// import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
@@ -30,6 +28,7 @@ public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends PMM2_Hum
     public static final Map<Class<?>, ResourceLocation> TEXTURES_MAP = Maps.newHashMap();
     public static final ResourceLocation TEXTURE_DEFAULT = new ResourceLocation(
             "textures/entity/" + "sample-chan" + ".png");
+    // public static final Map<Class<?>, Class<PMM2_HumanoidModel>> MODEL_MAP = Maps.newHashMap();
 
     public float modelScale = 0.8F;
 
@@ -54,34 +53,45 @@ public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends PMM2_Hum
     }
 
     public static void addTexture(Class<?> entityClass, String texturePath) {
-        PeopleMobsMod2.LOGGER.info("[PMM2] addTexture(EntityType<? extends T> entity, String texturePath)",
-                texturePath);
         if (texturePath == null)
             return;
         TEXTURES_MAP.put(entityClass, new ResourceLocation("textures/entity/" + texturePath + ".png"));
     }
 
+    // public static void addModel(Class<?> entityClass, Class<PMM2_HumanoidModel> class1) {
+    //     if (class1 == null)
+    //         return;
+    //     MODEL_MAP.put(entityClass, class1);
+    // }
+
     /** If the entity has color variations, use this method override. */
     @SuppressWarnings({ "null" })
     @Override
     public ResourceLocation getTextureLocation(T entity) {
-        // PeopleMobsMod2.LOGGER.info("[PMM2] getTextureLocation(T entity)",
-        // entity.toString());
         if (TEXTURES_MAP.containsKey(entity.getClass())) {
             return TEXTURES_MAP.get(entity.getClass());
         }
         return TEXTURE_DEFAULT;
     }
 
+    // /** If the entity has model variations, use this method override. */
+    // public static Class<PMM2_HumanoidModel> getModel(EntityRendererProvider.Context entity) {
+    //     if (MODEL_MAP.containsKey(entity.getClass())) {
+    //         return (Class<PMM2_HumanoidModel>)MODEL_MAP.get(entity.getClass());
+    //     }
+    //     PeopleMobsMod2.LOGGER.error("[PMM2] No Model.", entity.toString());
+    //     return null;
+    // }
+
     @SuppressWarnings("null")
     @Override
     public void render(T entity, float p_115456_, float p_115457_, PoseStack p_115458_, MultiBufferSource p_115459_,
             int p_115460_) {
         if (entity instanceof EnderMan) {
-            BlockState block = ((EnderMan)entity).getCarriedBlock();
+            BlockState block = ((EnderMan) entity).getCarriedBlock();
             PMM2_HumanoidModel<T> model = this.getModel();
             model.carrying = block != null;
-            model.creepy = ((EnderMan)entity).isCreepy();
+            model.creepy = ((EnderMan) entity).isCreepy();
         }
 
         super.render(entity, p_115456_, p_115457_, p_115458_, p_115459_, p_115460_);
@@ -91,7 +101,6 @@ public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends PMM2_Hum
 
     @SuppressWarnings("null")
     protected boolean isShaking(T entity) {
-        // PeopleMobsMod2.LOGGER.info("[PMM2] isShaking(T entity)", entity.toString());
         if (entity instanceof Zombie)
             return super.isShaking(entity) || ((Zombie) entity).isUnderWaterConverting();
 
