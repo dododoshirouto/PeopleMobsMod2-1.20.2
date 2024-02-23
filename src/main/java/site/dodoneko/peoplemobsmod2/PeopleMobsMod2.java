@@ -2,9 +2,6 @@ package site.dodoneko.peoplemobsmod2;
 
 import com.mojang.logging.LogUtils;
 
-import net.minecraft.client.model.EndermanModel;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.ZombieModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;

@@ -2,7 +2,6 @@ package site.dodoneko.peoplemobsmod2.renderer;
 
 import net.minecraft.client.model.SpiderModel;
 import net.minecraft.client.renderer.entity.SpiderRenderer;
-import net.minecraft.world.entity.monster.CaveSpider;
 import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraftforge.api.distmarker.Dist;

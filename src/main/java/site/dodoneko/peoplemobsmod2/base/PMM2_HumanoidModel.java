@@ -4,6 +4,9 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 import net.minecraft.Util;
@@ -16,6 +19,7 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
@@ -67,12 +71,15 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     public final ModelPart pAhoge;
     public final ModelPart pKemomimi;
     public final ModelPart pShippo;
-    public final ModelPart pEyebrowL;
-    public final ModelPart pEyebrowR;
+    public final ModelPart pEyelidL;
+    public final ModelPart pEyelidR;
     public PMM2_HumanoidModel.ArmPose leftArmPose = PMM2_HumanoidModel.ArmPose.EMPTY;
     public PMM2_HumanoidModel.ArmPose rightArmPose = PMM2_HumanoidModel.ArmPose.EMPTY;
     // public boolean crouching;
     // public float swimAmount;
+
+    protected Map<Integer, Float> twinklesTimes = new HashMap<Integer, Float>();
+    protected Map<Integer, Boolean> twinkledNow = new HashMap<Integer, Boolean>();
 
     // AgeableListModel
     public final boolean scaleHead;
@@ -145,12 +152,13 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.pBLowerWear = pBLower.getChild("pBLowerWear");
         this.pAhoge = pHead.getChild("pAhoge");
         this.pKemomimi = pHead.getChild("pKemomimi");
-        this.pShippo = null;
-        this.pEyebrowL = null;
-        this.pEyebrowR = null;
-        // this.pShippo = pBody.getChild("pShippo");
-        // this.pEyebrowL = pHead.getChild("pEyebrowL");
-        // this.pEyebrowR = pHead.getChild("pEyebrowR");
+        // this.pShippo = null;
+        // this.pEyebrowL = null;
+        // this.pEyebrowR = null;
+        this.pShippo = pBody.getChild("pShippo");
+        this.pEyelidL = pHead.getChild("pEyelidL");
+        this.pEyelidL.yRot = PMath.PI;
+        this.pEyelidR = pHead.getChild("pEyelidR");
 
         this.doWalkBounding = true;
         this.useChildModel = false;
@@ -239,12 +247,16 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         pHead.addOrReplaceChild("pKemomimi",
                 CubeListBuilder.create().texOffs(24, 4).addBox(-3.5F, -3.0F, -1.0F, 7, 3, 1, cube),
                 PartPose.offset(0, -8.0F + yOffset, -1.0F));
-        // pBody.addOrReplaceChild("pShippo",
-        // CubeListBuilder.create().texOffs(54, 16).addBox(-5.0F, 0.0F, 0.0F, 10, 12, 0,
-        // cube),
-        // PartPose.offset(0, 10 + yOffset, 2));
-        pHead.addOrReplaceChild("pEyebrowL", CubeListBuilder.create(), PartPose.offset(0, 0 + yOffset, 0));
-        pHead.addOrReplaceChild("pEyebrowR", CubeListBuilder.create(), PartPose.offset(0, 0 + yOffset, 0));
+        pBody.addOrReplaceChild("pShippo",
+                CubeListBuilder.create().texOffs(54, 16).addBox(-5.0F, 0.0F, 0.0F, 10, 12, 0,
+                        EnumSet.of(Direction.NORTH)),
+                PartPose.offset(0, 10 + yOffset, 2));
+        pHead.addOrReplaceChild("pEyelidL",
+                CubeListBuilder.create().texOffs(12, 16).addBox(-3.0F, -4.0F, 2.1F, 2, 2, 2, cube),
+                PartPose.offset(0, 0 + yOffset, 0));
+        pHead.addOrReplaceChild("pEyelidR",
+                CubeListBuilder.create().texOffs(12, 16).addBox(-3.0F, -4.0F, -4.1F, 2, 2, 2, cube),
+                PartPose.offset(0, 0 + yOffset, 1.0F));
 
         return mesh;
     }
@@ -502,9 +514,9 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
         if (this.doWalkBounding) {
             this.pBody.y -= (PMath.abs(PMath.sin1(limbSwing * 4.7F)) * 2F
-                    - 1F * (this.isChild||this.useChildModel ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
+                    - 1F * (this.isChild || this.useChildModel ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
             this.pHead.y -= (PMath.abs(PMath.sin1(limbSwing * 4.7F)) * 2F
-                    - 1F * (this.isChild||this.useChildModel ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
+                    - 1F * (this.isChild || this.useChildModel ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
         }
     }
 
@@ -717,8 +729,8 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.pHead.yRot = PMath.toRad((PMath.sin1(ageInTicks / 30) * 18));
         this.pHead.xRot = PMath.toRad(16);
 
-        // this.pEyelidL.z = this.pEyelidR.z = 0F;
-        // this.pEyelidL.y = this.pEyelidR.y = 0F;
+        this.pEyelidL.z = this.pEyelidR.z = 0F;
+        this.pEyelidL.y = this.pEyelidR.y = 0F;
     }
 
     /** おっぱい部分のアニメーション */
@@ -747,13 +759,19 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
     /** しっぽのアニメーション */
     protected void setShippoAnimations() {
+        if (true /* this.shippoSwing */) {
+            this.pShippo.xRot = PMath.toRad(28F + (float) this.entity.getDeltaMovement().length() * 230F);
+            if (this.doWalkBounding)
+                this.pShippo.xRot += PMath.toRad(PMath.abs(PMath.cos1(limbSwing * 0.211F - 0.2F))
+                        * this.limbSwingAmount * 45F);
+        }
     }
 
     /** あほげとけもみみのアニメーション */
     protected void setAhogeAnimations() {
-        float f1 = -0.6F * (float) this.entity.getDeltaMovement().length() * 10F;
+        float f1 = PMath.toRad((float) this.entity.getDeltaMovement().length() * -343F);
         if (this.doWalkBounding)
-            f1 += PMath.abs(PMath.cos(limbSwing * 1.3314F - 1.3F)) * this.limbSwingAmount;
+            f1 += PMath.toRad(PMath.abs(PMath.cos1(limbSwing * 0.211F - 0.2F)) * this.limbSwingAmount * 57F);
         if (true /* this.ahogeSwing */)
             this.pAhoge.xRot = f1;
         if (true /* this.kemomimiSwing */)
@@ -762,6 +780,41 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
     /** まばたき */
     protected void setTwinkleAnimations() {
+        if (!this.twinklesTimes.containsKey(entityId)) {
+            if (this.twinklesTimes.size() > 300) {
+                this.twinklesTimes.clear();
+            }
+            this.twinklesTimes.put(entityId, (float) Math.random() * 8F);
+        }
+        if (!this.twinkledNow.containsKey(entityId)) {
+            if (this.twinkledNow.size() > 300) {
+                this.twinkledNow.clear();
+            }
+            this.twinkledNow.put(entityId, false);
+        }
+        float twTime = this.twinklesTimes.get(entityId);
+        twTime -= 0.05F;
+        float hash = (Util.getMillis() / 10) % 1;
+        if (this.twinkledNow.get(this.entityId)) {
+            if (twTime < 0.0F) {
+                this.twinkledNow.put(this.entityId, false);
+                twTime = (float) Math.random() * 8 + hash;
+            }
+        } else {
+            if (twTime < 0.0F) {
+                this.twinkledNow.put(this.entityId, true);
+                twTime = (float) Math.random() + hash;
+            }
+        }
+
+        this.twinklesTimes.put(entityId, twTime);
+        if (this.twinkledNow.get(this.entityId)) {
+            this.pEyelidL.z = this.pEyelidR.z = 0F;
+            this.pEyelidL.y = this.pEyelidR.y = 0F;
+        } else {
+            this.pEyelidL.z = this.pEyelidR.z = 0.2F;
+            this.pEyelidL.y = this.pEyelidR.y = -2F;
+        }
     }
 
     protected void setPostAnimations() {
@@ -837,7 +890,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
             pose.popPose();
 
         } else {
-            
+
             pose.translate(0, 1F - this.modelScale, 0);
             pose.scale(this.modelScale, this.modelScale, this.modelScale);
 
