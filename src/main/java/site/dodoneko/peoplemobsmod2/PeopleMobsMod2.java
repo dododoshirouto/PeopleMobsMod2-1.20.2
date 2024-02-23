@@ -29,10 +29,6 @@ public class PeopleMobsMod2 {
     public static final String MODID = "peoplemobsmod2";
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    HumanoidModel<Zombie> ref_humanoidModel;
-    ZombieModel<Zombie> ref_zombieModel;
-    EndermanModel<EnderMan> ref_endermanModel;
-
     public static final ModelLayerLocation PMM2_HUMANOID_LAYER = new ModelLayerLocation(
             new ResourceLocation(MODID, "humanoid_layer"), "main");
 
@@ -55,9 +51,27 @@ public class PeopleMobsMod2 {
 
             EntityRenderers.register(EntityType.ZOMBIE, PMM2_ZombieRenderer::new);
             EntityRenderers.register(EntityType.SKELETON, PMM2_SkeletonRenderer::new);
+            EntityRenderers.register(EntityType.WITHER_SKELETON, PMM2_WitherSkeletonRenderer::new);
             EntityRenderers.register(EntityType.CREEPER, PMM2_CreeperRenderer::new);
+            EntityRenderers.register(EntityType.SPIDER, PMM2_SpiderRenderer::new);
+            EntityRenderers.register(EntityType.CAVE_SPIDER, PMM2_CaveSpiderRenderer::new);
+            EntityRenderers.register(EntityType.ENDERMAN, PMM2_EndermanRenderer::new);
+            
             EntityRenderers.register(EntityType.CHICKEN, PMM2_ChickenRenderer::new);
+            EntityRenderers.register(EntityType.PIG, PMM2_PigRenderer::new);
+            EntityRenderers.register(EntityType.SHEEP, PMM2_SheepRenderer::new);
             EntityRenderers.register(EntityType.COW, PMM2_CowRenderer::new);
+            EntityRenderers.register(EntityType.MOOSHROOM, PMM2_MooshroomRenderer::new);
+            EntityRenderers.register(EntityType.SQUID, PMM2_SquidRenderer::new);
+            EntityRenderers.register(EntityType.BAT, PMM2_BatRenderer::new);
+            EntityRenderers.register(EntityType.FOX, PMM2_FoxRenderer::new);
+            EntityRenderers.register(EntityType.RABBIT, PMM2_RabbitRenderer::new);
+            EntityRenderers.register(EntityType.DOLPHIN, PMM2_DolphinRenderer::new);
+
+            EntityRenderers.register(EntityType.SNOW_GOLEM, PMM2_SnowGolemRenderer::new);
+            EntityRenderers.register(EntityType.IRON_GOLEM, PMM2_IronGolemRenderer::new);
+            EntityRenderers.register(EntityType.SILVERFISH, PMM2_SilverfishRenderer::new);
+            EntityRenderers.register(EntityType.ENDERMITE, PMM2_EndermiteRenderer::new);
         }
 
         @SuppressWarnings("null")
@@ -73,23 +87,23 @@ public class PeopleMobsMod2 {
             PMM2_HumanoidMobRenderer.addTexture(Creeper.class, "creeper/creeper-chan");
             PMM2_HumanoidMobRenderer.addTexture(Spider.class, "spider/spider-chan");
             PMM2_HumanoidMobRenderer.addTexture(CaveSpider.class, "spider/cave_spider-chan");
-            PMM2_HumanoidMobRenderer.addTexture(Bat.class, "bat-chan");
-
+            PMM2_HumanoidMobRenderer.addTexture(EnderMan.class, "enderman/enderman-chan");
+            
             PMM2_HumanoidMobRenderer.addTexture(Chicken.class, "chicken-chan");
             PMM2_HumanoidMobRenderer.addTexture(Pig.class, "pig/pig-chan");
             PMM2_HumanoidMobRenderer.addTexture(Sheep.class, "sheep/sheep-chan");
             PMM2_HumanoidMobRenderer.addTexture(Cow.class, "cow/cow-chan");
             PMM2_HumanoidMobRenderer.addTexture(MushroomCow.class, "cow/red_mooshroom-chan");
+            PMM2_HumanoidMobRenderer.addTexture(Squid.class, "squid-chan");
+            PMM2_HumanoidMobRenderer.addTexture(Bat.class, "bat-chan");
             PMM2_HumanoidMobRenderer.addTexture(Fox.class, "fox/fox-chan");
             PMM2_HumanoidMobRenderer.addTexture(Rabbit.class, "rabbit/white-chan");
-
-            PMM2_HumanoidMobRenderer.addTexture(Squid.class, "squid-chan");
-
+            PMM2_HumanoidMobRenderer.addTexture(Dolphin.class, "dolphin-chan");
+            
             PMM2_HumanoidMobRenderer.addTexture(SnowGolem.class, "snow_golem-chan");
             PMM2_HumanoidMobRenderer.addTexture(IronGolem.class, "iron_golem-chan");
             PMM2_HumanoidMobRenderer.addTexture(Silverfish.class, "silverfish-chan");
             PMM2_HumanoidMobRenderer.addTexture(Endermite.class, "endermite-chan");
-            PMM2_HumanoidMobRenderer.addTexture(Dolphin.class, "dolphin-chan");
         }
     }
 }

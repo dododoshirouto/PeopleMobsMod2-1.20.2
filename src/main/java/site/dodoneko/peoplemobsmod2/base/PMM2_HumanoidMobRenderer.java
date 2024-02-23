@@ -19,7 +19,6 @@ import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends PMM2_HumanoidModel<T>>

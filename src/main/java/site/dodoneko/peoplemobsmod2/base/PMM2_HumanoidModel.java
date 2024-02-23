@@ -1,7 +1,6 @@
 package site.dodoneko.peoplemobsmod2.base;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -87,8 +86,11 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     public boolean doWalkBounding = true;
     public boolean useChildModel = false;
     public boolean flyFlap = false;
+    public boolean forwardArm = false;
     public float modelScale = 1.0F;
     public float bHeight = 0.5F;
+    public boolean isFloating = false;
+    public float floatingHeight = 0.0F;
 
     // entity status
     public T entity;
@@ -191,10 +193,10 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
                 CubeListBuilder.create().texOffs(16, 16).addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, cube),
                 PartPose.offset(0, yOffset, 0));
         PartDefinition pArmL = pBody.addOrReplaceChild("pArmL",
-                CubeListBuilder.create().texOffs(32, 48).addBox(-1.0F, -1.2F, -2.0F, 3, 12, 4, cube),
+                CubeListBuilder.create().texOffs(32, 48).addBox(-1.0F, -2.0F, -2.0F, 3, 12, 4, cube),
                 PartPose.offset(5.0F, 1.5F + yOffset, 0.0F));
         PartDefinition pArmR = pBody.addOrReplaceChild("pArmR",
-                CubeListBuilder.create().texOffs(40, 16).addBox(-2.0F, -1.2F, -2.0F, 3, 12, 4, cube),
+                CubeListBuilder.create().texOffs(40, 16).addBox(-2.0F, -2.0F, -2.0F, 3, 12, 4, cube),
                 PartPose.offset(-5.0F, 1.5F + yOffset, 0.0F));
         PartDefinition pLegL = pBody.addOrReplaceChild("pLegL",
                 CubeListBuilder.create().texOffs(16, 48).addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, cube),
@@ -389,7 +391,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         }
 
         // プレイヤーに迫ってくるときのモーション
-        if (this.isAggressive) {
+        if (this.isAggressive || this.forwardArm) {
             setAggressiveAnimations();
         }
 
