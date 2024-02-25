@@ -22,5 +22,8 @@
         "Shippo",
         "XROT",
         "YROT"
-    ]
+    ],
+    "editor.defaultFoldingRangeProvider": "Codeium.codeium",
+    "editor.defaultFormatter": "Codeium.codeium",
+    "codeium.enableCodeLens": false
 }
