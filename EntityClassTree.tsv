@@ -1,0 +1,20 @@
+Zombie		Monster	PathfinderMob	Mob	LivingEntity	Entity	CapabilityProvider<Entity>
+Creeper		Monster	PathfinderMob	Mob	LivingEntity	Entity	CapabilityProvider<Entity>
+Spider		Monster	PathfinderMob	Mob	LivingEntity	Entity	CapabilityProvider<Entity>
+CaveSpider	Spider	Monster	PathfinderMob	Mob	LivingEntity	Entity	CapabilityProvider<Entity>
+EnderMan		Monster	PathfinderMob	Mob	LivingEntity	Entity	CapabilityProvider<Entity>
+Silverfish		Monster	PathfinderMob	Mob	LivingEntity	Entity	CapabilityProvider<Entity>
+Endermite		Monster	PathfinderMob	Mob	LivingEntity	Entity	CapabilityProvider<Entity>
+Skeleton	AbstractSkeleton	Monster	PathfinderMob	Mob	LivingEntity	Entity	CapabilityProvider<Entity>
+WitherSkeleton	AbstractSkeleton	Monster	PathfinderMob	Mob	LivingEntity	Entity	CapabilityProvider<Entity>
+Chicken	Animal	AgeableMob	PathfinderMob	Mob	LivingEntity	Entity	CapabilityProvider<Entity>
+Pig	Animal	AgeableMob	PathfinderMob	Mob	LivingEntity	Entity	CapabilityProvider<Entity>
+Sheep	Animal	AgeableMob	PathfinderMob	Mob	LivingEntity	Entity	CapabilityProvider<Entity>
+Cow	Animal	AgeableMob	PathfinderMob	Mob	LivingEntity	Entity	CapabilityProvider<Entity>
+Fox	Animal	AgeableMob	PathfinderMob	Mob	LivingEntity	Entity	CapabilityProvider<Entity>
+Rabbit	Animal	AgeableMob	PathfinderMob	Mob	LivingEntity	Entity	CapabilityProvider<Entity>
+SnowGolem		AbstractGolem	PathfinderMob	Mob	LivingEntity	Entity	CapabilityProvider<Entity>
+IronGolem		AbstractGolem	PathfinderMob	Mob	LivingEntity	Entity	CapabilityProvider<Entity>
+Squid		WaterAnimal	PathfinderMob	Mob	LivingEntity	Entity	CapabilityProvider<Entity>
+Dolphin		WaterAnimal	PathfinderMob	Mob	LivingEntity	Entity	CapabilityProvider<Entity>
+Bat			AmbientCreature	Mob	LivingEntity	Entity	CapabilityProvider<Entity>

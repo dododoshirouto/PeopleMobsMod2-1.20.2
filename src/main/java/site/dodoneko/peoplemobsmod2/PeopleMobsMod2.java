@@ -45,30 +45,36 @@ public class PeopleMobsMod2 {
             LOGGER.info("[PMM2] A world where there is only me and girls.");
 
             setMobTextures();
-
+            // Monsters
             EntityRenderers.register(EntityType.ZOMBIE, PMM2_ZombieRenderer::new);
-            EntityRenderers.register(EntityType.SKELETON, PMM2_SkeletonRenderer::new);
-            EntityRenderers.register(EntityType.WITHER_SKELETON, PMM2_WitherSkeletonRenderer::new);
             EntityRenderers.register(EntityType.CREEPER, PMM2_CreeperRenderer::new);
             EntityRenderers.register(EntityType.SPIDER, PMM2_SpiderRenderer::new);
             EntityRenderers.register(EntityType.CAVE_SPIDER, PMM2_CaveSpiderRenderer::new);
             EntityRenderers.register(EntityType.ENDERMAN, PMM2_EndermanRenderer::new);
+            EntityRenderers.register(EntityType.SILVERFISH, PMM2_SilverfishRenderer::new);
+            EntityRenderers.register(EntityType.ENDERMITE, PMM2_EndermiteRenderer::new);
+            EntityRenderers.register(EntityType.SKELETON, PMM2_SkeletonRenderer::new);
+            EntityRenderers.register(EntityType.WITHER_SKELETON, PMM2_WitherSkeletonRenderer::new);
             
+            // Animals
             EntityRenderers.register(EntityType.CHICKEN, PMM2_ChickenRenderer::new);
             EntityRenderers.register(EntityType.PIG, PMM2_PigRenderer::new);
             EntityRenderers.register(EntityType.SHEEP, PMM2_SheepRenderer::new);
             EntityRenderers.register(EntityType.COW, PMM2_CowRenderer::new);
             EntityRenderers.register(EntityType.MOOSHROOM, PMM2_MooshroomRenderer::new);
-            EntityRenderers.register(EntityType.SQUID, PMM2_SquidRenderer::new);
-            EntityRenderers.register(EntityType.BAT, PMM2_BatRenderer::new);
             EntityRenderers.register(EntityType.FOX, PMM2_FoxRenderer::new);
             EntityRenderers.register(EntityType.RABBIT, PMM2_RabbitRenderer::new);
-            EntityRenderers.register(EntityType.DOLPHIN, PMM2_DolphinRenderer::new);
 
+            // WaterAnimals
+            EntityRenderers.register(EntityType.SQUID, PMM2_SquidRenderer::new);
+            EntityRenderers.register(EntityType.DOLPHIN, PMM2_DolphinRenderer::new);
+            
+            // Golems
             EntityRenderers.register(EntityType.SNOW_GOLEM, PMM2_SnowGolemRenderer::new);
             EntityRenderers.register(EntityType.IRON_GOLEM, PMM2_IronGolemRenderer::new);
-            EntityRenderers.register(EntityType.SILVERFISH, PMM2_SilverfishRenderer::new);
-            EntityRenderers.register(EntityType.ENDERMITE, PMM2_EndermiteRenderer::new);
+
+            // AmbientCreatures
+            EntityRenderers.register(EntityType.BAT, PMM2_BatRenderer::new);
         }
 
         @SuppressWarnings("null")

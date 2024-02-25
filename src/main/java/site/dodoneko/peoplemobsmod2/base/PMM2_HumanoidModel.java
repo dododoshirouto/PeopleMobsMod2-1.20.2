@@ -21,16 +21,12 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.animal.Chicken;
-import net.minecraft.world.entity.animal.Dolphin;
 import net.minecraft.world.entity.animal.Fox;
-import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.animal.Rabbit;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.animal.SnowGolem;
@@ -128,8 +124,6 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     public boolean hasBow;
     /** なついている状態 */
     public boolean isInterested;
-    /** Enderman */
-    public boolean isCarrying;
     /** Enderman */
     public boolean isCreepy;
     /** Creeper */
@@ -383,7 +377,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
             this.isSwelling = ((Creeper) entity).getSwelling(this.limbSwingAmount) > 0F;
         } else if (entity instanceof EnderMan) {
             // TODO: create carrying block animation.
-            this.isCarrying = ((EnderMan) entity).getCarriedBlock() != null;
+            this.hasBlock = ((EnderMan) entity).getCarriedBlock() != null;
             // TODO: create enderman creepy animation.
             this.isCreepy = ((EnderMan) entity).isCreepy();
         } else if (entity instanceof Spider) {
@@ -416,7 +410,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         // set pose
         // TODO: set pose to rided when isChickenJockey, saddle
         if (!this.entity.onGround()) {
-            if (this.entity.isInWater()) {
+            if (this.entity.isInWaterOrBubble()) {
                 this.entity.setPose(Pose.SWIMMING);
             } else {
                 this.entity.setPose(Pose.FALL_FLYING);
@@ -465,7 +459,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.setArmHasAnythingAnimations(this.pArmR, this.rightArmPose);
 
         // スニーク時のモーション
-        if (((LivingEntity) this.entity).getPose() == Pose.CROUCHING) {
+        if (((Mob) this.entity).getPose() == Pose.CROUCHING) {
             this.setSneakAnimations();
         }
 
@@ -500,7 +494,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.setAddAnimations();
 
         // 死亡時のモーション
-        // if (((LivingEntity) this.entity).getPose() == Pose.DYING) {
+        // if (((Mob) this.entity).getPose() == Pose.DYING) {
         if (this.entity.getPose() == Pose.DYING) {
             setDeadAnimations();
         }
@@ -800,7 +794,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.pEyelidL.y = this.pEyelidR.y = 0F;
     }
 
-    /** おっぱい部分のアニメーション */
+    /** Bのアニメーション */
     protected void setBAnimations() {
         // TODO: Check b bounce.
         this.bHeight = PMath.max(this.bHeight, 0);
