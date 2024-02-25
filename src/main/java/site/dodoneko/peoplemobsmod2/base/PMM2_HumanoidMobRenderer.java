@@ -78,19 +78,19 @@ public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends PMM2_Hum
     //     return null;
     // }
 
-    @SuppressWarnings("null")
-    @Override
-    public void render(T entity, float p_115456_, float p_115457_, PoseStack p_115458_, MultiBufferSource p_115459_,
-            int p_115460_) {
-        if (entity instanceof EnderMan) {
-            BlockState block = ((EnderMan) entity).getCarriedBlock();
-            PMM2_HumanoidModel<T> model = this.getModel();
-            model.isCarrying = block != null;
-            model.isCreepy = ((EnderMan) entity).isCreepy();
-        }
+    // @SuppressWarnings("null")
+    // @Override
+    // public void render(T entity, float p_115456_, float p_115457_, PoseStack p_115458_, MultiBufferSource p_115459_,
+    //         int p_115460_) {
+    //     if (entity instanceof EnderMan) {
+    //         BlockState block = ((EnderMan) entity).getCarriedBlock();
+    //         PMM2_HumanoidModel<T> model = this.getModel();
+    //         model. = block != null;
+    //         model.isCreepy = ((EnderMan) entity).isCreepy();
+    //     }
 
-        super.render(entity, p_115456_, p_115457_, p_115458_, p_115459_, p_115460_);
-    }
+    //     super.render(entity, p_115456_, p_115457_, p_115458_, p_115459_, p_115460_);
+    // }
 
     // individual methods
 
