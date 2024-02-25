@@ -21,13 +21,22 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.entity.animal.Dolphin;
+import net.minecraft.world.entity.animal.Fox;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.animal.Rabbit;
+import net.minecraft.world.entity.animal.Sheep;
+import net.minecraft.world.entity.animal.SnowGolem;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
@@ -109,10 +118,36 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     public float headRotX;
     public boolean isChild;
     public boolean isAggressive;
+    public boolean isCrouching;
+    public boolean isSittingOnGround;
+    public boolean isJumping;
+    public boolean hasAnything;
+    public boolean hasItem;
+    public boolean hasBlock;
+    public boolean hasFood;
     public boolean hasBow;
-    public boolean carrying;
+    /** なついている状態 */
+    public boolean isInterested;
+    /** Enderman */
+    public boolean isCarrying;
+    /** Enderman */
     public boolean isCreepy;
+    /** Creeper */
     public boolean isSwelling;
+    /** Spider */
+    public boolean isClimbing;
+    /** Chicken */
+    public float eggTime;
+    /** Sheep */
+    public boolean isEating;
+    /** Fox */
+    public float headRotZ;
+    /** Fox */
+    public boolean isSleeping;
+    /** Fox 顔が突き刺さった状態 */
+    public boolean isHeadInGround;
+    /** Fox */
+    public boolean isPouncing;
 
     public PMM2_HumanoidModel(ModelPart root) {
         this(root, RenderType::entityCutoutNoCull);
@@ -336,18 +371,50 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.headRotX = headPitch;
         this.isChild = this.entity.isBaby();
         this.isAggressive = entity.isAggressive();
-        this.hasBow = this.entity.getItemInHand(InteractionHand.MAIN_HAND).is(Items.BOW)
-                || this.entity.getItemInHand(InteractionHand.MAIN_HAND).is(Items.CROSSBOW);
+        this.isCrouching = entity.isCrouching();
+        this.hasAnything = !this.entity.getMainHandItem().isEmpty();
+        /** TODO: see Enderman class. */
+        this.hasItem = this.hasAnything;
+        // this.hasBlock = false;
+        this.hasFood = this.entity.getMainHandItem().isEdible();
+        this.hasBow = this.entity.getMainHandItem().is(Items.BOW) || this.entity.getMainHandItem().is(Items.CROSSBOW);
 
         if (entity instanceof Creeper) {
             this.isSwelling = ((Creeper) entity).getSwelling(this.limbSwingAmount) > 0F;
-            // this.isSwelling = ((Creeper)entity).isIgnited();
         } else if (entity instanceof EnderMan) {
-            this.carrying = ((EnderMan) entity).getCarriedBlock() != null;
+            // TODO: create carrying block animation.
+            this.isCarrying = ((EnderMan) entity).getCarriedBlock() != null;
+            // TODO: create enderman creepy animation.
             this.isCreepy = ((EnderMan) entity).isCreepy();
+        } else if (entity instanceof Spider) {
+            // TODO: create climbing animation.
+            this.isClimbing = ((Spider) entity).isClimbing();
+        } else if (entity instanceof Chicken) {
+            // TODO: create chicken egg animation.
+            this.eggTime = (float) ((Chicken) entity).eggTime / 100F;
+        } else if (entity instanceof Sheep) {
+            // TODO: create eating animation.
+            this.isEating = ((Sheep) entity).getHeadEatPositionScale(0F) != 0F;
+        } else if (entity instanceof Fox) {
+            this.headRotZ = ((Fox) entity).getHeadRollAngle(1F);
+            this.isSleeping = ((Fox) entity).isSleeping();
+            this.isSittingOnGround = ((Fox) entity).isSitting();
+            this.isHeadInGround = ((Fox) entity).isFaceplanted();
+            this.isPouncing = ((Fox) entity).isPouncing();
+            this.isJumping = ((Fox) entity).isJumping();
+            this.isInterested = ((Fox) entity).isInterested();
+        } else if (entity instanceof Rabbit) {
+            this.isJumping = ((Rabbit) entity).getJumpCompletion(0F) > 0.0F;
+        } else if (entity instanceof SnowGolem) {
+            if (!((SnowGolem) entity).hasPumpkin()) {
+                this.pHeadWear.visible = false;
+            }
         }
 
+        // TODO: create BatModel class.
+
         // set pose
+        // TODO: set pose to rided when isChickenJockey, saddle
         if (!this.entity.onGround()) {
             if (this.entity.isInWater()) {
                 this.entity.setPose(Pose.SWIMMING);
@@ -418,7 +485,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         }
 
         // 空中にいるの時のモーション
-        else if (entity.getPose() == Pose.FALL_FLYING) {
+        else if (entity.getPose() == Pose.FALL_FLYING || this.isJumping) {
             if (flyFlap)
                 this.setFlapFlyingAnimations();
             else
@@ -438,7 +505,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
             setDeadAnimations();
         }
 
-        this.setBoobsAnimations();
+        this.setBAnimations();
         this.setShippoAnimations();
         this.setAhogeAnimations();
         this.setTwinkleAnimations();
@@ -542,7 +609,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         ItemStack itemStack = this.entity.getItemInHand(InteractionHand.MAIN_HAND);
         if (itemStack.is(Items.BOW)) {
             mainArmPose = PMM2_HumanoidModel.ArmPose.BOW_AND_ARROW;
-        } else if (this.carrying) {
+        } else if (this.isCarrying) {
             mainArmPose = PMM2_HumanoidModel.ArmPose.BLOCK;
         } else if (itemStack.isEmpty()) {
 
@@ -734,9 +801,13 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     }
 
     /** おっぱい部分のアニメーション */
-    protected void setBoobsAnimations() {
+    protected void setBAnimations() {
+        // TODO: Check b bounce.
+        this.bHeight = PMath.max(this.bHeight, 0);
+        if (this.bHeight == 0)
+            return;
         this.pBUpper.y = this.bHeight * 1F;
-        this.pBUpper.xRot = -PMath.asin(this.bHeight) + PMath.PI / 2;
+        this.pBUpper.xRot = -PMath.asin(PMath.clamp(this.bHeight, 0, 1) / 1.4142F) + PMath.PI / 2;
         float h = this.bHeight;
         if (this.bHeight > 0.5F)
             h = 1.0F - h;
@@ -759,6 +830,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
     /** しっぽのアニメーション */
     protected void setShippoAnimations() {
+        // TODO: Swing left right with walking.
         if (true /* this.shippoSwing */) {
             this.pShippo.xRot = PMath.toRad(28F + (float) this.entity.getDeltaMovement().length() * 230F);
             if (this.doWalkBounding)
@@ -823,6 +895,9 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     @SuppressWarnings("null")
     public void copyPropertiesTo(PMM2_HumanoidModel<T> model) {
         super.copyPropertiesTo(model);
+        // TODO: Copy all model options.
+        // TODO: Copy all entity status.
+        // TODO: Copy all parts.
         model.leftArmPose = this.leftArmPose;
         model.rightArmPose = this.rightArmPose;
         model.crouching = this.crouching;
@@ -836,6 +911,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     }
 
     public void setAllVisible(boolean allVisible) {
+        // TODO: Set all visible.
         // this.head.visible = allVisible;
         // this.hat.visible = allVisible;
         // this.body.visible = allVisible;
@@ -852,7 +928,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
     @SuppressWarnings("null")
     protected ModelPart getArm(HumanoidArm arm) {
-        return arm == HumanoidArm.LEFT ? this.leftArm : this.rightArm;
+        return arm == HumanoidArm.LEFT ? this.pArmL : this.pArmR;
     }
 
     public ModelPart getHead() {
@@ -890,8 +966,8 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
             pose.popPose();
 
         } else {
-
-            pose.translate(0, 1F - this.modelScale, 0);
+            // TODO: Check foot on ground.
+            pose.translate(0, (1F - this.modelScale) * 2F, 0);
             pose.scale(this.modelScale, this.modelScale, this.modelScale);
 
             this.headParts().forEach((part) -> {
