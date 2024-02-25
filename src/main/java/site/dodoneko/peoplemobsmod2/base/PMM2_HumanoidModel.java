@@ -638,12 +638,12 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
             case THROW_SPEAR:
                 // TODO: create ThrowSpear animations 投げ槍
                 break;
+            case CROSSBOW_CHARGE:
+            // _TODO_: create CROSSBOW animations
+                break;
+            case CROSSBOW_HOLD:
+                break;
             // player? 
-            // case CROSSBOW_CHARGE:
-            // // _TODO_: create CROSSBOW animations
-            //     break;
-            // case CROSSBOW_HOLD:
-            //     break;
             // case SPYGLASS:
             // // _TODO_: create SPYGLASS animations
             //     break;
