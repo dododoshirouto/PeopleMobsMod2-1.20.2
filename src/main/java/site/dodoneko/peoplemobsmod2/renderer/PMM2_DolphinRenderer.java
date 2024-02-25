@@ -19,6 +19,6 @@ public class PMM2_DolphinRenderer<T extends Dolphin> extends PMM2_HumanoidMobRen
     @SuppressWarnings("null")
     public PMM2_DolphinRenderer(EntityRendererProvider.Context entity) {
         super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), 0.8F);
-        // this.getModel().bHeight = 0.95F;
+        this.getModel().bHeight = 0.82F;
     }
 }

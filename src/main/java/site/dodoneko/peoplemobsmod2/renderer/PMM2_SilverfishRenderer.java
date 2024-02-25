@@ -18,8 +18,16 @@ public class PMM2_SilverfishRenderer<T extends Silverfish> extends PMM2_Humanoid
 
     @SuppressWarnings("null")
     public PMM2_SilverfishRenderer(EntityRendererProvider.Context entity) {
-        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), 0.5F);
+        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), 0.4F);
         this.getModel().useChildModel = true;
         this.getModel().forwardArm = true;
     }
+
+
+    
+
+   @SuppressWarnings("null")
+protected float getFlipDegrees(Silverfish p_115927_) {
+    return 180.0F;
+ }
 }

@@ -25,5 +25,8 @@
     ],
     "editor.defaultFoldingRangeProvider": "Codeium.codeium",
     "editor.defaultFormatter": "Codeium.codeium",
-    "codeium.enableCodeLens": false
+    "codeium.enableCodeLens": false,
+    "[java]": {
+        "editor.defaultFormatter": "redhat.java"
+    }
 }

@@ -18,8 +18,16 @@ public class PMM2_EndermiteRenderer<T extends Endermite> extends PMM2_HumanoidMo
 
     @SuppressWarnings("null")
     public PMM2_EndermiteRenderer(EntityRendererProvider.Context entity) {
-        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), 0.5F);
+        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), 0.4F);
         this.getModel().useChildModel = true;
         this.getModel().forwardArm = true;
     }
+
+
+    
+
+   @SuppressWarnings("null")
+protected float getFlipDegrees(Endermite p_114352_) {
+    return 180.0F;
+ }
 }

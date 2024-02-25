@@ -23,4 +23,13 @@ public class PMM2_CaveSpiderRenderer<T extends CaveSpider> extends PMM2_Humanoid
         this.getModel().useChildModel = true;
         this.getModel().forwardArm = true;
     }
+
+
+
+    
+
+   @SuppressWarnings("null")
+protected float getFlipDegrees(T p_116011_) {
+    return 180.0F;
+ }
 }

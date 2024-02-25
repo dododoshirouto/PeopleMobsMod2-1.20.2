@@ -1,7 +1,11 @@
 package site.dodoneko.peoplemobsmod2.renderer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
+
 import net.minecraft.client.model.SquidModel;
 import net.minecraft.client.renderer.entity.SquidRenderer;
+import net.minecraft.util.Mth;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.animal.Squid;
 import net.minecraftforge.api.distmarker.Dist;
@@ -18,7 +22,24 @@ public class PMM2_SquidRenderer<T extends Squid> extends PMM2_HumanoidMobRendere
 
     @SuppressWarnings("null")
     public PMM2_SquidRenderer(EntityRendererProvider.Context entity) {
-        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), 0.8F);
+        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), 0.7F);
         // this.getModel().bHeight = 0.95F;
     }
+
+    @SuppressWarnings("null")
+    protected void setupRotations(T entity, PoseStack pose, float p_116037_, float p_116038_, float p_116039_) {
+        float f = Mth.lerp(p_116039_, entity.xBodyRotO, entity.xBodyRot);
+        float f1 = Mth.lerp(p_116039_, entity.zBodyRotO, entity.zBodyRot);
+        pose.translate(0.0F, 0.5F, 0.0F);
+        pose.mulPose(Axis.YP.rotationDegrees(180.0F - p_116038_));
+        pose.mulPose(Axis.XP.rotationDegrees(f));
+        pose.mulPose(Axis.YP.rotationDegrees(f1));
+        pose.translate(0.0F, -1.2F, 0.0F);
+    }
+    
+
+   @SuppressWarnings("null")
+protected float getBob(T entity, float p_116033_) {
+    return Mth.lerp(p_116033_, entity.oldTentacleAngle, entity.tentacleAngle);
+ }
 }

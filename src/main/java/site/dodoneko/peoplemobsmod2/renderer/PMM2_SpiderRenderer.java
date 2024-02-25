@@ -22,4 +22,12 @@ public class PMM2_SpiderRenderer<T extends Spider> extends PMM2_HumanoidMobRende
         this.getModel().useChildModel = true;
         this.getModel().forwardArm = true;
     }
+
+
+    
+
+   @SuppressWarnings("null")
+protected float getFlipDegrees(T p_116011_) {
+    return 180.0F;
+ }
 }

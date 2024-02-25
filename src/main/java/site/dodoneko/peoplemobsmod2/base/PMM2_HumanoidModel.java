@@ -220,11 +220,11 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
                 CubeListBuilder.create().texOffs(16, 16).addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, cube),
                 PartPose.offset(0, yOffset, 0));
         PartDefinition pArmL = pBody.addOrReplaceChild("pArmL",
-                CubeListBuilder.create().texOffs(32, 48).addBox(-1.0F, -2.0F, -2.0F, 3, 12, 4, cube),
-                PartPose.offset(5.0F, 1.5F + yOffset, 0.0F));
+                CubeListBuilder.create().texOffs(32, 48).addBox(-1.0F, -0.5F, -2.0F, 3, 12, 4, cube),
+                PartPose.offset(5.0F, 0.0F + yOffset, 0.0F));
         PartDefinition pArmR = pBody.addOrReplaceChild("pArmR",
-                CubeListBuilder.create().texOffs(40, 16).addBox(-2.0F, -2.0F, -2.0F, 3, 12, 4, cube),
-                PartPose.offset(-5.0F, 1.5F + yOffset, 0.0F));
+                CubeListBuilder.create().texOffs(40, 16).addBox(-2.0F, -0.5F, -2.0F, 3, 12, 4, cube),
+                PartPose.offset(-5.0F, 0.0F + yOffset, 0.0F));
         PartDefinition pLegL = pBody.addOrReplaceChild("pLegL",
                 CubeListBuilder.create().texOffs(16, 48).addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, cube),
                 PartPose.offset(2.2F, 12.0F + yOffset, 0.0F));
@@ -245,10 +245,10 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
                 CubeListBuilder.create().texOffs(16, 32).addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, cube.extend(0.45F)),
                 PartPose.offset(0, 0 + yOffset, 0));
         pArmL.addOrReplaceChild("pArmLWear",
-                CubeListBuilder.create().texOffs(48, 48).addBox(-1.0F, -2.0F, -2.0F, 3, 12, 4, cube.extend(0.4F)),
+                CubeListBuilder.create().texOffs(48, 48).addBox(-1.0F, -0.5F, -2.0F, 3, 12, 4, cube.extend(0.4F)),
                 PartPose.offset(0, 0 + yOffset, 0));
         pArmR.addOrReplaceChild("pArmRWear",
-                CubeListBuilder.create().texOffs(40, 32).addBox(-2.0F, -2.0F, -2.0F, 3, 12, 4, cube.extend(0.4F)),
+                CubeListBuilder.create().texOffs(40, 32).addBox(-2.0F, -0.5F, -2.0F, 3, 12, 4, cube.extend(0.4F)),
                 PartPose.offset(0, 0 + yOffset, 0));
         pLegL.addOrReplaceChild("pLegLWear",
                 CubeListBuilder.create().texOffs(0, 48).addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, cube.extend(0.4F)),
@@ -310,9 +310,9 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.pHead.setRotation(0, 0, 0);
         this.pBody.setPos(0, 0, 0);
         this.pBody.setRotation(0, 0, 0);
-        this.pArmL.setPos(5.0F, 2.5F, 0.0F);
+        this.pArmL.setPos(5.0F, 0.5F, 0.0F);
         this.pArmL.setRotation(0, 0, 0);
-        this.pArmR.setPos(-5.0F, 2.5F, 0.0F);
+        this.pArmR.setPos(-5.0F, 0.5F, 0.0F);
         this.pArmR.setRotation(0, 0, 0);
         this.pLegL.setPos(2.2F, 12.0F, 0.0F);
         this.pLegL.setRotation(0, 0, 0);
@@ -340,7 +340,6 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.pAhoge.setRotation(0, 0, 0);
         this.pKemomimi.setPos(0, -8, -1);
         this.pKemomimi.setRotation(0, 0, 0);
-
     }
 
     @SuppressWarnings("null")
@@ -389,9 +388,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         } else if (entity instanceof Rabbit) {
             this.isJumping = ((Rabbit) entity).getJumpCompletion(0F) > 0.0F;
         } else if (entity instanceof SnowGolem) {
-            if (!((SnowGolem) entity).hasPumpkin()) {
-                this.pHeadWear.visible = false;
-            }
+            this.pHeadWear.visible = ((SnowGolem) entity).hasPumpkin();
         }
 
         // TODO: create BatModel class.
@@ -639,20 +636,22 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
                 // TODO: create ThrowSpear animations 投げ槍
                 break;
             case CROSSBOW_CHARGE:
-            // _TODO_: create CROSSBOW animations
+                // _TODO_: create CROSSBOW animations
                 break;
             case CROSSBOW_HOLD:
                 break;
-            // player? 
+            // player?
             // case SPYGLASS:
             // // _TODO_: create SPYGLASS animations
-            //     break;
+            // break;
             // case TOOT_HORN:
             // // _TODO_: create TOOT_HORN animations
-            //     break;
+            // break;
             // case BRUSH:
             // // _TODO_: create BRUSH animations
-            //     break;
+            // break;
+            default:
+                break;
         }
     }
 
@@ -677,8 +676,8 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
             return;
         this.pArmR.xRot = PMath.toRad(PMath.cos1(this.limbSwing / 2.3F - 4.4f) * 8.5F - 85F);
         this.pArmL.xRot = PMath.toRad(PMath.cos1(this.limbSwing / 2.3F - 4.4F) * 8.5F - 85F);
-        this.pArmR.y = 2.5F + PMath.cos1(this.limbSwing / 2.3F - 2.2F) * 0.5F + 0.5F;
-        this.pArmL.y = 2.5F + PMath.cos1(this.limbSwing / 2.3F - 2.2F) * 0.5F + 0.5F;
+        this.pArmR.y = 0.2F + PMath.cos1(this.limbSwing / 2.3F - 2.2F) * 0.5F + 0.5F;
+        this.pArmL.y = 0.2F + PMath.cos1(this.limbSwing / 2.3F - 2.2F) * 0.5F + 0.5F;
     }
 
     /** ダメージ受けた時のアニメーション */

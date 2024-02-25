@@ -3,9 +3,6 @@ package site.dodoneko.peoplemobsmod2.base;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
@@ -14,9 +11,8 @@ import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.monster.Zombie;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -96,8 +92,11 @@ public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends PMM2_Hum
 
     @SuppressWarnings("null")
     protected boolean isShaking(T entity) {
-        if (entity instanceof Zombie)
+        if (entity instanceof Zombie) {
             return super.isShaking(entity) || ((Zombie) entity).isUnderWaterConverting();
+        } else if (entity instanceof AbstractSkeleton) {
+            return ((AbstractSkeleton) entity).isShaking();
+        }
 
         return super.isShaking(entity);
     }
