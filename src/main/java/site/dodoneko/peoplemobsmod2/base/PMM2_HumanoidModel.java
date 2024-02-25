@@ -603,7 +603,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         ItemStack itemStack = this.entity.getItemInHand(InteractionHand.MAIN_HAND);
         if (itemStack.is(Items.BOW)) {
             mainArmPose = PMM2_HumanoidModel.ArmPose.BOW_AND_ARROW;
-        } else if (this.isCarrying) {
+        } else if (this.hasBlock) {
             mainArmPose = PMM2_HumanoidModel.ArmPose.BLOCK;
         } else if (itemStack.isEmpty()) {
 
@@ -647,17 +647,23 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
                 }
                 break;
             case THROW_SPEAR:
+                // TODO: create ThrowSpear animations 投げ槍
                 break;
-            case CROSSBOW_CHARGE:
-                break;
-            case CROSSBOW_HOLD:
-                break;
-            case SPYGLASS:
-                break;
-            case TOOT_HORN:
-                break;
-            case BRUSH:
-                break;
+            // player? 
+            // case CROSSBOW_CHARGE:
+            // // _TODO_: create CROSSBOW animations
+            //     break;
+            // case CROSSBOW_HOLD:
+            //     break;
+            // case SPYGLASS:
+            // // _TODO_: create SPYGLASS animations
+            //     break;
+            // case TOOT_HORN:
+            // // _TODO_: create TOOT_HORN animations
+            //     break;
+            // case BRUSH:
+            // // _TODO_: create BRUSH animations
+            //     break;
         }
     }
 
