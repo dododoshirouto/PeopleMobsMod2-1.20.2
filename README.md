@@ -12,7 +12,7 @@ Warn! このプロジェクトは[1.14.4版](https://github.com/dododoshirouto/P
 ## ↓↓ 導入方法 ↓↓
 
 1. [Minecraft 1.20.2 Forge 48.1.0](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.20.2.html)をインストールし、一度起動します。
-1. [Latest Release](https://github.com/dododoshirouto/PeopleMobsMod2/releases/latest)ページに移動します。
+1. [Latest Release](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/releases/latest)ページに移動します。
 2. ページ下部の**Assets**内の`peoplemobsmod2-＃.＃.##.jar`をクリックしてダウンロードします。
 3. .jarファイルをMinecraftをプレイするためのフォルダーに移動します。 (デフォルトは `％AppData％\.minecraft`です)
 4. 起動したMinecraftのModリストに`People Mobs Mod2`が表示されている場合は、インストールが完了しています。
@@ -20,7 +20,7 @@ Warn! このプロジェクトは[1.14.4版](https://github.com/dododoshirouto/P
 ## ↓↓ How to Install ↓↓
 
 1. Install [Minecraft 1.20.2 Forge 48.1.0](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.20.2.html) and launch once.
-1. Go to [Latest Release](https://github.com/dododoshirouto/PeopleMobsMod2/releases/latest) Page.
+1. Go to [Latest Release](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/releases/latest) Page.
 2. Click `peoplemobsmod2-#.#.##.jar` to Download, in **Assets** list on bottom of the page.
 3. Move the .jar file to the folder for play Minecraft. (Default is `%AppData%\.minecraft`)
 4. If you see `People Mobs Mod2` in Mods list in launched Minecraft, you are complete installation.
@@ -37,11 +37,19 @@ https://user-images.githubusercontent.com/87510462/140570259-b50abc6e-fab0-4419-
 
 **Mobを増やすMODではありません**
 
+機能を増やしたり変更しないので、普段のプレイングそのままに、モブの見た目だけが変わります。
+
+また、プレイヤースキンをそのままテクスチャーにできるようになっています。
+
 このMODが完成したら、**かわいい女の子に囲まれた**生活ができるようになります。
 
 This MOD change existing mobs to cute girl monster/pets.
 
 **This MOD does not add new mob.**
+
+It does not increase or change the functionality, so only the appearance of the mob will change, without changing the now your playing.
+
+Mob textures can be used as is with player skins.
 
 When I complete this mod, **we can live with cute girls**.
 
