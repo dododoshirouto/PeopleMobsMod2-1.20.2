@@ -541,8 +541,8 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
     /** 浮遊するモブのモーション */
     protected void setFloatingAnimations() {
-        float f1 = PMath.sin1( this.ageInTicks / 15.7f );
-        float f2 = PMath.sin1( this.ageInTicks / 15.7f - 0.2F );
+        float f1 = PMath.sin1(this.ageInTicks / 15.7f);
+        float f2 = PMath.sin1(this.ageInTicks / 15.7f - 0.2F);
 
         this.pHead.y = this.pBody.y = -this.floatingHeight - 1F + f1 * 1.5F;
         this.pBody.xRot = PMath.toRad(-5.7F + f1 * 1.7F);
@@ -552,11 +552,11 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.pArmR.xRot = PMath.toRad(14F);
         this.pArmL.xRot = PMath.toRad(14F);
 
-        this.pLegR.zRot = PMath.toRad( 8.6F);
+        this.pLegR.zRot = PMath.toRad(8.6F);
         this.pLegL.zRot = PMath.toRad(-8.6F);
         this.pLegR.xRot = PMath.toRad(17F - f2 * 5.7F);
         this.pLegL.xRot = PMath.toRad(17F - f2 * 5.7F);
-        
+
         this.pBody.xRot += PMath.toRad(this.limbSwingAmount * 57F);
         this.pArmR.xRot -= PMath.toRad(this.limbSwingAmount * 57F);
         this.pArmL.xRot -= PMath.toRad(this.limbSwingAmount * 57F);
@@ -647,10 +647,10 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
                 // arm.yRot = PMath.toRad(30) * armSide;
                 this.pArmL.xRot = -1.0F - this.pBody.xRot * 0.5F;
                 this.pArmR.xRot = -1.0F - this.pBody.xRot * 0.5F;
-                this.pArmL.yRot =  0.0F;
-                this.pArmR.yRot =  0.0F;
-                this.pArmL.zRot =  0.0F;
-                this.pArmR.zRot =  0.0F;
+                this.pArmL.yRot = 0.0F;
+                this.pArmR.yRot = 0.0F;
+                this.pArmL.zRot = 0.0F;
+                this.pArmR.zRot = 0.0F;
                 break;
             case BOW_AND_ARROW:
                 other.yRot = PMath.toRad(-28) * armSide;
@@ -852,7 +852,6 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
     /** Bのアニメーション */
     protected void setBAnimations() {
-        // TODO: Check b bounce.
         this.bHeight = PMath.max(this.bHeight, 0);
         if (this.bHeight == 0)
             return;
@@ -1049,6 +1048,10 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     public void renderToBuffer(PoseStack pose, VertexConsumer vertex, int p_102036_, int p_102037_,
             float p_102038_, float p_102039_, float p_102040_, float p_102041_) {
 
+        pose.pushPose();
+        pose.translate(0, (1F - this.modelScale) * 26F / 16F, 0);
+        pose.scale(this.modelScale, this.modelScale, this.modelScale);
+
         if (this.young || this.isChild || this.useChildModel) {
             pose.pushPose();
             if (this.scaleHead) {
@@ -1071,10 +1074,6 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
             pose.popPose();
 
         } else {
-            // TODO: Check foot on ground.
-            pose.translate(0, (1F - this.modelScale) * 26F / 16F, 0);
-            pose.scale(this.modelScale, this.modelScale, this.modelScale);
-
             this.headParts().forEach((part) -> {
                 part.render(pose, vertex, p_102036_, p_102037_, p_102038_, p_102039_, p_102040_,
                         p_102041_);
@@ -1084,7 +1083,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
                         p_102041_);
             });
         }
-
+        pose.popPose();
     }
 
     @OnlyIn(Dist.CLIENT)

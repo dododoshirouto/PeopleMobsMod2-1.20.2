@@ -50,9 +50,9 @@ public class PeopleMobsMod2 {
             PMM2_ZombieRenderer.        setModelScales(0.9F,  0.3F);
             PMM2_ZombieRenderer.setForwardArm(true);
             PMM2_CreeperRenderer.       setModelScales(0.8F,  0.4F);
-            PMM2_SpiderRenderer.        setModelScales(0.4F,  0.2F, true);
+            PMM2_SpiderRenderer.        setModelScales(1.0F,  0.2F, true);
             PMM2_SpiderRenderer.setForwardArm(true);
-            PMM2_CaveSpiderRenderer.    setModelScales(0.3F,  0.2F, true);
+            PMM2_CaveSpiderRenderer.    setModelScales(0.5F,  0.2F, true);
             PMM2_CaveSpiderRenderer.setForwardArm(true);
             PMM2_EndermanRenderer.      setModelScales(1.0F,  0.8F);
             PMM2_EndermanRenderer.setIsFloating(true, 12.0F);
@@ -60,7 +60,7 @@ public class PeopleMobsMod2 {
             PMM2_EndermiteRenderer.     setModelScales(0.5F,  0.4F, true);
             PMM2_SkeletonRenderer.      setModelScales(0.9F,  0.15F);
             PMM2_WitherSkeletonRenderer.setModelScales(1.08F, 0.5F);
-            PMM2_ChickenRenderer.       setModelScales(0.5F,  0.3F, true, true);
+            PMM2_ChickenRenderer.       setModelScales(0.7F,  0.3F, true, true);
             PMM2_PigRenderer.           setModelScales(0.6F,  0.8F);
             PMM2_SheepRenderer.         setModelScales(0.7F,  0.4F);
             PMM2_CowRenderer.           setModelScales(0.85F, 1.0F);
@@ -71,7 +71,7 @@ public class PeopleMobsMod2 {
             PMM2_DolphinRenderer.       setModelScales(0.8F,  0.6F);
             PMM2_SnowGolemRenderer.     setModelScales(1.0F,  0.4F);
             PMM2_IronGolemRenderer.     setModelScales(1.5F,  0.7F);
-            PMM2_BatRenderer.           setModelScales(0.5F,  0.2F, true, true);
+            PMM2_BatRenderer.           setModelScales(0.8F,  0.2F, true, true);
 
             // Monsters
             EntityRenderers.register(EntityType.ZOMBIE, PMM2_ZombieRenderer::new);
