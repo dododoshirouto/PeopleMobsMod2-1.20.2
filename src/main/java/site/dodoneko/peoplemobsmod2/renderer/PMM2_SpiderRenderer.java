@@ -1,11 +1,8 @@
 package site.dodoneko.peoplemobsmod2.renderer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.model.SpiderModel;
 import net.minecraft.client.renderer.entity.SpiderRenderer;
 import net.minecraft.world.entity.monster.Spider;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
