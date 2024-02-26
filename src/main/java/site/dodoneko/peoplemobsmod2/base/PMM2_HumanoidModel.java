@@ -388,7 +388,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
             this.pHeadWear.visible = ((SnowGolem) entity).hasPumpkin();
         }
 
-        // TODO: create BatModel class.
+        // TODO: create FoxModel class.
 
         // set pose
         // TODO: set pose to rided when isChickenJockey, saddle
@@ -428,6 +428,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.setStayAnimations();
 
         if (this.isFloating) {
+            // 浮遊するモブのモーション
             this.setFloatingAnimations();
         } else
         // 歩いてるときのモーション
@@ -781,21 +782,39 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.pHead.yRot = PMath.toRad((PMath.sin1(ageInTicks / 30F) * 18F));
         this.pHead.xRot = PMath.toRad(16.2F);
 
-        // this.bipedLeftEyelid.z = this.bipedRightEyelid.z = 0F;
-        // this.bipedLeftEyelid.rotationPointY = this.bipedRightEyelid.rotationPointY =
-        // 0F;
+        this.pEyelidL.z = this.pEyelidR.z = 0F;
+        this.pEyelidL.y = this.pEyelidR.y = 0F;
     }
 
     // 羽ばたくアニメーション
     protected void setFlapFlyingAnimations() {
-        this.pArmR.zRot = PMath.toRad(PMath.cos1(this.ageInTicks / 2F) * 57F + 90F);
-        this.pArmL.zRot = PMath.toRad(-PMath.cos1(this.ageInTicks / 2F) * 57F - 90F);
-        this.pLegR.xRot = PMath.toRad(-(float) this.entity.getDeltaMovement().y * 225F);
-        this.pLegL.xRot = PMath.toRad(-(float) this.entity.getDeltaMovement().y * 225F);
-        this.pLegR.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y * 60F);
-        this.pLegL.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y * 60F);
-        this.pBody.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y * 50F);
-        this.pBody.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y * 50F);
+        // this.pArmR.zRot = PMath.toRad(PMath.cos1(this.ageInTicks / 2F) * 57F + 90F);
+        // this.pArmL.zRot = PMath.toRad(-PMath.cos1(this.ageInTicks / 2F) * 57F - 90F);
+        // this.pLegR.xRot = PMath.toRad(-(float) this.entity.getDeltaMovement().y * 225F);
+        // this.pLegL.xRot = PMath.toRad(-(float) this.entity.getDeltaMovement().y * 225F);
+        // this.pLegR.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y * 60F);
+        // this.pLegL.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y * 60F);
+        // this.pBody.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y * 50F);
+        // this.pBody.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y * 50F);
+
+            float f1 = PMath.sin1( this.ageInTicks / (this.limbSwingAmount<0.5F? 2.5F: 1.8F) );
+            float f2 = PMath.cos1( this.ageInTicks / (this.limbSwingAmount<0.5F? 2.5F: 1.8F) + 0.028F);
+
+            if (this.entity.getDeltaMovement().y < 0.0F) {
+                f1 = 0.02F;
+            }
+
+            this.pBody.xRot += PMath.toRad(this.limbSwingAmount*86F - 11.5F);
+            this.pHead.xRot += PMath.toRad(this.limbSwingAmount*28.6F);
+            this.pLegR.zRot = PMath.toRad( 8.6F);
+            this.pLegL.zRot = PMath.toRad(-8.6F);
+            this.pLegR.xRot = this.pLegL.xRot = PMath.toRad(PMath.lerp(-8.6F, 17F, this.limbSwingAmount) - f2 * 5.7F);
+            this.pArmR.zRot =  90F;
+            this.pArmL.zRot = -90F;
+            this.pArmR.xRot =  PMath.toRad(f1 * 57F);
+            this.pArmL.xRot =  PMath.toRad(f1 * 57F);
+            this.pArmR.yRot = -90F + this.limbSwingAmount * 70F;
+            this.pArmL.yRot =  90F - this.limbSwingAmount * 70F;
     }
 
     // 登ってるアニメーション

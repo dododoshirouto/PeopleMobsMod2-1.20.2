@@ -90,4 +90,8 @@ public class PMath {
     public static float easeInOut(float time, float start, float end) {
         return start + (end - start) * easeInOut(time);
     }
+
+    public static float lerp(float a, float b, float t) {
+        return a + (b - a) * t;
+    }
 }
