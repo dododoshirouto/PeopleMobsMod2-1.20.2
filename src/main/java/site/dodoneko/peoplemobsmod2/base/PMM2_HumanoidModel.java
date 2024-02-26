@@ -364,12 +364,9 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         if (entity instanceof Creeper) {
             this.isSwelling = ((Creeper) entity).getSwelling(this.limbSwingAmount) > 0F;
         } else if (entity instanceof EnderMan) {
-            // TODO: create carrying block animation.
             this.hasBlock = ((EnderMan) entity).getCarriedBlock() != null;
-            // TODO: create enderman creepy animation.
-            this.isCreepy = ((EnderMan) entity).isCreepy();
+            this.isAggressive = ((EnderMan) entity).isCreepy();
         } else if (entity instanceof Spider) {
-            // TODO: create climbing animation.
             this.isClimbing = ((Spider) entity).isClimbing();
         } else if (entity instanceof Chicken) {
             // TODO: create chicken egg animation.
@@ -646,8 +643,14 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
                 arm.yRot = PMath.toRad(0.0F);
                 break;
             case BLOCK:
-                arm.xRot = arm.xRot * 0.5F - PMath.toRad(18);
-                arm.yRot = PMath.toRad(30) * armSide;
+                // arm.xRot = arm.xRot * 0.5F - PMath.toRad(18);
+                // arm.yRot = PMath.toRad(30) * armSide;
+                this.pArmL.xRot = -1.0F - this.pBody.xRot * 0.5F;
+                this.pArmR.xRot = -1.0F - this.pBody.xRot * 0.5F;
+                this.pArmL.yRot =  0.0F;
+                this.pArmR.yRot =  0.0F;
+                this.pArmL.zRot =  0.0F;
+                this.pArmR.zRot =  0.0F;
                 break;
             case BOW_AND_ARROW:
                 other.yRot = PMath.toRad(-28) * armSide;
