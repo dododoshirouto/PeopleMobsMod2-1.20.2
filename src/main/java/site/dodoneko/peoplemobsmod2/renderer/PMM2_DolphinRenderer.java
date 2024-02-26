@@ -15,10 +15,32 @@ public class PMM2_DolphinRenderer<T extends Dolphin> extends PMM2_HumanoidMobRen
 
     DolphinRenderer refR;
     DolphinModel<Dolphin> refM;
+    
+    public static float modelScale = 0.9F;
+    public static float bHeight = 0.3F;
+    public static void setModelScales(float scale, float height) {
+        modelScale = scale;
+        bHeight = height;
+    }
 
     @SuppressWarnings("null")
     public PMM2_DolphinRenderer(EntityRendererProvider.Context entity) {
-        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), 0.8F);
-        this.getModel().bHeight = 0.82F;
+        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+        this.getModel().bHeight = bHeight;
+        this.getModel().useChildModel = isChildModel;
+        this.getModel().flyFlap = doFlyFlap;
+    }
+    public static boolean isChildModel = false;
+    public static boolean doFlyFlap = false;
+    public static void setModelScales(float scale, float height, boolean isChild) {
+        modelScale = scale;
+        bHeight = height;
+        isChildModel = isChild;
+    }
+    public static void setModelScales(float scale, float height, boolean isChild, boolean flyFlap) {
+        modelScale = scale;
+        bHeight = height;
+        isChildModel = isChild;
+        doFlyFlap = flyFlap;
     }
 }

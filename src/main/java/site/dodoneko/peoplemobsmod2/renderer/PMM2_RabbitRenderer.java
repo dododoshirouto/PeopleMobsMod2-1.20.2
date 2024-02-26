@@ -20,6 +20,13 @@ public class PMM2_RabbitRenderer<T extends Rabbit> extends PMM2_HumanoidMobRende
 
     RabbitRenderer refR;
     RabbitModel<Rabbit> refM;
+    
+    public static float modelScale = 0.9F;
+    public static float bHeight = 0.3F;
+    public static void setModelScales(float scale, float height) {
+        modelScale = scale;
+        bHeight = height;
+    }
 
     @SuppressWarnings("null")
     private static final Map<Rabbit.Variant, ResourceLocation> TEXTURES = Util.make(Maps.newHashMap(),
@@ -36,8 +43,23 @@ public class PMM2_RabbitRenderer<T extends Rabbit> extends PMM2_HumanoidMobRende
 
     @SuppressWarnings("null")
     public PMM2_RabbitRenderer(EntityRendererProvider.Context entity) {
-        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), 0.5F);
-        // this.getModel().bHeight = 0.95F;
+        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+        this.getModel().bHeight = bHeight;
+        this.getModel().useChildModel = isChildModel;
+        this.getModel().flyFlap = doFlyFlap;
+    }
+    public static boolean isChildModel = false;
+    public static boolean doFlyFlap = false;
+    public static void setModelScales(float scale, float height, boolean isChild) {
+        modelScale = scale;
+        bHeight = height;
+        isChildModel = isChild;
+    }
+    public static void setModelScales(float scale, float height, boolean isChild, boolean flyFlap) {
+        modelScale = scale;
+        bHeight = height;
+        isChildModel = isChild;
+        doFlyFlap = flyFlap;
     }
 
     @Override

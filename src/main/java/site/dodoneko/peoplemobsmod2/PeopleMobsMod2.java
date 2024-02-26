@@ -45,6 +45,29 @@ public class PeopleMobsMod2 {
             LOGGER.info("[PMM2] A world where there is only me and girls.");
 
             setMobTextures();
+
+            PMM2_ZombieRenderer.        setModelScales(0.9F,  0.3F);
+            PMM2_CreeperRenderer.       setModelScales(0.8F,  0.4F);
+            PMM2_SpiderRenderer.        setModelScales(0.4F,  0.2F, true);
+            PMM2_CaveSpiderRenderer.    setModelScales(0.3F,  0.2F, true);
+            PMM2_EndermanRenderer.      setModelScales(1.0F,  0.8F);
+            PMM2_SilverfishRenderer.    setModelScales(0.5F,  0.3F, true);
+            PMM2_EndermiteRenderer.     setModelScales(0.5F,  0.4F, true);
+            PMM2_SkeletonRenderer.      setModelScales(0.9F,  0.15F);
+            PMM2_WitherSkeletonRenderer.setModelScales(1.08F, 0.5F);
+            PMM2_ChickenRenderer.       setModelScales(0.5F,  0.3F, true, true);
+            PMM2_PigRenderer.           setModelScales(0.6F,  0.8F);
+            PMM2_SheepRenderer.         setModelScales(0.7F,  0.4F);
+            PMM2_CowRenderer.           setModelScales(0.85F, 1.0F);
+            PMM2_MooshroomRenderer.     setModelScales(0.8F,  0.9F);
+            PMM2_FoxRenderer.           setModelScales(0.35F, 0.25F);
+            PMM2_RabbitRenderer.        setModelScales(0.5F,  0.3F);
+            PMM2_SquidRenderer.         setModelScales(0.7F,  0.3F);
+            PMM2_DolphinRenderer.       setModelScales(0.8F,  0.6F);
+            PMM2_SnowGolemRenderer.     setModelScales(1.0F,  0.4F);
+            PMM2_IronGolemRenderer.     setModelScales(1.5F,  0.7F);
+            PMM2_BatRenderer.           setModelScales(0.5F,  0.2F, true, true);
+
             // Monsters
             EntityRenderers.register(EntityType.ZOMBIE, PMM2_ZombieRenderer::new);
             EntityRenderers.register(EntityType.CREEPER, PMM2_CreeperRenderer::new);

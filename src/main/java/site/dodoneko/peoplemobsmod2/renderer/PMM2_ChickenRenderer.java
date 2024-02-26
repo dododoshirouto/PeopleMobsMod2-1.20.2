@@ -16,12 +16,33 @@ public class PMM2_ChickenRenderer<T extends Chicken> extends PMM2_HumanoidMobRen
 
     ChickenRenderer refR;
     ChickenModel<Chicken> refM;
+    
+    public static float modelScale = 0.9F;
+    public static float bHeight = 0.3F;
+    public static void setModelScales(float scale, float height) {
+        modelScale = scale;
+        bHeight = height;
+    }
 
     @SuppressWarnings("null")
     public PMM2_ChickenRenderer(EntityRendererProvider.Context entity) {
-        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), 0.7F);
-        this.getModel().useChildModel = true;
-        this.getModel().flyFlap = true;
+        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+        this.getModel().bHeight = bHeight;
+        this.getModel().useChildModel = isChildModel;
+        this.getModel().flyFlap = doFlyFlap;
+    }
+    public static boolean isChildModel = false;
+    public static boolean doFlyFlap = false;
+    public static void setModelScales(float scale, float height, boolean isChild) {
+        modelScale = scale;
+        bHeight = height;
+        isChildModel = isChild;
+    }
+    public static void setModelScales(float scale, float height, boolean isChild, boolean flyFlap) {
+        modelScale = scale;
+        bHeight = height;
+        isChildModel = isChild;
+        doFlyFlap = flyFlap;
     }
 
     
