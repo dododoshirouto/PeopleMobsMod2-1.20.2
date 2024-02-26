@@ -3,8 +3,6 @@ package site.dodoneko.peoplemobsmod2.renderer;
 import com.google.common.collect.Maps;
 import java.util.Map;
 
-import org.antlr.v4.parse.v4ParserException;
-
 import net.minecraft.Util;
 
 import net.minecraft.client.model.RabbitModel;

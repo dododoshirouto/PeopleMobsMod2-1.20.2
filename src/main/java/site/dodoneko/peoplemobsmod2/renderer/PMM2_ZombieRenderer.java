@@ -9,14 +9,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidMobRenderer;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidModel;
-import site.dodoneko.peoplemobsmod2.model.PMM2_ZombieModel;
 
 @OnlyIn(Dist.CLIENT)
 public class PMM2_ZombieRenderer<T extends Zombie> extends PMM2_HumanoidMobRenderer<T, PMM2_HumanoidModel<T>> {
 
     ZombieRenderer refR;
     ZombieModel<Zombie> refM;
-    PMM2_ZombieModel<Zombie> refM2;
 
     // model options
     public static float modelScale = 0.9F;
