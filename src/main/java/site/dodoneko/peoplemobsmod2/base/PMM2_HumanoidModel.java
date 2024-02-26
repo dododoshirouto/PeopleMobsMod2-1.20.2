@@ -85,14 +85,14 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     public final float bodyYOffset;
 
     // model options
-    public boolean doWalkBounding = true;
+    public float modelScale = 0.9F;
+    public float bHeight = 0.3F;
     public boolean useChildModel = false;
-    public boolean flyFlap = false;
+    public boolean doFlyFlap = false;
     public boolean forwardArm = false;
-    public float modelScale = 1.0F;
-    public float bHeight = 0.5F;
     public boolean isFloating = false;
     public float floatingHeight = 0.0F;
+    public boolean doWalkBounding = true;
 
     // entity status
     public T entity;
@@ -466,7 +466,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
         // 空中にいるの時のモーション
         else if (entity.getPose() == Pose.FALL_FLYING || this.isJumping) {
-            if (flyFlap)
+            if (doFlyFlap)
                 this.setFlapFlyingAnimations();
             else
                 this.setJumpAnimations();
@@ -771,23 +771,23 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     protected void setClimbingAnimations() {
         this.pArmR.yRot = PMath.toRad(28.6F);
         this.pArmL.yRot = PMath.toRad(-28.6F);
-        this.pArmR.xRot = PMath.toRad(-PMath.cos1(this.ageInTicks * 0.212F) * 86F * 28.6F);
-        this.pArmL.xRot = PMath.toRad(PMath.cos1(this.ageInTicks * 0.212F) * 86F * 28.6F);
+        this.pArmR.xRot = PMath.toRad(-PMath.cos1(this.ageInTicks / 4.7F) * 42F);
+        this.pArmL.xRot = PMath.toRad(PMath.cos1(this.ageInTicks / 4.7F) * 42F);
         this.pArmR.zRot = PMath.toRad(17F);
         this.pArmL.zRot = PMath.toRad(-17F);
         this.pLegR.zRot = PMath.toRad(4.2F);
         this.pLegL.zRot = PMath.toRad(-4.2F);
         this.pLegR.yRot = PMath.toRad(8.5F);
         this.pLegL.yRot = PMath.toRad(-8.5F);
-        this.pLegR.xRot = PMath.toRad(PMath.cos1(this.ageInTicks * 0.212F) * 80F);
-        this.pLegL.xRot = -PMath.toRad(PMath.cos1(this.ageInTicks * 0.212F) * 80F);
-        this.pLegR.z = PMath.sin1(this.ageInTicks * 0.212F) * 1F + 1F;
-        this.pLegL.z = -PMath.sin1(this.ageInTicks * 0.212F) * 1F + 1F;
+        this.pLegR.xRot = PMath.toRad(PMath.cos1(this.ageInTicks / 4.7F) * 80F);
+        this.pLegL.xRot = -PMath.toRad(PMath.cos1(this.ageInTicks / 4.7F) * 80F);
+        this.pLegR.z = PMath.sin1(this.ageInTicks / 4.7F) * 1F + 1F;
+        this.pLegL.z = -PMath.sin1(this.ageInTicks / 4.7F) * 1F + 1F;
 
-        this.pArmR.xRot -= 90F * PMath.Deg2Rad;
-        this.pArmL.xRot -= 90F * PMath.Deg2Rad;
-        this.pLegR.xRot -= 45F * PMath.Deg2Rad;
-        this.pLegL.xRot -= 45F * PMath.Deg2Rad;
+        this.pArmR.xRot -= PMath.toRad(90F);
+        this.pArmL.xRot -= PMath.toRad(90F);
+        this.pLegR.xRot -= PMath.toRad(45F);
+        this.pLegL.xRot -= PMath.toRad(45F);
     }
 
     //
@@ -939,7 +939,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
         model.doWalkBounding = this.doWalkBounding;
         model.useChildModel = this.useChildModel;
-        model.flyFlap = this.flyFlap;
+        model.doFlyFlap = this.doFlyFlap;
         model.forwardArm = this.forwardArm;
         model.modelScale = this.modelScale;
         model.bHeight = this.bHeight;

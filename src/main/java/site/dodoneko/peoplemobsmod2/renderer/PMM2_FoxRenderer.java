@@ -24,13 +24,16 @@ public class PMM2_FoxRenderer<T extends Fox> extends PMM2_HumanoidMobRenderer<T,
 
     FoxRenderer refR;
     FoxModel<Fox> refM;
-    
+
+    // model options
     public static float modelScale = 0.9F;
     public static float bHeight = 0.3F;
-    public static void setModelScales(float scale, float height) {
-        modelScale = scale;
-        bHeight = height;
-    }
+    public static boolean useChildModel = false;
+    public static boolean doFlyFlap = false;
+    public static boolean forwardArm = false;
+    public static boolean isFloating = false;
+    public static float floatingHeight = 0.0F;
+    public static boolean doWalkBounding = true;
 
     @SuppressWarnings({ "null" })
     private static final Map<Fox.Type, ResourceLocation> TEXTURES = Util.make(Maps.newHashMap(),
@@ -44,23 +47,48 @@ public class PMM2_FoxRenderer<T extends Fox> extends PMM2_HumanoidMobRenderer<T,
     @SuppressWarnings("null")
     public PMM2_FoxRenderer(EntityRendererProvider.Context entity) {
         super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+        this.getModel().modelScale = modelScale;
         this.getModel().bHeight = bHeight;
-        this.getModel().useChildModel = isChildModel;
-        this.getModel().flyFlap = doFlyFlap;
+        this.getModel().useChildModel = useChildModel;
+        this.getModel().doFlyFlap = doFlyFlap;
+        this.getModel().forwardArm = forwardArm;
+        this.getModel().isFloating = isFloating;
+        this.getModel().floatingHeight = floatingHeight;
+        this.getModel().doWalkBounding = doWalkBounding;
     }
-    public static boolean isChildModel = false;
-    public static boolean doFlyFlap = false;
+
+    public static void setModelScales(float scale, float height) {
+        modelScale = scale;
+        bHeight = height;
+    }
+
     public static void setModelScales(float scale, float height, boolean isChild) {
         modelScale = scale;
         bHeight = height;
-        isChildModel = isChild;
+        useChildModel = isChild;
     }
+
     public static void setModelScales(float scale, float height, boolean isChild, boolean flyFlap) {
         modelScale = scale;
         bHeight = height;
-        isChildModel = isChild;
+        useChildModel = isChild;
         doFlyFlap = flyFlap;
     }
+
+    public static void setForwardArm(boolean v) {
+        forwardArm = v;
+    }
+
+    public static void setIsFloating(boolean v, float h) {
+        isFloating = v;
+        floatingHeight = h;
+    }
+
+    public static void setDoWalkBounding(boolean v) {
+        doWalkBounding = v;
+    }
+
+    
 
     @SuppressWarnings("null")
     protected void setupRotations(T entity, PoseStack pose, float p_114740_, float p_114741_,

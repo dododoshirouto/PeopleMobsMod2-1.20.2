@@ -48,10 +48,14 @@ public class PeopleMobsMod2 {
             setMobTextures();
 
             PMM2_ZombieRenderer.        setModelScales(0.9F,  0.3F);
+            PMM2_ZombieRenderer.setForwardArm(true);
             PMM2_CreeperRenderer.       setModelScales(0.8F,  0.4F);
             PMM2_SpiderRenderer.        setModelScales(0.4F,  0.2F, true);
+            PMM2_SpiderRenderer.setForwardArm(true);
             PMM2_CaveSpiderRenderer.    setModelScales(0.3F,  0.2F, true);
+            PMM2_CaveSpiderRenderer.setForwardArm(true);
             PMM2_EndermanRenderer.      setModelScales(1.0F,  0.8F);
+            PMM2_EndermanRenderer.setIsFloating(true, 1.0F);
             PMM2_SilverfishRenderer.    setModelScales(0.5F,  0.3F, true);
             PMM2_EndermiteRenderer.     setModelScales(0.5F,  0.4F, true);
             PMM2_SkeletonRenderer.      setModelScales(0.9F,  0.15F);
