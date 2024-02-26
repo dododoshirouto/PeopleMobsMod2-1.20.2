@@ -55,7 +55,7 @@ public class PeopleMobsMod2 {
             PMM2_CaveSpiderRenderer.    setModelScales(0.3F,  0.2F, true);
             PMM2_CaveSpiderRenderer.setForwardArm(true);
             PMM2_EndermanRenderer.      setModelScales(1.0F,  0.8F);
-            PMM2_EndermanRenderer.setIsFloating(true, 1.0F);
+            PMM2_EndermanRenderer.setIsFloating(true, 12.0F);
             PMM2_SilverfishRenderer.    setModelScales(0.5F,  0.3F, true);
             PMM2_EndermiteRenderer.     setModelScales(0.5F,  0.4F, true);
             PMM2_SkeletonRenderer.      setModelScales(0.9F,  0.15F);

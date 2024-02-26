@@ -430,6 +430,9 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         // 何もしてないときのモーション
         this.setStayAnimations();
 
+        if (this.isFloating) {
+            this.setFloatingAnimations();
+        } else
         // 歩いてるときのモーション
         if (this.limbSwingAmount > 0.01F) {
             this.setWalkingAnimations();
@@ -537,6 +540,31 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.pArmR.zRot = PMath.toRad(PMath.cos1(this.ageInTicks / 70F) * 3F + 3F);
         this.pArmL.xRot = PMath.toRad(-PMath.sin1(this.ageInTicks / 93F) * 3F);
         this.pArmR.xRot = PMath.toRad(PMath.sin1(this.ageInTicks / 93F) * 3F);
+    }
+
+    /** 浮遊するモブのモーション */
+    protected void setFloatingAnimations() {
+        float f1 = PMath.sin1( this.ageInTicks / 15.7f );
+        float f2 = PMath.sin1( this.ageInTicks / 15.7f - 0.2F );
+
+        this.pHead.y = this.pBody.y = -this.floatingHeight - 1F + f1 * 1.5F;
+        this.pBody.xRot = PMath.toRad(-5.7F + f1 * 1.7F);
+
+        this.pArmR.zRot = PMath.toRad(28F - f2 * 8.6F);
+        this.pArmL.zRot = PMath.toRad(-28F + f2 * 8.6F);
+        this.pArmR.xRot = PMath.toRad(14F);
+        this.pArmL.xRot = PMath.toRad(14F);
+
+        this.pLegR.zRot = PMath.toRad( 8.6F);
+        this.pLegL.zRot = PMath.toRad(-8.6F);
+        this.pLegR.xRot = PMath.toRad(17F - f2 * 5.7F);
+        this.pLegL.xRot = PMath.toRad(17F - f2 * 5.7F);
+        
+        this.pBody.xRot += PMath.toRad(this.limbSwingAmount * 57F);
+        this.pArmR.xRot -= PMath.toRad(this.limbSwingAmount * 57F);
+        this.pArmL.xRot -= PMath.toRad(this.limbSwingAmount * 57F);
+        this.pLegR.xRot -= PMath.toRad(this.limbSwingAmount * 11.4F);
+        this.pLegL.xRot -= PMath.toRad(this.limbSwingAmount * 11.4F);
     }
 
     /** 歩いてる時のモーション */
