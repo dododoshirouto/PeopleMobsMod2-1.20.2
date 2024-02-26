@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 public class PeopleMobsMod2 {
     public static final String MODID = "peoplemobsmod2";
     public static final Logger LOGGER = LogUtils.getLogger();
+    public static final boolean DEBUG = true;
 
     public static final ModelLayerLocation PMM2_HUMANOID_LAYER = new ModelLayerLocation(
             new ResourceLocation(MODID, "humanoid_layer"), "main");
@@ -130,6 +131,18 @@ public class PeopleMobsMod2 {
             PMM2_HumanoidMobRenderer.addTexture(IronGolem.class, "iron_golem-chan");
             PMM2_HumanoidMobRenderer.addTexture(Silverfish.class, "silverfish-chan");
             PMM2_HumanoidMobRenderer.addTexture(Endermite.class, "endermite-chan");
+        }
+    }
+
+
+
+    public static void DEBUG(String msg, Object... args) {
+        if (DEBUG) {
+            String argStr = "";
+            for (Object arg : args) {
+                argStr += " " + arg.toString();
+            }
+            LOGGER.debug("[PMM2] " + msg + argStr);
         }
     }
 }
