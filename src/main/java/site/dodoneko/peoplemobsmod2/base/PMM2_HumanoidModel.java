@@ -472,6 +472,10 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
                 this.setJumpAnimations();
         }
 
+        if (this.isClimbing) {
+            this.setClimbingAnimations();
+        }
+
         // 爆発しそうなモーション
         if (this.isSwelling) {
             this.setSwellingAnimations();
@@ -761,6 +765,29 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.pLegL.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y * 60F);
         this.pBody.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y * 50F);
         this.pBody.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y * 50F);
+    }
+
+    // 登ってるアニメーション
+    protected void setClimbingAnimations() {
+        this.pArmR.yRot = PMath.toRad(28.6F);
+        this.pArmL.yRot = PMath.toRad(-28.6F);
+        this.pArmR.xRot = PMath.toRad(-PMath.cos1(this.ageInTicks * 0.212F) * 86F * 28.6F);
+        this.pArmL.xRot = PMath.toRad(PMath.cos1(this.ageInTicks * 0.212F) * 86F * 28.6F);
+        this.pArmR.zRot = PMath.toRad(17F);
+        this.pArmL.zRot = PMath.toRad(-17F);
+        this.pLegR.zRot = PMath.toRad(4.2F);
+        this.pLegL.zRot = PMath.toRad(-4.2F);
+        this.pLegR.yRot = PMath.toRad(8.5F);
+        this.pLegL.yRot = PMath.toRad(-8.5F);
+        this.pLegR.xRot = PMath.toRad(PMath.cos1(this.ageInTicks * 0.212F) * 80F);
+        this.pLegL.xRot = -PMath.toRad(PMath.cos1(this.ageInTicks * 0.212F) * 80F);
+        this.pLegR.z = PMath.sin1(this.ageInTicks * 0.212F) * 1F + 1F;
+        this.pLegL.z = -PMath.sin1(this.ageInTicks * 0.212F) * 1F + 1F;
+
+        this.pArmR.xRot -= 90F * PMath.Deg2Rad;
+        this.pArmL.xRot -= 90F * PMath.Deg2Rad;
+        this.pLegR.xRot -= 45F * PMath.Deg2Rad;
+        this.pLegL.xRot -= 45F * PMath.Deg2Rad;
     }
 
     //
