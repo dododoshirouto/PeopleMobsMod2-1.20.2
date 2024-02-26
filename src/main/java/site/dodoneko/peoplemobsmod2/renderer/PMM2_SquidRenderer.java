@@ -56,7 +56,7 @@ public class PMM2_SquidRenderer<T extends Squid> extends PMM2_HumanoidMobRendere
         pose.mulPose(Axis.YP.rotationDegrees(180.0F - p_116038_));
         pose.mulPose(Axis.XP.rotationDegrees(f));
         pose.mulPose(Axis.YP.rotationDegrees(f1));
-        pose.translate(0.0F, -1.2F, 0.0F);
+        pose.translate(0.0F, -0.5F, -0.1F);
     }
     
 

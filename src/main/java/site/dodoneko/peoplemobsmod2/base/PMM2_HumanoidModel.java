@@ -694,7 +694,10 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
     /** 水中にいるときのモーション */
     protected void setSwimmingAnimations() {
-        float vy = (float) this.entity.getDeltaMovement().length();
+        float vy = (float) this.entity.getDeltaMovement().y;
+        float vz = PMath.easeOut(
+                PMath.clamp(PMath.abs((float) this.entity.getDeltaMovement().horizontalDistance() / 0.5F), 0, 1));
+        // PeopleMobsMod2.DEBUG("setSwimmingAnimations", vy, vz);
         this.pLegR.xRot = PMath.toRad(PMath.cos1(this.ageInTicks / 10F) * -30F + 12F + 23F * (1 - vy));
         this.pLegL.xRot = PMath.toRad(-PMath.cos1(this.ageInTicks / 10F) * -30F + 12F + 23F * (1 - vy));
         this.pLegR.zRot = PMath.toRad(2.8F);
@@ -705,8 +708,9 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.pArmR.xRot = PMath.toRad((PMath.cos1(this.ageInTicks / 14F) * -45F - 57F) * (1 - vy));
         this.pArmL.xRot = PMath.toRad((PMath.cos1(this.ageInTicks / 14F) * -45F - 57F) * (1 - vy));
 
-        this.pBody.xRot = PMath.toRad(11.4F + 63F * vy);
-        this.pHead.z = this.pBody.z = -6F * (float) this.entity.getDeltaMovement().length();
+        this.pBody.xRot = PMath.toRad(11.4F + 78F * (vy + vz));
+        this.pHead.z = this.pBody.z = -6F + -6F * (float) this.entity.getDeltaMovement().length();
+        this.pHead.y = this.pBody.y = 16F * PMath.sin(this.pBody.xRot);
     }
 
     /** onGroundじゃない時のモーション */
@@ -883,30 +887,85 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     @SuppressWarnings("null")
     public void copyPropertiesTo(PMM2_HumanoidModel<T> model) {
         super.copyPropertiesTo(model);
-        // TODO: Copy all model options.
-        // TODO: Copy all entity status.
-        // TODO: Copy all parts.
+
         model.leftArmPose = this.leftArmPose;
         model.rightArmPose = this.rightArmPose;
         model.crouching = this.crouching;
-        // model.head.copyFrom(this.head);
-        // model.hat.copyFrom(this.hat);
-        // model.body.copyFrom(this.body);
-        // model.rightArm.copyFrom(this.rightArm);
-        // model.leftArm.copyFrom(this.leftArm);
-        // model.rightLeg.copyFrom(this.rightLeg);
-        // model.leftLeg.copyFrom(this.leftLeg);
+
+        model.pHead.copyFrom(this.pHead);
+        model.pBody.copyFrom(this.pBody);
+        model.pArmR.copyFrom(this.pArmR);
+        model.pArmL.copyFrom(this.pArmL);
+        model.pLegR.copyFrom(this.pLegR);
+        model.pLegL.copyFrom(this.pLegL);
+        model.pShippo.copyFrom(this.pShippo);
+        model.pAhoge.copyFrom(this.pAhoge);
+        model.pKemomimi.copyFrom(this.pKemomimi);
+        model.pEyelidL.copyFrom(this.pEyelidL);
+        model.pEyelidR.copyFrom(this.pEyelidR);
+        model.pHeadWear.copyFrom(this.pHeadWear);
+        model.pBodyWear.copyFrom(this.pBodyWear);
+        model.pArmRWear.copyFrom(this.pArmRWear);
+        model.pArmLWear.copyFrom(this.pArmLWear);
+        model.pLegRWear.copyFrom(this.pLegRWear);
+        model.pLegLWear.copyFrom(this.pLegLWear);
+
+        model.doWalkBounding = this.doWalkBounding;
+        model.useChildModel = this.useChildModel;
+        model.flyFlap = this.flyFlap;
+        model.forwardArm = this.forwardArm;
+        model.modelScale = this.modelScale;
+        model.bHeight = this.bHeight;
+        model.isFloating = this.isFloating;
+        model.floatingHeight = this.floatingHeight;
+
+        model.entity = this.entity;
+        model.entityId = this.entityId;
+        model.limbSwing = this.limbSwing;
+        model.limbSwingAmount = this.limbSwingAmount;
+        model.ageInTicks = this.ageInTicks;
+        model.headRotY = this.headRotY;
+        model.headRotX = this.headRotX;
+        model.isChild = this.isChild;
+        model.isAggressive = this.isAggressive;
+        model.isCrouching = this.isCrouching;
+        model.isSittingOnGround = this.isSittingOnGround;
+        model.isJumping = this.isJumping;
+        model.hasAnything = this.hasAnything;
+        model.hasItem = this.hasItem;
+        model.hasBlock = this.hasBlock;
+        model.hasFood = this.hasFood;
+        model.hasBow = this.hasBow;
+        model.isInterested = this.isInterested;
+        model.isCreepy = this.isCreepy;
+        model.isSwelling = this.isSwelling;
+        model.isClimbing = this.isClimbing;
+        model.eggTime = this.eggTime;
+        model.isEating = this.isEating;
+        model.headRotZ = this.headRotZ;
+        model.isSleeping = this.isSleeping;
+        model.isHeadInGround = this.isHeadInGround;
+        model.isPouncing = this.isPouncing;
     }
 
     public void setAllVisible(boolean allVisible) {
-        // TODO: Set all visible.
-        // this.head.visible = allVisible;
-        // this.hat.visible = allVisible;
-        // this.body.visible = allVisible;
-        // this.pArmR.visible = allVisible;
-        // this.pArmL.visible = allVisible;
-        // this.pLegR.visible = allVisible;
-        // this.pLegL.visible = allVisible;
+        this.pHead.visible = allVisible;
+        this.pBody.visible = allVisible;
+        this.pArmR.visible = allVisible;
+        this.pArmL.visible = allVisible;
+        this.pLegR.visible = allVisible;
+        this.pLegL.visible = allVisible;
+        this.pShippo.visible = allVisible;
+        this.pAhoge.visible = allVisible;
+        this.pKemomimi.visible = allVisible;
+        this.pEyelidL.visible = allVisible;
+        this.pEyelidR.visible = allVisible;
+        this.pHeadWear.visible = allVisible;
+        this.pBodyWear.visible = allVisible;
+        this.pArmRWear.visible = allVisible;
+        this.pArmLWear.visible = allVisible;
+        this.pLegRWear.visible = allVisible;
+        this.pLegLWear.visible = allVisible;
     }
 
     @SuppressWarnings("null")
@@ -955,7 +1014,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
         } else {
             // TODO: Check foot on ground.
-            pose.translate(0, (1F - this.modelScale) * 2F, 0);
+            pose.translate(0, (1F - this.modelScale) * 26F / 16F, 0);
             pose.scale(this.modelScale, this.modelScale, this.modelScale);
 
             this.headParts().forEach((part) -> {

@@ -71,11 +71,23 @@ public class PMath {
         return sqrt(sin(time * PI / 2));
     }
 
+    public static float easeOut(float time, float start, float end) {
+        return start + (end - start) * easeOut(time);
+    }
+
     public static float easeIn(float time) {
         return 1 - sqrt(sin((1 - time) * PI / 2));
     }
 
+    public static float easeIn(float time, float start, float end) {
+        return start + (end - start) * easeIn(time);
+    }
+
     public static float easeInOut(float time) {
         return pow2(sin(time * PI / 2));
+    }
+
+    public static float easeInOut(float time, float start, float end) {
+        return start + (end - start) * easeInOut(time);
     }
 }
