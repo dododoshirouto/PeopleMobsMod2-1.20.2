@@ -17,10 +17,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidMobRenderer;
-import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidModel;
+import site.dodoneko.peoplemobsmod2.model.PMM2_FoxModel;
 
 @OnlyIn(Dist.CLIENT)
-public class PMM2_FoxRenderer<T extends Fox> extends PMM2_HumanoidMobRenderer<T, PMM2_HumanoidModel<T>> {
+public class PMM2_FoxRenderer extends PMM2_HumanoidMobRenderer<Fox, PMM2_FoxModel> {
 
     FoxRenderer refR;
     FoxModel<Fox> refM;
@@ -46,7 +46,7 @@ public class PMM2_FoxRenderer<T extends Fox> extends PMM2_HumanoidMobRenderer<T,
 
     @SuppressWarnings("null")
     public PMM2_FoxRenderer(EntityRendererProvider.Context entity) {
-        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+        super(entity, new PMM2_FoxModel(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
         this.getModel().modelScale = modelScale;
         this.getModel().bHeight = bHeight;
         this.getModel().useChildModel = useChildModel;
@@ -91,7 +91,7 @@ public class PMM2_FoxRenderer<T extends Fox> extends PMM2_HumanoidMobRenderer<T,
     
 
     @SuppressWarnings("null")
-    protected void setupRotations(T entity, PoseStack pose, float p_114740_, float p_114741_,
+    protected void setupRotations(Fox entity, PoseStack pose, float p_114740_, float p_114741_,
             float p_114742_) {
         super.setupRotations(entity, pose, p_114740_, p_114741_, p_114742_);
         if (entity.isPouncing() || entity.isFaceplanted()) {
@@ -102,7 +102,7 @@ public class PMM2_FoxRenderer<T extends Fox> extends PMM2_HumanoidMobRenderer<T,
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T entity) {
+    public ResourceLocation getTextureLocation(Fox entity) {
         return TEXTURES.get(entity.getVariant());
     }
 }
