@@ -12,6 +12,7 @@ import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidMobRenderer;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidModel;
 import site.dodoneko.peoplemobsmod2.layer.PMM2_EyesLayer;
+import site.dodoneko.peoplemobsmod2.layer.PMM2_HumanHeldBlockLayer;
 
 @OnlyIn(Dist.CLIENT)
 public class PMM2_EndermanRenderer<T extends EnderMan> extends PMM2_HumanoidMobRenderer<T, PMM2_HumanoidModel<T>> {
@@ -34,6 +35,7 @@ public class PMM2_EndermanRenderer<T extends EnderMan> extends PMM2_HumanoidMobR
     public PMM2_EndermanRenderer(EntityRendererProvider.Context entity) {
         super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
         this.addLayer(new PMM2_EyesLayer<>(this));
+        this.addLayer(new PMM2_HumanHeldBlockLayer<>(this, entity.getBlockRenderDispatcher()));
         this.getModel().modelScale = modelScale;
         this.getModel().bHeight = bHeight;
         this.getModel().useChildModel = useChildModel;

@@ -65,10 +65,10 @@ public class PMM2_HumanHeldItemLayer<E extends Mob, M extends PMM2_HumanoidModel
         matrix.translate(0, (1F - modelScale) * 26F / 16F, 0);
         matrix.scale(modelScale, modelScale, modelScale);
 
-        matrix.translate(model.pBody.z / 16F, model.pBody.y / 16F, model.pBody.x / 16F);
+        matrix.translate(model.pBody.x / 16F, model.pBody.y / 16F, model.pBody.z / 16F);
         matrix.mulPose((new Quaternionf()).rotationZYX(model.pBody.zRot, model.pBody.yRot, model.pBody.xRot));
 
-        matrix.translate(model.pArmR.z / 16F, model.pArmR.y / 16F, model.pArmR.x / 16F);
+        matrix.translate(model.pArmR.x / 16F, model.pArmR.y / 16F, model.pArmR.z / 16F);
         matrix.mulPose((new Quaternionf()).rotationZYX(model.pArmR.zRot, model.pArmR.yRot, model.pArmR.xRot));
 
         // this.getParentModel().translateToHand(arm, matrix);
