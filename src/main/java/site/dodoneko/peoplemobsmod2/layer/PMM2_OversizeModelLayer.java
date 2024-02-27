@@ -22,7 +22,7 @@ import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidModel;
 
 @OnlyIn(Dist.CLIENT)
-public class PMM2_OversizeModelLayer<E extends Mob> extends RenderLayer<E, PMM2_HumanoidModel<E>> {
+public class PMM2_OversizeModelLayer<E extends Mob, M extends PMM2_HumanoidModel<E>> extends RenderLayer<E, PMM2_HumanoidModel<E>> {
 
     public static final Map<Class<?>, ResourceLocation> TEXTURES_MAP = Maps.newHashMap();
 

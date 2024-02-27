@@ -1088,8 +1088,8 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
     @SuppressWarnings("null")
     @Override
-    public void renderToBuffer(PoseStack pose, VertexConsumer vertex, int p_102036_, int p_102037_,
-            float p_102038_, float p_102039_, float p_102040_, float p_102041_) {
+    public void renderToBuffer(PoseStack pose, VertexConsumer vertex, int p_102036_, int overlayType,
+            float col_r, float col_g, float col_b, float col_a) {
 
         pose.pushPose();
         pose.translate(0, (1F - this.modelScale) * 26F / 16F, 0);
@@ -1103,27 +1103,27 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
             pose.translate(0.0F, this.babyYHeadOffset / 16.0F, this.babyZHeadOffset / 16.0F);
             this.headParts().forEach((part) -> {
-                part.render(pose, vertex, p_102036_, p_102037_, p_102038_, p_102039_, p_102040_,
-                        p_102041_);
+                part.render(pose, vertex, p_102036_, overlayType, col_r, col_g, col_b,
+                        col_a);
             });
             pose.popPose();
             pose.pushPose();
             pose.scale(this.babyBodyScale, this.babyBodyScale, this.babyBodyScale);
             pose.translate(0.0F, this.bodyYOffset / 16.0F, 0.0F);
             this.bodyParts().forEach((part) -> {
-                part.render(pose, vertex, p_102036_, p_102037_, p_102038_, p_102039_, p_102040_,
-                        p_102041_);
+                part.render(pose, vertex, p_102036_, overlayType, col_r, col_g, col_b,
+                        col_a);
             });
             pose.popPose();
 
         } else {
             this.headParts().forEach((part) -> {
-                part.render(pose, vertex, p_102036_, p_102037_, p_102038_, p_102039_, p_102040_,
-                        p_102041_);
+                part.render(pose, vertex, p_102036_, overlayType, col_r, col_g, col_b,
+                        col_a);
             });
             this.bodyParts().forEach((part) -> {
-                part.render(pose, vertex, p_102036_, p_102037_, p_102038_, p_102039_, p_102040_,
-                        p_102041_);
+                part.render(pose, vertex, p_102036_, overlayType, col_r, col_g, col_b,
+                        col_a);
             });
         }
         pose.popPose();
