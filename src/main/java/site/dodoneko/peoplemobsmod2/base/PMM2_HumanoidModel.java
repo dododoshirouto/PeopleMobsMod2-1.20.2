@@ -388,8 +388,6 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
             this.pHeadWear.visible = ((SnowGolem) entity).hasPumpkin();
         }
 
-        // TODO: create FoxModel class.
-
         // set pose
         // TODO: set pose to rided when isChickenJockey, saddle
         if (!this.entity.onGround()) {
@@ -838,6 +836,26 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.pArmL.xRot -= PMath.toRad(90F);
         this.pLegR.xRot -= PMath.toRad(45F);
         this.pLegL.xRot -= PMath.toRad(45F);
+    }
+    
+    /**
+     * 座りモーション（任意呼び出し）
+     */
+    protected void setSittingAnimations() {
+        this.pBody.xRot += 0.3F;
+        this.pArmR.yRot -= 60F * PMath.Deg2Rad;
+        this.pArmL.yRot += 60F * PMath.Deg2Rad;
+        this.pArmR.xRot -= 0.25F;
+        this.pArmL.xRot -= 0.25F;
+        this.pArmR.zRot -= 0.18F;
+        this.pArmL.zRot += 0.18F;
+        this.pLegR.yRot += 30F * PMath.Deg2Rad;
+        this.pLegL.yRot -= 30F * PMath.Deg2Rad;
+        this.pLegR.xRot -= 80F * PMath.Deg2Rad;
+        this.pLegL.xRot -= 80F * PMath.Deg2Rad;
+        this.pHead.y += 5F;
+        this.pBody.y += 5F;
+        this.pShippo.xRot += 3F;
     }
 
     //
