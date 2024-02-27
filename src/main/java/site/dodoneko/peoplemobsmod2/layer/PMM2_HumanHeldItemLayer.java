@@ -16,7 +16,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidModel;
-import site.dodoneko.peoplemobsmod2.base.PMath;
 
 @OnlyIn(Dist.CLIENT)
 public class PMM2_HumanHeldItemLayer<E extends Mob, M extends PMM2_HumanoidModel<E> & ArmedModel>

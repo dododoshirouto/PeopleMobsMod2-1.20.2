@@ -9,7 +9,6 @@ import com.mojang.math.Axis;
 
 import net.minecraft.client.model.FoxModel;
 import net.minecraft.client.renderer.entity.FoxRenderer;
-import net.minecraft.client.renderer.entity.layers.FoxHeldItemLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -18,7 +17,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidMobRenderer;
-import site.dodoneko.peoplemobsmod2.layer.PMM2_HumanHeldItemLayer;
 import site.dodoneko.peoplemobsmod2.model.PMM2_FoxModel;
 
 @OnlyIn(Dist.CLIENT)
