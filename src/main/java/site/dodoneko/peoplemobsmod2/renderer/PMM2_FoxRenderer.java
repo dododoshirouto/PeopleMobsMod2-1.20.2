@@ -9,6 +9,7 @@ import com.mojang.math.Axis;
 
 import net.minecraft.client.model.FoxModel;
 import net.minecraft.client.renderer.entity.FoxRenderer;
+import net.minecraft.client.renderer.entity.layers.FoxHeldItemLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -17,6 +18,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidMobRenderer;
+import site.dodoneko.peoplemobsmod2.layer.PMM2_HumanHeldItemLayer;
 import site.dodoneko.peoplemobsmod2.model.PMM2_FoxModel;
 
 @OnlyIn(Dist.CLIENT)
@@ -47,6 +49,7 @@ public class PMM2_FoxRenderer extends PMM2_HumanoidMobRenderer<Fox, PMM2_FoxMode
     @SuppressWarnings("null")
     public PMM2_FoxRenderer(EntityRendererProvider.Context entity) {
         super(entity, new PMM2_FoxModel(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+        // this.addLayer(new PMM2_HumanHeldItemLayer<Fox, PMM2_FoxModel>(this, entity.getItemInHandRenderer()));
         this.getModel().modelScale = modelScale;
         this.getModel().bHeight = bHeight;
         this.getModel().useChildModel = useChildModel;
@@ -87,8 +90,6 @@ public class PMM2_FoxRenderer extends PMM2_HumanoidMobRenderer<Fox, PMM2_FoxMode
     public static void setDoWalkBounding(boolean v) {
         doWalkBounding = v;
     }
-
-    
 
     @SuppressWarnings("null")
     protected void setupRotations(Fox entity, PoseStack pose, float p_114740_, float p_114741_,

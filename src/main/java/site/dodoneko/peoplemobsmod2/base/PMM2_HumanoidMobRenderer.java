@@ -15,6 +15,7 @@ import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import site.dodoneko.peoplemobsmod2.layer.PMM2_HumanHeldItemLayer;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends PMM2_HumanoidModel<T>>
@@ -35,7 +36,8 @@ public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends PMM2_Hum
         this.addLayer(new CustomHeadLayer<>(this, entity.getModelSet(), modelScale, modelScale, modelScale,
                 entity.getItemInHandRenderer()));
         this.addLayer(new ElytraLayer<>(this, entity.getModelSet()));
-        this.addLayer(new ItemInHandLayer<>(this, entity.getItemInHandRenderer()));
+        this.addLayer(new PMM2_HumanHeldItemLayer<>(this, entity.getItemInHandRenderer()));
+        // this.addLayer(new ItemInHandLayer<>(this, entity.getItemInHandRenderer()));
     }
 
     @SuppressWarnings("null")
