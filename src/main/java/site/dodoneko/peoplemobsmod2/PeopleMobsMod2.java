@@ -61,8 +61,8 @@ public class PeopleMobsMod2 {
             PMM2_SkeletonRenderer.      setModelScales(0.9F,  0.15F);
             PMM2_WitherSkeletonRenderer.setModelScales(1.08F, 0.5F);
             PMM2_ChickenRenderer.       setModelScales(0.7F,  0.3F, true, true);
-            PMM2_PigRenderer.           setModelScales(0.6F,  0.8F);
-            PMM2_SheepRenderer.         setModelScales(0.7F,  0.4F);
+            PMM2_PigRenderer.           setModelScales(0.7F,  0.8F);
+            PMM2_SheepRenderer.         setModelScales(0.8F,  0.4F);
             PMM2_CowRenderer.           setModelScales(0.85F, 1.0F);
             PMM2_MooshroomRenderer.     setModelScales(0.8F,  0.9F);
             PMM2_FoxRenderer.           setModelScales(0.4F,  0.25F);

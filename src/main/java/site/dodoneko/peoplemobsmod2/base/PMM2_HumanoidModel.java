@@ -86,6 +86,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
     // model options
     public float modelScale = 0.9F;
+    public float modelAddSize = 0.0F;
     public float bHeight = 0.3F;
     public boolean useChildModel = false;
     public boolean doFlyFlap = false;
@@ -138,6 +139,9 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     }
 
     public PMM2_HumanoidModel(ModelPart root, Function<ResourceLocation, RenderType> renderFunc) {
+        this(root, renderFunc, 0F);
+    }
+    public PMM2_HumanoidModel(ModelPart root, Function<ResourceLocation, RenderType> renderFunc, float addSize) {
         super(root, renderFunc);
 
         PeopleMobsMod2.LOGGER
@@ -150,6 +154,8 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         // this.leftArm = root.getChild("left_arm");
         // this.rightLeg = root.getChild("right_leg");
         // this.leftLeg = root.getChild("left_leg");
+
+        this.modelAddSize = addSize;
 
         this.pHead = root.getChild("pHead");
         this.pBody = root.getChild("pBody");
@@ -196,7 +202,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     @SuppressWarnings({ "null" })
     public static LayerDefinition createBodyLayer() {
         PeopleMobsMod2.LOGGER.info("[PMM2] PMM2_HumanoidModel.createBodyLayer()");
-        return LayerDefinition.create(createMesh(new CubeDeformation(0.0F), 0), 64, 64);
+        return LayerDefinition.create(createMesh(new CubeDeformation(0F), 0), 64, 64);
     }
 
     @SuppressWarnings({ "null" })
