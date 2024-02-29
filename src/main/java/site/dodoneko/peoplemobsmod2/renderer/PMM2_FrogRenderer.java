@@ -1,8 +1,15 @@
 package site.dodoneko.peoplemobsmod2.renderer;
 
+import java.util.Map;
+
+import com.google.common.collect.Maps;
+
+import net.minecraft.Util;
 import net.minecraft.client.model.FrogModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.FrogRenderer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.animal.FrogVariant;
 import net.minecraft.world.entity.animal.frog.Frog;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -15,6 +22,17 @@ public class PMM2_FrogRenderer<T extends Frog> extends PMM2_HumanoidMobRenderer<
 
     FrogRenderer refR;
     FrogModel<Frog> refM;
+
+    @SuppressWarnings({ "null" })
+    private static final Map<FrogVariant, ResourceLocation> TEXTURES = Util.make(Maps.newHashMap(),
+            (entity) -> {
+                entity.put(FrogVariant.TEMPERATE,
+                        new ResourceLocation("textures/entity/frog/temperate_frog-chan.png"));
+                entity.put(FrogVariant.COLD,
+                        new ResourceLocation("textures/entity/frog/cold_frog-chan.png"));
+                entity.put(FrogVariant.WARM,
+                        new ResourceLocation("textures/entity/frog/warm_frog-chan.png"));
+            });
 
     // model options
     public static float modelScale = 0.9F;
@@ -68,5 +86,11 @@ public class PMM2_FrogRenderer<T extends Frog> extends PMM2_HumanoidMobRenderer<
 
     public static void setDoWalkBounding(boolean v) {
         doWalkBounding = v;
+    }
+    
+
+    @Override
+    public ResourceLocation getTextureLocation(Frog entity) {
+        return TEXTURES.get(entity.getVariant());
     }
 }

@@ -10,7 +10,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class PMM2_FrogModel extends PMM2_HumanoidModel<Frog> {
 
-    // TODO: make this.
     public PMM2_FrogModel(ModelPart root) {
         super(root);
     }
@@ -28,7 +27,7 @@ public class PMM2_FrogModel extends PMM2_HumanoidModel<Frog> {
         if (this.entity.croakAnimationState.isStarted()) {
             // croaking
             this.pHead.xRot = PMath.toRad(-45F + PMath.sin1(this.ageInTicks / 15F) * 5F);
-            this.pHead.yRot += PMath.toRad(PMath.sin1(this.ageInTicks * 40F) * 5F);
+            this.pHead.yRot += PMath.toRad(PMath.sin1(this.ageInTicks * 200F) * 5F);
         }
 
         if (this.entity.tongueAnimationState.isStarted()) {
