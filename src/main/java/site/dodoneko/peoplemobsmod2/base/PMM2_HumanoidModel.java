@@ -68,6 +68,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     public final ModelPart pShippo;
     public final ModelPart pEyelidL;
     public final ModelPart pEyelidR;
+    public final ModelPart frogTongue;
     public PMM2_HumanoidModel.ArmPose leftArmPose = PMM2_HumanoidModel.ArmPose.EMPTY;
     public PMM2_HumanoidModel.ArmPose rightArmPose = PMM2_HumanoidModel.ArmPose.EMPTY;
     // public boolean crouching;
@@ -141,6 +142,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     public PMM2_HumanoidModel(ModelPart root, Function<ResourceLocation, RenderType> renderFunc) {
         this(root, renderFunc, 0F);
     }
+
     public PMM2_HumanoidModel(ModelPart root, Function<ResourceLocation, RenderType> renderFunc, float addSize) {
         super(root, renderFunc);
 
@@ -184,6 +186,8 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.pEyelidL = pHead.getChild("pEyelidL");
         this.pEyelidL.yRot = PMath.PI;
         this.pEyelidR = pHead.getChild("pEyelidR");
+
+        this.frogTongue = pHead.getChild("frogTongue");
 
         this.doWalkBounding = true;
         this.useChildModel = false;
@@ -283,6 +287,11 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
                 CubeListBuilder.create().texOffs(12, 16).addBox(-3.0F, -4.0F, -4.1F, 2, 2, 2, cube),
                 PartPose.offset(0, 0 + yOffset, 1.0F));
 
+        pHead.addOrReplaceChild("frogTongue",
+                CubeListBuilder.create().texOffs(0, 0).addBox(-2F, -0.5F, -3F, 4, 0, 7,
+                        EnumSet.of(Direction.UP)),
+                PartPose.offset(0, yOffset - 0.5F, -3F));
+
         return mesh;
     }
 
@@ -346,6 +355,10 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.pAhoge.setRotation(0, 0, 0);
         this.pKemomimi.setPos(0, -8, -1);
         this.pKemomimi.setRotation(0, 0, 0);
+
+        this.frogTongue.setPos(0, -0.5F, 3);
+        this.frogTongue.setRotation(0, 0, 0);
+        this.frogTongue.zScale = 0F;
     }
 
     @SuppressWarnings("null")
@@ -355,6 +368,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.entityId = entity.getId();
         this.limbSwing = limbSwing;
         this.limbSwingAmount = limbSwingAmount;
+        // TODO: change to /1000 from /100
         this.ageInTicks = (float) Util.getMillis() / 100 + this.entityId * 10;
         this.headRotY = netHeadYaw;
         this.headRotX = headPitch;
@@ -403,6 +417,10 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
                 this.entity.setPose(Pose.FALL_FLYING);
             }
         } else if (this.entity.getPose() == Pose.FALL_FLYING) {
+            this.entity.setPose(Pose.STANDING);
+        }
+
+        if (!this.entity.isInWaterOrBubble() && this.entity.getPose() == Pose.SWIMMING) {
             this.entity.setPose(Pose.STANDING);
         }
         if (this.entity.isDeadOrDying()) {
@@ -794,31 +812,37 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     protected void setFlapFlyingAnimations() {
         // this.pArmR.zRot = PMath.toRad(PMath.cos1(this.ageInTicks / 2F) * 57F + 90F);
         // this.pArmL.zRot = PMath.toRad(-PMath.cos1(this.ageInTicks / 2F) * 57F - 90F);
-        // this.pLegR.xRot = PMath.toRad(-(float) this.entity.getDeltaMovement().y * 225F);
-        // this.pLegL.xRot = PMath.toRad(-(float) this.entity.getDeltaMovement().y * 225F);
-        // this.pLegR.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y * 60F);
-        // this.pLegL.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y * 60F);
-        // this.pBody.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y * 50F);
-        // this.pBody.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y * 50F);
+        // this.pLegR.xRot = PMath.toRad(-(float) this.entity.getDeltaMovement().y *
+        // 225F);
+        // this.pLegL.xRot = PMath.toRad(-(float) this.entity.getDeltaMovement().y *
+        // 225F);
+        // this.pLegR.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y *
+        // 60F);
+        // this.pLegL.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y *
+        // 60F);
+        // this.pBody.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y *
+        // 50F);
+        // this.pBody.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y *
+        // 50F);
 
-            float f1 = PMath.sin1( this.ageInTicks / (this.limbSwingAmount<0.5F? 2.5F: 1.8F) );
-            float f2 = PMath.cos1( this.ageInTicks / (this.limbSwingAmount<0.5F? 2.5F: 1.8F) + 0.028F);
+        float f1 = PMath.sin1(this.ageInTicks / (this.limbSwingAmount < 0.5F ? 2.5F : 1.8F));
+        float f2 = PMath.cos1(this.ageInTicks / (this.limbSwingAmount < 0.5F ? 2.5F : 1.8F) + 0.028F);
 
-            if (this.entity.getDeltaMovement().y < 0.0F) {
-                f1 = 0.02F;
-            }
+        if (this.entity.getDeltaMovement().y < 0.0F) {
+            f1 = 0.02F;
+        }
 
-            this.pBody.xRot += PMath.toRad(this.limbSwingAmount*86F - 11.5F);
-            this.pHead.xRot += PMath.toRad(this.limbSwingAmount*28.6F);
-            this.pLegR.zRot = PMath.toRad( 8.6F);
-            this.pLegL.zRot = PMath.toRad(-8.6F);
-            this.pLegR.xRot = this.pLegL.xRot = PMath.toRad(PMath.lerp(-8.6F, 17F, this.limbSwingAmount) - f2 * 5.7F);
-            this.pArmR.zRot =  90F;
-            this.pArmL.zRot = -90F;
-            this.pArmR.xRot =  PMath.toRad(f1 * 57F);
-            this.pArmL.xRot =  PMath.toRad(f1 * 57F);
-            this.pArmR.yRot = -90F + this.limbSwingAmount * 70F;
-            this.pArmL.yRot =  90F - this.limbSwingAmount * 70F;
+        this.pBody.xRot += PMath.toRad(this.limbSwingAmount * 86F - 11.5F);
+        this.pHead.xRot += PMath.toRad(this.limbSwingAmount * 28.6F);
+        this.pLegR.zRot = PMath.toRad(8.6F);
+        this.pLegL.zRot = PMath.toRad(-8.6F);
+        this.pLegR.xRot = this.pLegL.xRot = PMath.toRad(PMath.lerp(-8.6F, 17F, this.limbSwingAmount) - f2 * 5.7F);
+        this.pArmR.zRot = 90F;
+        this.pArmL.zRot = -90F;
+        this.pArmR.xRot = PMath.toRad(f1 * 57F);
+        this.pArmL.xRot = PMath.toRad(f1 * 57F);
+        this.pArmR.yRot = -90F + this.limbSwingAmount * 70F;
+        this.pArmL.yRot = 90F - this.limbSwingAmount * 70F;
     }
 
     // 登ってるアニメーション
@@ -843,7 +867,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.pLegR.xRot -= PMath.toRad(45F);
         this.pLegL.xRot -= PMath.toRad(45F);
     }
-    
+
     /**
      * 座りモーション（任意呼び出し）
      */
