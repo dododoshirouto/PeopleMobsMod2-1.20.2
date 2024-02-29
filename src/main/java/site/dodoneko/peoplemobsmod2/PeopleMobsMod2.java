@@ -72,6 +72,7 @@ public class PeopleMobsMod2 {
             PMM2_SnowGolemRenderer.     setModelScales(1.0F,  0.4F);
             PMM2_IronGolemRenderer.     setModelScales(1.5F,  0.7F);
             PMM2_BatRenderer.           setModelScales(0.8F,  0.2F, true, true);
+            PMM2_FrogRenderer.           setModelScales(0.4F,  0.6F);
 
             // Monsters
             EntityRenderers.register(EntityType.ZOMBIE, PMM2_ZombieRenderer::new);
@@ -92,6 +93,7 @@ public class PeopleMobsMod2 {
             EntityRenderers.register(EntityType.MOOSHROOM, PMM2_MooshroomRenderer::new);
             EntityRenderers.register(EntityType.FOX, PMM2_FoxRenderer::new);
             EntityRenderers.register(EntityType.RABBIT, PMM2_RabbitRenderer::new);
+            EntityRenderers.register(EntityType.FROG, PMM2_FrogRenderer::new);
 
             // WaterAnimals
             EntityRenderers.register(EntityType.SQUID, PMM2_SquidRenderer::new);
