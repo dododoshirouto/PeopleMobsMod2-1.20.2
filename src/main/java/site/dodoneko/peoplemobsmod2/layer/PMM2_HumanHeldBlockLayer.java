@@ -58,7 +58,6 @@ public class PMM2_HumanHeldBlockLayer<E extends Mob, M extends PMM2_HumanoidMode
 
         matrix.pushPose();
         matrix.translate(0, (1F - modelScale) * 26F / 16F, 0);
-        matrix.translate(0.4F, 0, 0);
         matrix.scale(modelScale, modelScale, modelScale);
 
         matrix.translate(model.pBody.x / 16F, model.pBody.y / 16F, model.pBody.z / 16F);
@@ -70,6 +69,7 @@ public class PMM2_HumanHeldBlockLayer<E extends Mob, M extends PMM2_HumanoidMode
         matrix.translate(0, 0.95F, 0);
 
         if (modelScale != 0F) matrix.scale(1F/modelScale, 1F/modelScale, 1F/modelScale);
+        matrix.translate(0.4F, 0, 0);
         matrix.scale(-0.5F, -0.5F, 0.5F);
 
         matrix.mulPose(Axis.XP.rotation(model.pArmR.xRot));
