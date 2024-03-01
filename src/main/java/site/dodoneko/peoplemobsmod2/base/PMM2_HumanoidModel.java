@@ -569,6 +569,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
         this.pHead.y = this.pBody.y = -this.floatingHeight - 1F + f1 * 1.5F;
         this.pBody.xRot = PMath.toRad(-5.7F + f1 * 1.7F);
+        PeopleMobsMod2.DEBUG("setFloatingAnimations:", f1, f2);
 
         this.pArmR.zRot = PMath.toRad(28F - f2 * 8.6F);
         this.pArmL.zRot = PMath.toRad(-28F + f2 * 8.6F);

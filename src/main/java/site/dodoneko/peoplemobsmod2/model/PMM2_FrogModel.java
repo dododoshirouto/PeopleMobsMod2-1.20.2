@@ -23,11 +23,18 @@ public class PMM2_FrogModel extends PMM2_HumanoidModel<Frog> {
     }
 
     @Override
+    protected void setWalkingAnimations() {
+        this.limbSwing *= 0.3f;
+        super.setWalkingAnimations();
+        this.limbSwing /= 0.3f;
+    }
+
+    @Override
     protected void setPostAnimations() {
         if (this.entity.croakAnimationState.isStarted()) {
             // croaking
             this.pHead.xRot = PMath.toRad(-45F + PMath.sin1(this.ageInTicks / 15F) * 5F);
-            this.pHead.yRot += PMath.toRad(PMath.sin1(this.ageInTicks * 200F) * 5F);
+            this.pHead.yRot += PMath.toRad(PMath.sin1(this.ageInTicks / 2F) * 5F);
         }
 
         if (this.entity.tongueAnimationState.isStarted()) {
@@ -36,7 +43,6 @@ public class PMM2_FrogModel extends PMM2_HumanoidModel<Frog> {
             this.frogTongue.xScale = 0.5F;
             this.frogTongue.z = -3F + -3.5F * this.frogTongue.zScale;
         }
-
     }
 }
 

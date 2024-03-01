@@ -13,20 +13,12 @@ public class PMath {
         return (float) Math.sin(v);
     }
 
-    public static float sinD(float v) {
-        return (float) Math.sin(v * PI2);
-    }
-
     public static float sin1(float v) {
-        return (float) Math.sin(v * Deg2Rad);
+        return (float) Math.sin(v * PI2);
     }
 
     public static float cos(float v) {
         return (float) Math.cos(v);
-    }
-
-    public static float cosD(float v) {
-        return (float) Math.cos(v * Deg2Rad);
     }
 
     public static float cos1(float v) {

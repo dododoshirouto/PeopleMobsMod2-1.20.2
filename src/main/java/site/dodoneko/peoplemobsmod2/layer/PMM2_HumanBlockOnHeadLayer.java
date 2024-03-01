@@ -21,8 +21,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidModel;
 
-// TODO: change block pos to on the head.
-
 @OnlyIn(Dist.CLIENT)
 public class PMM2_HumanBlockOnHeadLayer<E extends Mob, M extends PMM2_HumanoidModel<E>> extends RenderLayer<E, M> {
     private final BlockRenderDispatcher blockRenderer;
