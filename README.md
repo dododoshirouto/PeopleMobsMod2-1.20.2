@@ -3,9 +3,7 @@
 for Minecraft 1.20.2 (Forge 48.1.0)
 
 Warn! このプロジェクトは[1.14.4版](https://github.com/dododoshirouto/PeopleMobsMod2)の移植作業中です。
-
-![banner-0 1 5](https://user-images.githubusercontent.com/87510462/144677548-14ca9124-71d6-4006-b8cb-0dfeef30bbac.png)
-
+![banner-1 20 2-0 1 0](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/assets/87510462/a43492c8-27b0-4df0-a360-0b65c655ac21)
 ![main-banner](https://user-images.githubusercontent.com/87510462/140615380-bfba3cff-98b1-4d00-affc-90c9b183d081.png)
 
 
