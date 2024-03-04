@@ -9,8 +9,35 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class PMM2_FoxModel extends PMM2_HumanoidModel<Fox> {
+
+    public float headRotZ;
+    public boolean isSleeping;
+    public boolean isHeadInGround;
+    public boolean isPouncing;
+
     public PMM2_FoxModel(ModelPart root) {
         super(root);
+    }
+
+    public void copyPropertiesTo(PMM2_FoxModel model) {
+        model.headRotZ = this.headRotZ;
+        model.isSleeping = this.isSleeping;
+        model.isHeadInGround = this.isHeadInGround;
+        model.isPouncing = this.isPouncing;
+        super.copyPropertiesTo(model);
+    }
+
+    @Override
+    public void setEntityStatus(Fox entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+            float headPitch) {
+        this.isSittingOnGround = ((Fox) entity).isSitting();
+        this.isJumping = ((Fox) entity).isJumping();
+        this.isInterested = ((Fox) entity).isInterested();
+
+        this.headRotZ = ((Fox) entity).getHeadRollAngle(1F);
+        this.isSleeping = ((Fox) entity).isSleeping();
+        this.isHeadInGround = ((Fox) entity).isFaceplanted();
+        this.isPouncing = ((Fox) entity).isPouncing();
     }
 
     @Override

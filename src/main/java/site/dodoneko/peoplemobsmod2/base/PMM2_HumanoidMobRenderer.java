@@ -1,8 +1,8 @@
 package site.dodoneko.peoplemobsmod2.base;
 
 import java.util.Map;
-
 import com.google.common.collect.Maps;
+
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
@@ -11,32 +11,157 @@ import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
+import net.minecraft.world.entity.monster.CaveSpider;
+import net.minecraft.world.entity.monster.Endermite;
+import net.minecraft.world.entity.monster.Silverfish;
+import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
 import site.dodoneko.peoplemobsmod2.layer.PMM2_HumanHeldItemLayer;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends PMM2_HumanoidModel<T>>
-        extends MobRenderer<T, M> {
+public abstract class PMM2_HumanoidMobRenderer<E extends Mob, M extends PMM2_HumanoidModel<E>>
+        extends MobRenderer<E, M> {
+
+    // model options
+    @SuppressWarnings("rawtypes")
+    public static Map<Class<? extends PMM2_HumanoidMobRenderer>, ModelOptions> MODEL_SCALES = Maps.newHashMap();
+    public static float modelScale = 0.9F;
+    public static float bHeight = 0.3F;
+    public static boolean useChildModel = false;
+    public static boolean doFlyFlap = false;
+    public static boolean forwardArm = false;
+    public static boolean useArmor = false;
+    public static boolean isFloating = false;
+    public static float floatingHeight = 0.0F;
+    public static boolean doWalkBounding = true;
+
+    public static class ModelOptions {
+        public float modelScale = 0.9F;
+        public float bHeight = 0.3F;
+        public boolean useChildModel = false;
+        public boolean doFlyFlap = false;
+        public boolean forwardArm = false;
+        public boolean useArmor = false;
+        public boolean isFloating = false;
+        public float floatingHeight = 0.0F;
+        public boolean doWalkBounding = true;
+
+        public ModelOptions() {
+            this.modelScale = 0.9F;
+            this.bHeight = 0.3F;
+            this.useChildModel = false;
+            this.doFlyFlap = false;
+            this.forwardArm = false;
+            this.useArmor = false;
+            this.isFloating = false;
+            this.floatingHeight = 0.0F;
+            this.doWalkBounding = true;
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static void setModelScales(Class<? extends PMM2_HumanoidMobRenderer> entity, float scale, float height) {
+        if (!MODEL_SCALES.containsKey(entity))
+            MODEL_SCALES.put(entity, new ModelOptions());
+        MODEL_SCALES.get(entity).modelScale = scale;
+        MODEL_SCALES.get(entity).bHeight = height;
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static void setModelScales(Class<? extends PMM2_HumanoidMobRenderer> entity, float scale, float height,
+            boolean isChild) {
+        setModelScales(entity, scale, height);
+        MODEL_SCALES.get(entity).useChildModel = isChild;
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static void setModelScales(Class<? extends PMM2_HumanoidMobRenderer> entity, float scale, float height,
+            boolean isChild, boolean flyFlap) {
+        setModelScales(entity, scale, height, isChild);
+        MODEL_SCALES.get(entity).doFlyFlap = flyFlap;
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static void setForwardArm(Class<? extends PMM2_HumanoidMobRenderer> entity, boolean v) {
+        if (!MODEL_SCALES.containsKey(entity))
+            MODEL_SCALES.put(entity, new ModelOptions());
+        MODEL_SCALES.get(entity).forwardArm = v;
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static void setUseArmor(Class<? extends PMM2_HumanoidMobRenderer> entity, boolean v) {
+        if (!MODEL_SCALES.containsKey(entity))
+            MODEL_SCALES.put(entity, new ModelOptions());
+        MODEL_SCALES.get(entity).useArmor = v;
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static void setIsFloating(Class<? extends PMM2_HumanoidMobRenderer> entity, boolean v, float h) {
+        if (!MODEL_SCALES.containsKey(entity))
+            MODEL_SCALES.put(entity, new ModelOptions());
+        MODEL_SCALES.get(entity).isFloating = v;
+        MODEL_SCALES.get(entity).floatingHeight = h;
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static void setDoWalkBounding(Class<? extends PMM2_HumanoidMobRenderer> entity, boolean v) {
+        if (!MODEL_SCALES.containsKey(entity))
+            MODEL_SCALES.put(entity, new ModelOptions());
+        MODEL_SCALES.get(entity).doWalkBounding = v;
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static void initModelOptions(Class<? extends PMM2_HumanoidMobRenderer> entity) {
+        if (!MODEL_SCALES.containsKey(entity)) {
+            PeopleMobsMod2.DEBUG("No model options found for " + entity.getName());
+            return;
+        }
+        modelScale = MODEL_SCALES.get(entity).modelScale;
+        bHeight = MODEL_SCALES.get(entity).bHeight;
+        useChildModel = MODEL_SCALES.get(entity).useChildModel;
+        doFlyFlap = MODEL_SCALES.get(entity).doFlyFlap;
+        forwardArm = MODEL_SCALES.get(entity).forwardArm;
+        useArmor = MODEL_SCALES.get(entity).useArmor;
+        isFloating = MODEL_SCALES.get(entity).isFloating;
+        floatingHeight = MODEL_SCALES.get(entity).floatingHeight;
+        doWalkBounding = MODEL_SCALES.get(entity).doWalkBounding;
+    }
 
     public static final Map<Class<?>, ResourceLocation> TEXTURES_MAP = Maps.newHashMap();
     public static final ResourceLocation TEXTURE_DEFAULT = new ResourceLocation(
             "textures/entity/" + "sample-chan" + ".png");
-    // public static final Map<Class<?>, Class<PMM2_HumanoidModel>> MODEL_MAP = Maps.newHashMap();
+    // public static final Map<Class<?>, Class<PMM2_HumanoidModel>> MODEL_MAP =
+    // Maps.newHashMap();
 
     // public float modelScale = 0.8F;
 
-    @SuppressWarnings("null")
-    public PMM2_HumanoidMobRenderer(EntityRendererProvider.Context entity, M model, float modelScale) {
-        super(entity, model, modelScale / 2);
-        this.getModel().modelScale = modelScale;
+    @SuppressWarnings({ "null", "unchecked" })
+    public PMM2_HumanoidMobRenderer(EntityRendererProvider.Context entity, M model, float ms) {
+        super(entity, model, ms / 2);
+        initModelOptions(this.getClass());
+
+        this.model.modelScale = modelScale;
+        this.model.bHeight = bHeight;
+        this.model.useChildModel = useChildModel;
+        this.model.doFlyFlap = doFlyFlap;
+        this.model.forwardArm = forwardArm;
+        this.model.isFloating = isFloating;
+        this.model.floatingHeight = floatingHeight;
+        this.model.doWalkBounding = doWalkBounding;
+
+        this.shadowRadius = modelScale / 2;
 
         this.addLayer(new CustomHeadLayer<>(this, entity.getModelSet(), modelScale, modelScale, modelScale,
                 entity.getItemInHandRenderer()));
         this.addLayer(new ElytraLayer<>(this, entity.getModelSet()));
         this.addLayer(new PMM2_HumanHeldItemLayer<>(this, entity.getItemInHandRenderer()));
-        // this.addLayer(new ItemInHandLayer<>(this, entity.getItemInHandRenderer()));
+        if (useArmor)
+            this.addArmorLayers(entity,
+                    (M) new PMM2_HumanoidModel<E>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)),
+                    (M) new PMM2_HumanoidModel<E>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)));
     }
 
     @SuppressWarnings("null")
@@ -50,49 +175,20 @@ public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends PMM2_Hum
         TEXTURES_MAP.put(entityClass, new ResourceLocation("textures/entity/" + texturePath + ".png"));
     }
 
-    // public static void addModel(Class<?> entityClass, Class<PMM2_HumanoidModel> class1) {
-    //     if (class1 == null)
-    //         return;
-    //     MODEL_MAP.put(entityClass, class1);
-    // }
-
     /** If the entity has color variations, use this method override. */
     @SuppressWarnings({ "null" })
     @Override
-    public ResourceLocation getTextureLocation(T entity) {
+    public ResourceLocation getTextureLocation(E entity) {
         if (TEXTURES_MAP.containsKey(entity.getClass())) {
             return TEXTURES_MAP.get(entity.getClass());
         }
         return TEXTURE_DEFAULT;
     }
 
-    // /** If the entity has model variations, use this method override. */
-    // public static Class<PMM2_HumanoidModel> getModel(EntityRendererProvider.Context entity) {
-    //     if (MODEL_MAP.containsKey(entity.getClass())) {
-    //         return (Class<PMM2_HumanoidModel>)MODEL_MAP.get(entity.getClass());
-    //     }
-    //     PeopleMobsMod2.LOGGER.error("[PMM2] No Model.", entity.toString());
-    //     return null;
-    // }
-
-    // @SuppressWarnings("null")
-    // @Override
-    // public void render(T entity, float p_115456_, float p_115457_, PoseStack p_115458_, MultiBufferSource p_115459_,
-    //         int p_115460_) {
-    //     if (entity instanceof EnderMan) {
-    //         BlockState block = ((EnderMan) entity).getCarriedBlock();
-    //         PMM2_HumanoidModel<T> model = this.getModel();
-    //         model. = block != null;
-    //         model.isCreepy = ((EnderMan) entity).isCreepy();
-    //     }
-
-    //     super.render(entity, p_115456_, p_115457_, p_115458_, p_115459_, p_115460_);
-    // }
-
     // individual methods
 
     @SuppressWarnings("null")
-    protected boolean isShaking(T entity) {
+    protected boolean isShaking(E entity) {
         if (entity instanceof Zombie) {
             return super.isShaking(entity) || ((Zombie) entity).isUnderWaterConverting();
         } else if (entity instanceof AbstractSkeleton) {
@@ -100,5 +196,14 @@ public abstract class PMM2_HumanoidMobRenderer<T extends Mob, M extends PMM2_Hum
         }
 
         return super.isShaking(entity);
+    }
+
+    @SuppressWarnings("null")
+    protected float getFlipDegrees(E entity) {
+        if (entity instanceof Spider || entity instanceof CaveSpider || entity instanceof Endermite
+                || entity instanceof Silverfish) {
+            return 180.0F;
+        }
+        return 90.0F;
     }
 }

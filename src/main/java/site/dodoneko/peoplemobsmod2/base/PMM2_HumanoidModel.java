@@ -31,22 +31,6 @@ import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
 
 @OnlyIn(Dist.CLIENT)
 public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
-    // public static final float OVERLAY_SCALE = 0.25F;
-    // public static final float HAT_OVERLAY_SCALE = 0.5F;
-    // public static final float LEGGINGS_OVERLAY_SCALE = -0.1F;
-    // private static final float DUCK_WALK_ROTATION = 0.005F;
-    // private static final float SPYGLASS_ARM_ROT_Y = 0.2617994F;
-    // private static final float SPYGLASS_ARM_ROT_X = 1.9198622F;
-    // private static final float SPYGLASS_ARM_CROUCH_ROT_X = 0.2617994F;
-    // public static final float TOOT_HORN_XROT_BASE = 1.4835298F;
-    // public static final float TOOT_HORN_YROT_BASE = ((float)Math.PI / 6F);
-    // public final ModelPart head;
-    // public final ModelPart hat;
-    // public final ModelPart body;
-    // public final ModelPart rightArm;
-    // public final ModelPart leftArm;
-    // public final ModelPart rightLeg;
-    // public final ModelPart leftLeg;
     public final ModelPart pHead;
     public final ModelPart pBody;
     public final ModelPart pArmL;
@@ -71,8 +55,6 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     public final ModelPart frogTongue;
     public PMM2_HumanoidModel.ArmPose leftArmPose = PMM2_HumanoidModel.ArmPose.EMPTY;
     public PMM2_HumanoidModel.ArmPose rightArmPose = PMM2_HumanoidModel.ArmPose.EMPTY;
-    // public boolean crouching;
-    // public float swimAmount;
 
     protected Map<Integer, Float> twinklesTimes = new HashMap<Integer, Float>();
     protected Map<Integer, Boolean> twinkledNow = new HashMap<Integer, Boolean>();
@@ -126,14 +108,14 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     public float eggTime;
     /** Sheep */
     public boolean isEating;
-    /** Fox */
-    public float headRotZ;
-    /** Fox */
-    public boolean isSleeping;
-    /** Fox 顔が突き刺さった状態 */
-    public boolean isHeadInGround;
-    /** Fox */
-    public boolean isPouncing;
+    // /** Fox */
+    // public float headRotZ;
+    // /** Fox */
+    // public boolean isSleeping;
+    // /** Fox 顔が突き刺さった状態 */
+    // public boolean isHeadInGround;
+    // /** Fox */
+    // public boolean isPouncing;
 
     public PMM2_HumanoidModel(ModelPart root) {
         this(root, RenderType::entityCutoutNoCull);
@@ -148,14 +130,6 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
         PeopleMobsMod2.LOGGER
                 .info("[PMM2] PMM2_HumanoidModel(ModelPart root, Function<ResourceLocation, RenderType> renderFunc)");
-
-        // this.head = root.getChild("head");
-        // this.hat = root.getChild("hat");
-        // this.body = root.getChild("body");
-        // this.rightArm = root.getChild("right_arm");
-        // this.leftArm = root.getChild("left_arm");
-        // this.rightLeg = root.getChild("right_leg");
-        // this.leftLeg = root.getChild("left_leg");
 
         this.modelAddSize = addSize;
 
@@ -394,14 +368,6 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         } else if (entity instanceof Sheep) {
             // TODO: create eating animation.
             this.isEating = ((Sheep) entity).getHeadEatPositionScale(0F) != 0F;
-        } else if (entity instanceof Fox) {
-            this.headRotZ = ((Fox) entity).getHeadRollAngle(1F);
-            this.isSleeping = ((Fox) entity).isSleeping();
-            this.isSittingOnGround = ((Fox) entity).isSitting();
-            this.isHeadInGround = ((Fox) entity).isFaceplanted();
-            this.isPouncing = ((Fox) entity).isPouncing();
-            this.isJumping = ((Fox) entity).isJumping();
-            this.isInterested = ((Fox) entity).isInterested();
         } else if (entity instanceof Rabbit) {
             this.isJumping = ((Rabbit) entity).getJumpCompletion(0F) > 0.0F;
         } else if (entity instanceof SnowGolem) {
@@ -569,7 +535,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
         this.pHead.y = this.pBody.y = -this.floatingHeight - 1F + f1 * 1.5F;
         this.pBody.xRot = PMath.toRad(-5.7F + f1 * 1.7F);
-        PeopleMobsMod2.DEBUG("setFloatingAnimations:", f1, f2);
+        // PeopleMobsMod2.DEBUG("setFloatingAnimations:", f1, f2);
 
         this.pArmR.zRot = PMath.toRad(28F - f2 * 8.6F);
         this.pArmL.zRot = PMath.toRad(-28F + f2 * 8.6F);
@@ -1067,10 +1033,6 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         model.isClimbing = this.isClimbing;
         model.eggTime = this.eggTime;
         model.isEating = this.isEating;
-        model.headRotZ = this.headRotZ;
-        model.isSleeping = this.isSleeping;
-        model.isHeadInGround = this.isHeadInGround;
-        model.isPouncing = this.isPouncing;
     }
 
     public void setAllVisible(boolean allVisible) {
