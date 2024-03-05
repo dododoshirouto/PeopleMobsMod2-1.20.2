@@ -17,12 +17,20 @@ public class PMath {
         return (float) Math.sin(v * PI2);
     }
 
+    public static float sinD(float v) {
+        return (float) Math.sin(toRad(v));
+    }
+
     public static float cos(float v) {
         return (float) Math.cos(v);
     }
 
     public static float cos1(float v) {
         return (float) Math.cos(v * PI2);
+    }
+
+    public static float cosD(float v) {
+        return (float) Math.cos(toRad(v));
     }
 
     public static float asin(float v) {
@@ -85,5 +93,13 @@ public class PMath {
 
     public static float lerp(float a, float b, float t) {
         return a + (b - a) * t;
+    }
+
+    public static float floor(float v) {
+        return (float) Math.floor(v);
+    }
+
+    public static int floori(float v) {
+        return (int) Math.floor(v);
     }
 }

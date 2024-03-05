@@ -30,7 +30,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
 
 @OnlyIn(Dist.CLIENT)
-public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
+public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
     public final ModelPart pHead;
     public final ModelPart pBody;
     public final ModelPart pArmL;
@@ -60,7 +60,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     protected Map<Integer, Boolean> twinkledNow = new HashMap<Integer, Boolean>();
 
     // AgeableListModel
-    public final boolean scaleHead;
+    public final boolean scaleHeadAtChild;
     public final float babyYHeadOffset;
     public final float babyZHeadOffset;
     public final float babyHeadScale;
@@ -79,7 +79,8 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     public boolean doWalkBounding = true;
 
     // entity status
-    public T entity;
+    public E entity;
+    /** Hashed UUID */
     public int entityId;
     public float limbSwing;
     public float limbSwingAmount;
@@ -91,6 +92,10 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     public boolean isCrouching;
     public boolean isSittingOnGround;
     public boolean isJumping;
+    public boolean isSwimming;
+    public boolean isFlying;
+    public boolean isDying;
+
     public boolean hasAnything;
     public boolean hasItem;
     public boolean hasBlock;
@@ -108,14 +113,6 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     public float eggTime;
     /** Sheep */
     public boolean isEating;
-    // /** Fox */
-    // public float headRotZ;
-    // /** Fox */
-    // public boolean isSleeping;
-    // /** Fox 顔が突き刺さった状態 */
-    // public boolean isHeadInGround;
-    // /** Fox */
-    // public boolean isPouncing;
 
     public PMM2_HumanoidModel(ModelPart root) {
         this(root, RenderType::entityCutoutNoCull);
@@ -147,15 +144,10 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.pArmRWear = pArmR.getChild("pArmRWear");
         this.pLegLWear = pLegL.getChild("pLegLWear");
         this.pLegRWear = pLegR.getChild("pLegRWear");
-        // this.pBUpperWear = null;
-        // this.pBLowerWear = null;
         this.pBUpperWear = pBUpper.getChild("pBUpperWear");
         this.pBLowerWear = pBLower.getChild("pBLowerWear");
         this.pAhoge = pHead.getChild("pAhoge");
         this.pKemomimi = pHead.getChild("pKemomimi");
-        // this.pShippo = null;
-        // this.pEyebrowL = null;
-        // this.pEyebrowR = null;
         this.pShippo = pBody.getChild("pShippo");
         this.pEyelidL = pHead.getChild("pEyelidL");
         this.pEyelidL.yRot = PMath.PI;
@@ -169,7 +161,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.bHeight = 0.5F;
 
         // AgeableListModel
-        this.scaleHead = true;
+        this.scaleHeadAtChild = true;
         this.babyYHeadOffset = 16.0F;
         this.babyZHeadOffset = 0.0F;
         this.babyHeadScale = 0.5F * 1.5F;
@@ -281,7 +273,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
     @SuppressWarnings("null")
     @Override
-    public void prepareMobModel(T entity, float limbSwing, float limbSwingAmount, float ticks) {
+    public void prepareMobModel(E entity, float limbSwing, float limbSwingAmount, float ticks) {
         // this.swimAmount = entity.getSwimAmount(ticks);
         super.prepareMobModel(entity, limbSwing, limbSwingAmount, ticks);
 
@@ -333,17 +325,44 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.frogTongue.setPos(0, -0.5F, 3);
         this.frogTongue.setRotation(0, 0, 0);
         this.frogTongue.zScale = 0F;
+
+        this.limbSwing = 0;
+        this.limbSwingAmount = 0;
+        this.ageInTicks = 0;
+        this.headRotY = 0;
+        this.headRotX = 0;
+        this.isChild = false;
+        this.isAggressive = false;
+        this.isCrouching = false;
+        this.isSittingOnGround = false;
+        this.isJumping = false;
+        this.isSwimming = false;
+        this.isFlying = false;
+        this.isDying = false;
+
+        this.hasAnything = false;
+        this.hasItem = false;
+        this.hasBlock = false;
+        this.hasFood = false;
+        this.hasBow = false;
+        this.isInterested = false;
+        this.isCreepy = false;
+        this.isSwelling = false;
+        this.isClimbing = false;
+        this.eggTime = 0;
+        this.isEating = false;
     }
 
     @SuppressWarnings("null")
-    public void setEntityStatus(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+    public void setEntityStatus(E entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
             float headPitch) {
         this.entity = entity;
-        this.entityId = entity.getId();
+        // this.entityId = entity.getId();
+        this.entityId = this.entity.getUUID().hashCode();
         this.limbSwing = limbSwing;
         this.limbSwingAmount = limbSwingAmount;
         // TODO: change to /1000 from /100
-        this.ageInTicks = (float) Util.getMillis() / 100 + this.entityId * 10;
+        this.ageInTicks = (float) Util.getMillis() / 100f + (float)this.entityId/9956%1000f;
         this.headRotY = netHeadYaw;
         this.headRotX = headPitch;
         this.isChild = this.entity.isBaby();
@@ -372,25 +391,31 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
             this.isJumping = ((Rabbit) entity).getJumpCompletion(0F) > 0.0F;
         } else if (entity instanceof SnowGolem) {
             this.pHeadWear.visible = ((SnowGolem) entity).hasPumpkin();
+        } else if (entity instanceof Blaze) {
+            if (((Blaze) entity).isOnFire()) this.isAggressive = true;
+        } else if (entity instanceof Ghast) {
+            if (((Ghast) entity).isCharging()) this.isAggressive = true;
+        } else if (entity instanceof MagmaCube) {
+            this.modelScale = ((MagmaCube) entity).getScale() * 0.55F;
         }
 
         // set pose
         // TODO: set pose to rided when isChickenJockey, saddle
         if (!this.entity.onGround()) {
             if (this.entity.isInWaterOrBubble()) {
-                this.entity.setPose(Pose.SWIMMING);
+                this.isSwimming = true;
             } else {
-                this.entity.setPose(Pose.FALL_FLYING);
+                this.isFlying = true;
             }
-        } else if (this.entity.getPose() == Pose.FALL_FLYING) {
-            this.entity.setPose(Pose.STANDING);
+        } else if (isFlying) {
+            isFlying = false;
         }
 
-        if (!this.entity.isInWaterOrBubble() && this.entity.getPose() == Pose.SWIMMING) {
-            this.entity.setPose(Pose.STANDING);
+        if (!this.entity.isInWaterOrBubble() && this.isSwelling) {
+            this.isSwelling = false;
         }
         if (this.entity.isDeadOrDying()) {
-            this.entity.setPose(Pose.DYING);
+            isDying = true;
         }
 
         this.prepareMobModel(this.entity, this.limbSwing, this.limbSwingAmount, this.ageInTicks);
@@ -398,11 +423,11 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
     @SuppressWarnings("null")
     @Override
-    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+    public void setupAnim(E entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
             float headPitch) {
-        this.setEntityStatus(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 
         this.resetPartsPosAndRot();
+        this.setEntityStatus(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 
         // from 1.14.4 PMM2
         if (this.setPreAnimations()) {
@@ -443,26 +468,28 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
             setAggressiveAnimations();
         }
 
+        if (!this.isFloating) {
+            // 水中にいるとき
+            if (this.isSwimming) {
+                this.setSwimmingAnimations();
+            }
+
+            // 空中にいるの時のモーション
+            if (this.isFlying || this.isJumping) {
+                if (doFlyFlap)
+                    this.setFlapFlyingAnimations();
+                else
+                    this.setJumpAnimations();
+            }
+
+            if (this.isClimbing) {
+                this.setClimbingAnimations();
+            }
+        }
+
         // ダメージ時のモーション
         if (this.entity.hurtTime > 1) {
             this.setDamagedAnimations();
-        }
-
-        // 水中にいるとき
-        else if (entity.getPose() == Pose.SWIMMING) {
-            this.setSwimmingAnimations();
-        }
-
-        // 空中にいるの時のモーション
-        else if (entity.getPose() == Pose.FALL_FLYING || this.isJumping) {
-            if (doFlyFlap)
-                this.setFlapFlyingAnimations();
-            else
-                this.setJumpAnimations();
-        }
-
-        if (this.isClimbing) {
-            this.setClimbingAnimations();
         }
 
         // 爆発しそうなモーション
@@ -473,8 +500,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         this.setAddAnimations();
 
         // 死亡時のモーション
-        // if (((Mob) this.entity).getPose() == Pose.DYING) {
-        if (this.entity.getPose() == Pose.DYING) {
+        if (this.isDying) {
             setDeadAnimations();
         }
 
@@ -898,10 +924,13 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
         if (true /* this.boobsSwing */) {
             this.pBUpper.y += PMath.max(
-                    PMath.min(-(this.pBody.y + (float) this.entity.getDeltaMovement().y) * this.bHeight * 1.5F, 1.0F),
+                    PMath.min(-((this.pBody.y + this.floatingHeight) / 16F + (float) this.entity.getDeltaMovement().y)
+                            * this.bHeight * 1.5F, 1.0F),
                     -0.8F);
             this.pBUpper.xRot += PMath.max(PMath.min(
-                    -(this.pBody.y + (float) this.entity.getDeltaMovement().y) * this.bHeight * 0.4F * PMath.PI,
+                    -((this.pBody.y + this.floatingHeight) / 16F + (float) this.entity.getDeltaMovement().y)
+                            * this.bHeight
+                            * 0.4F * PMath.PI,
                     0.25F * PMath.PI), 0.05F * PMath.PI);
 
             float f = this.bHeight;
@@ -976,7 +1005,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
     }
 
     @SuppressWarnings("null")
-    public void copyPropertiesTo(PMM2_HumanoidModel<T> model) {
+    public void copyPropertiesTo(PMM2_HumanoidModel<E> model) {
         super.copyPropertiesTo(model);
 
         model.leftArmPose = this.leftArmPose;
@@ -1022,6 +1051,9 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
         model.isCrouching = this.isCrouching;
         model.isSittingOnGround = this.isSittingOnGround;
         model.isJumping = this.isJumping;
+        model.isSwimming = this.isSwimming;
+        model.isFlying = this.isFlying;
+        model.isDying = this.isDying;
         model.hasAnything = this.hasAnything;
         model.hasItem = this.hasItem;
         model.hasBlock = this.hasBlock;
@@ -1075,7 +1107,7 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
     @SuppressWarnings("null")
     @Override
-    public void renderToBuffer(PoseStack pose, VertexConsumer vertex, int p_102036_, int overlayType,
+    public void renderToBuffer(PoseStack pose, VertexConsumer vertex, int i1, int overlayType,
             float col_r, float col_g, float col_b, float col_a) {
 
         pose.pushPose();
@@ -1084,13 +1116,14 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
 
         if (this.young || this.isChild || this.useChildModel) {
             pose.pushPose();
-            if (this.scaleHead) {
+            if (this.scaleHeadAtChild) {
+                pose.translate(0, -this.pHead.y * (this.babyHeadScale - this.babyBodyScale) / 16F, 0);
                 pose.scale(this.babyHeadScale, this.babyHeadScale, this.babyHeadScale);
             }
 
             pose.translate(0.0F, this.babyYHeadOffset / 16.0F, this.babyZHeadOffset / 16.0F);
             this.headParts().forEach((part) -> {
-                part.render(pose, vertex, p_102036_, overlayType, col_r, col_g, col_b,
+                part.render(pose, vertex, i1, overlayType, col_r, col_g, col_b,
                         col_a);
             });
             pose.popPose();
@@ -1098,18 +1131,18 @@ public class PMM2_HumanoidModel<T extends Mob> extends HumanoidModel<T> {
             pose.scale(this.babyBodyScale, this.babyBodyScale, this.babyBodyScale);
             pose.translate(0.0F, this.bodyYOffset / 16.0F, 0.0F);
             this.bodyParts().forEach((part) -> {
-                part.render(pose, vertex, p_102036_, overlayType, col_r, col_g, col_b,
+                part.render(pose, vertex, i1, overlayType, col_r, col_g, col_b,
                         col_a);
             });
             pose.popPose();
 
         } else {
             this.headParts().forEach((part) -> {
-                part.render(pose, vertex, p_102036_, overlayType, col_r, col_g, col_b,
+                part.render(pose, vertex, i1, overlayType, col_r, col_g, col_b,
                         col_a);
             });
             this.bodyParts().forEach((part) -> {
-                part.render(pose, vertex, p_102036_, overlayType, col_r, col_g, col_b,
+                part.render(pose, vertex, i1, overlayType, col_r, col_g, col_b,
                         col_a);
             });
         }

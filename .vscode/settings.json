@@ -11,6 +11,7 @@
         "Enderman",
         "endermanmodel",
         "endermite",
+        "Hoglin",
         "humanoidarm",
         "Kemomimi",
         "meshdefinition",
@@ -20,6 +21,7 @@
         "mooshroom",
         "partdefinition",
         "peoplemobsmod",
+        "Piglin",
         "Pyon",
         "Quaternionf",
         "rawtypes",
@@ -28,7 +30,9 @@
         "Shippo",
         "vertexconsumer",
         "XROT",
-        "YROT"
+        "YROT",
+        "Zoglin",
+        "Zombified"
     ],
     "editor.defaultFoldingRangeProvider": "Codeium.codeium",
     "editor.defaultFormatter": "Codeium.codeium",

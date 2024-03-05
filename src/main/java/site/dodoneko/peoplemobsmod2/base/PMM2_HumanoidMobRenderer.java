@@ -117,6 +117,15 @@ public abstract class PMM2_HumanoidMobRenderer<E extends Mob, M extends PMM2_Hum
     public static void initModelOptions(Class<? extends PMM2_HumanoidMobRenderer> entity) {
         if (!MODEL_SCALES.containsKey(entity)) {
             PeopleMobsMod2.DEBUG("No model options found for " + entity.getName());
+            modelScale = 0.9F;
+            bHeight = 0.3F;
+            useChildModel = false;
+            doFlyFlap = false;
+            forwardArm = false;
+            useArmor = false;
+            isFloating = false;
+            floatingHeight = 0.0F;
+            doWalkBounding = true;
             return;
         }
         modelScale = MODEL_SCALES.get(entity).modelScale;
