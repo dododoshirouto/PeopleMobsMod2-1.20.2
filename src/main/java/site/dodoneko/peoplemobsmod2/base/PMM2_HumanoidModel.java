@@ -212,7 +212,7 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
                 PartPose.offset(0, 0 + yOffset, -2));
         PartDefinition pBLower = pBUpper.addOrReplaceChild("pBLower",
                 CubeListBuilder.create().texOffs(16, 25).addBox(-4.0F, 0.0F, -4.0F, 8, 3, 4, cube.extend(-0.02F)),
-                PartPose.offset(0, 0 + yOffset, -4));
+                PartPose.offset(0, 0 + yOffset + 0.003F, -4 + 0.05F + 0.002F));
 
         pHead.addOrReplaceChild("pHeadWear",
                 CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, cube.extend(0.5F)),
