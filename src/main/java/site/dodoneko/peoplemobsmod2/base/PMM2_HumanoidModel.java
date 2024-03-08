@@ -803,20 +803,6 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
 
     // 羽ばたくアニメーション
     protected void setFlapFlyingAnimations() {
-        // this.pArmR.zRot = PMath.toRad(PMath.cos1(this.ageInTicks / 2F) * 57F + 90F);
-        // this.pArmL.zRot = PMath.toRad(-PMath.cos1(this.ageInTicks / 2F) * 57F - 90F);
-        // this.pLegR.xRot = PMath.toRad(-(float) this.entity.getDeltaMovement().y *
-        // 225F);
-        // this.pLegL.xRot = PMath.toRad(-(float) this.entity.getDeltaMovement().y *
-        // 225F);
-        // this.pLegR.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y *
-        // 60F);
-        // this.pLegL.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y *
-        // 60F);
-        // this.pBody.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y *
-        // 50F);
-        // this.pBody.yRot = PMath.toRad((float) this.entity.getDeltaMovement().y *
-        // 50F);
 
         float f1 = PMath.sin1(this.ageInTicks / (this.limbSwingAmount < 0.5F ? 2.5F : 1.8F));
         float f2 = PMath.cos1(this.ageInTicks / (this.limbSwingAmount < 0.5F ? 2.5F : 1.8F) + 0.028F);
@@ -915,7 +901,7 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.bHeight = PMath.max(this.bHeight, 0);
         if (this.bHeight == 0)
             return;
-        this.pBUpper.y = this.bHeight * 1F;
+        this.pBUpper.y = PMath.clamp(this.bHeight, 0, 1) * 1F;
         this.pBUpper.xRot = -PMath.asin(PMath.clamp(this.bHeight, 0, 1) / 1.4142F) + PMath.PI / 2;
         float h = this.bHeight;
         if (this.bHeight > 0.5F)
@@ -925,15 +911,15 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         if (true /* this.boobsSwing */) {
             this.pBUpper.y += PMath.max(
                     PMath.min(-((this.pBody.y + this.floatingHeight) / 16F + (float) this.entity.getDeltaMovement().y)
-                            * this.bHeight * 1.5F, 1.0F),
+                            * PMath.clamp(this.bHeight, 0, 1) * 1.5F, 1.0F),
                     -0.8F);
-            this.pBUpper.xRot += PMath.max(PMath.min(
+            this.pBUpper.xRot += PMath.clamp(
                     -((this.pBody.y + this.floatingHeight) / 16F + (float) this.entity.getDeltaMovement().y)
-                            * this.bHeight
+                            * PMath.clamp(this.bHeight, 0, 1)
                             * 0.4F * PMath.PI,
-                    0.25F * PMath.PI), 0.05F * PMath.PI);
+                    0.25F * PMath.PI, 0.05F * PMath.PI);
 
-            float f = this.bHeight;
+            float f = PMath.clamp(this.bHeight, 0, 1);
             if (this.bHeight > 0.5F)
                 f = 1.0F - f;
             this.pBLower.xRot = -(this.pBUpper.xRot - PMath.PI / 2) * (2 + f);

@@ -42,7 +42,7 @@ public class PMM2_Slime<E extends Slime> extends PMM2_HumanoidModel<E> {
         }
         // puyoScale -= (PMath.easeOut(PMath.clamp(deltaMoveY, -1F, 1F))) * 0.02F;
         puyoScale -= (PMath.clamp(deltaMoveY, -1F, 1F)) * 0.3F;
-        PeopleMobsMod2.DEBUG("deltaMoveY: " + deltaMoveY);
+        // PeopleMobsMod2.DEBUG("deltaMoveY: " + deltaMoveY);
         // }
 
         puyoScale = (puyoScale - 1F) * 0.92F + 1F;

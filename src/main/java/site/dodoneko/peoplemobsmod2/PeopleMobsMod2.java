@@ -146,6 +146,7 @@ public class PeopleMobsMod2 {
             PMM2_HumanoidMobRenderer.setUseArmor(PMM2_ZombifiedPiglinRenderer.class, true);
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_StriderRenderer.class, 0.83F, 0.5F);
             PMM2_HumanoidMobRenderer.addTexture(Piglin.class, "piglin/piglin-chan");
+            PMM2_HumanoidMobRenderer.addTexture(ZombifiedPiglin.class, "piglin/zombified_piglin-chan");
             EntityRenderers.register(EntityType.BLAZE, PMM2_BlazeRenderer::new);
             EntityRenderers.register(EntityType.GHAST, PMM2_GhastRenderer::new);
             EntityRenderers.register(EntityType.MAGMA_CUBE, PMM2_MagmaCubeRenderer::new);
@@ -354,8 +355,8 @@ public class PeopleMobsMod2 {
         }
     }
     /**
-     * @see ZombifiedPiglinRenderer
-     * @see ZombifiedPiglinModel
+     * @see PiglinRenderer
+     * @see PiglinModel
      */
     public static class PMM2_ZombifiedPiglinRenderer extends PMM2_HumanoidMobRenderer<ZombifiedPiglin, PMM2_HumanoidModel<ZombifiedPiglin>> {
         @SuppressWarnings("null")
