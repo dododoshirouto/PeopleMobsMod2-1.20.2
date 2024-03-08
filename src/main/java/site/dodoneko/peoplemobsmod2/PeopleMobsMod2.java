@@ -2,9 +2,9 @@ package site.dodoneko.peoplemobsmod2;
 
 import com.mojang.logging.LogUtils;
 
+import net.minecraft.client.model.*;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.entity.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ambient.*;
@@ -22,6 +22,7 @@ import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidMobRenderer;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidModel;
 import site.dodoneko.peoplemobsmod2.layer.PMM2_OversizeModelLayer;
 import site.dodoneko.peoplemobsmod2.model.PMM2_PiglinModel;
+import site.dodoneko.peoplemobsmod2.model.PMM2_Slime;
 import site.dodoneko.peoplemobsmod2.renderer.*;
 
 import org.slf4j.Logger;
@@ -132,6 +133,7 @@ public class PeopleMobsMod2 {
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_GhastRenderer.class, 6.0F, 0.5F, true);
             PMM2_HumanoidMobRenderer.setIsFloating(PMM2_GhastRenderer.class, true, -16F);
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_MagmaCubeRenderer.class, 0.55F, 0.5F, true);
+            PMM2_HumanoidMobRenderer.setForwardArm(PMM2_MagmaCubeRenderer.class, true);
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_HoglinRenderer.class, 0.87F, 0.9F);
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_ZoglinRenderer.class, 0.87F, 0.9F);
             PMM2_HumanoidMobRenderer.setForwardArm(PMM2_ZoglinRenderer.class, true);
@@ -305,10 +307,10 @@ public class PeopleMobsMod2 {
      * @see MagmaCubeRenderer
      * @see MagmaCubeModel
      */
-    public static class PMM2_MagmaCubeRenderer extends PMM2_HumanoidMobRenderer<MagmaCube, PMM2_HumanoidModel<MagmaCube>> {
+    public static class PMM2_MagmaCubeRenderer extends PMM2_HumanoidMobRenderer<MagmaCube, PMM2_Slime<MagmaCube>> {
         @SuppressWarnings("null")
         public PMM2_MagmaCubeRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_Slime<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
         }
     }
     /**

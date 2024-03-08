@@ -7,6 +7,9 @@ import site.dodoneko.peoplemobsmod2.base.PMath;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+/**
+ * @see net.minecraft.client.model.PiglinModel
+ */
 @OnlyIn(Dist.CLIENT)
 public class PMM2_PiglinModel extends PMM2_HumanoidModel<Piglin> {
 

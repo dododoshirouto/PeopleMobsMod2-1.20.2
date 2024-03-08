@@ -68,15 +68,19 @@ public class PMath {
     }
 
     public static float easeOut(float time) {
-        return sqrt(sin(time * PI / 2));
+        return sqrt(abs(sin(time * PI / 2))) * PMath.sign(time);
+    }
+
+    private static float sign(float time) {
+        return time < 0 ? -1 : 1;
     }
 
     public static float easeOut(float time, float start, float end) {
-        return start + (end - start) * easeOut(time);
+        return start + (end - start) * easeOut(time) * PMath.sign(time);
     }
 
     public static float easeIn(float time) {
-        return 1 - sqrt(sin((1 - time) * PI / 2));
+        return 1 - sqrt(abs(sin((1 - time) * PI / 2)));
     }
 
     public static float easeIn(float time, float start, float end) {
@@ -101,5 +105,14 @@ public class PMath {
 
     public static int floori(float v) {
         return (int) Math.floor(v);
+    }
+
+    public static float log(float v) {
+        if (v == 0f) {
+            return 0;
+        } else if(v < 0) {
+            return -log(-v);
+        }
+        return (float) Math.log(v);
     }
 }
