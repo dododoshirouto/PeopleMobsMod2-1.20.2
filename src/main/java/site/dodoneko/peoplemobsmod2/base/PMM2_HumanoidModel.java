@@ -32,6 +32,8 @@ import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
 @OnlyIn(Dist.CLIENT)
 public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
     public final ModelPart pHead;
+    public final ModelPart pFace;
+    public final ModelPart pFace_twinkled;
     public final ModelPart pBody;
     public final ModelPart pArmL;
     public final ModelPart pArmR;
@@ -131,6 +133,8 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.modelAddSize = addSize;
 
         this.pHead = root.getChild("pHead");
+        this.pFace = pHead.getChild("pFace");
+        this.pFace_twinkled = pHead.getChild("pFace_twinkled");
         this.pBody = root.getChild("pBody");
         this.pArmL = pBody.getChild("pArmL");
         this.pArmR = pBody.getChild("pArmR");
@@ -189,8 +193,20 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         root.addOrReplaceChild("right_leg", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
         root.addOrReplaceChild("left_leg", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
 
+        // PartDefinition pHead = root.addOrReplaceChild("pHead",
+        // CubeListBuilder.create().texOffs(0, 0).addBox(-4, -8, -4, 8, 8, 8, cube),
+        // PartPose.offset(0, yOffset, 0));
         PartDefinition pHead = root.addOrReplaceChild("pHead",
-                CubeListBuilder.create().texOffs(0, 0).addBox(-4, -8, -4, 8, 8, 8, cube),
+                CubeListBuilder.create().texOffs(0, 0).addBox(-4, -8, -4, 8, 8, 8,
+                        EnumSet.of(Direction.SOUTH, Direction.EAST, Direction.WEST, Direction.UP, Direction.DOWN)),
+                PartPose.offset(0, yOffset, 0));
+        pHead.addOrReplaceChild("pFace",
+                CubeListBuilder.create().texOffs(8, 8).addBox(-4, -8, -4, 8, 8, 0,
+                        EnumSet.of(Direction.NORTH)),
+                PartPose.offset(0, yOffset, 0));
+        pHead.addOrReplaceChild("pFace_twinkled",
+                CubeListBuilder.create().texOffs(0, 0).addBox(-4, -8, -4, 8, 8, 0,
+                        EnumSet.of(Direction.NORTH)),
                 PartPose.offset(0, yOffset, 0));
         PartDefinition pBody = root.addOrReplaceChild("pBody",
                 CubeListBuilder.create().texOffs(16, 16).addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, cube),
@@ -322,6 +338,11 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.pKemomimi.setPos(0, -8, -1);
         this.pKemomimi.setRotation(0, 0, 0);
 
+        this.pFace.visible = true;
+        this.pFace_twinkled.visible = false;
+
+        this.pEyelidL.visible = this.pEyelidR.visible = false;
+
         this.frogTongue.setPos(0, -0.5F, 3);
         this.frogTongue.setRotation(0, 0, 0);
         this.frogTongue.zScale = 0F;
@@ -362,7 +383,7 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.limbSwing = limbSwing;
         this.limbSwingAmount = limbSwingAmount;
         // TODO: change to /1000 from /100
-        this.ageInTicks = (float) Util.getMillis() / 100f + (float)this.entityId/9956%1000f;
+        this.ageInTicks = (float) Util.getMillis() / 100f + (float) this.entityId / 9956 % 1000f;
         this.headRotY = netHeadYaw;
         this.headRotX = headPitch;
         this.isChild = this.entity.isBaby();
@@ -392,9 +413,11 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         } else if (entity instanceof SnowGolem) {
             this.pHeadWear.visible = ((SnowGolem) entity).hasPumpkin();
         } else if (entity instanceof Blaze) {
-            if (((Blaze) entity).isOnFire()) this.isAggressive = true;
+            if (((Blaze) entity).isOnFire())
+                this.isAggressive = true;
         } else if (entity instanceof Ghast) {
-            if (((Ghast) entity).isCharging()) this.isAggressive = true;
+            if (((Ghast) entity).isCharging())
+                this.isAggressive = true;
         } else if (entity instanceof MagmaCube) {
             this.modelScale = ((MagmaCube) entity).getScale() * 0.55F;
         }
@@ -605,10 +628,11 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         // }
 
         if (this.doWalkBounding) {
-            this.pBody.y -= (PMath.abs(PMath.sin1(limbSwing * 4.7F)) * 2F
+            float f = (PMath.abs(PMath.sin1(limbSwing / 4.7F)) * 2F
                     - 1F * (this.isChild || this.useChildModel ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
-            this.pHead.y -= (PMath.abs(PMath.sin1(limbSwing * 4.7F)) * 2F
-                    - 1F * (this.isChild || this.useChildModel ? 0.5F : 1F)) * limbSwingAmount * this.modelScale;
+            this.pBody.y -= f;
+            this.pHead.y -= f;
+            // PeopleMobsMod2.DEBUG("walking body bounce", f);
         }
     }
 
@@ -898,32 +922,36 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
 
     /** Bのアニメーション */
     protected void setBAnimations() {
-        this.bHeight = PMath.max(this.bHeight, 0);
-        if (this.bHeight == 0)
+        float hOffset = PMath.abs(this.entityId % 628752F / 628752F) * 0.3F - 0.1F;
+        float h = PMath.clamp(this.bHeight + hOffset, 0F, 1F);
+        if (h == 0)
             return;
-        this.pBUpper.y = PMath.clamp(this.bHeight, 0, 1) * 1F;
-        this.pBUpper.xRot = -PMath.asin(PMath.clamp(this.bHeight, 0, 1) / 1.4142F) + PMath.PI / 2;
-        float h = this.bHeight;
-        if (this.bHeight > 0.5F)
-            h = 1.0F - h;
-        this.pBLower.xRot = -(this.pBUpper.xRot - PMath.PI / 2) * (2 + h);
+        float bXRot = (90F * PMath.Deg2Rad) - PMath.asin(h / 1.41421356F);
+
+        this.pBUpper.y = h * 0.5F;
+        this.pBUpper.xRot = bXRot;
+
+        if (this.bHeight + hOffset > 1) {
+            this.pBUpper.xScale = this.pBUpper.yScale = this.pBUpper.zScale = this.bHeight + hOffset;
+        }
 
         if (true /* this.boobsSwing */) {
-            this.pBUpper.y += PMath.max(
-                    PMath.min(-((this.pBody.y + this.floatingHeight) / 16F + (float) this.entity.getDeltaMovement().y)
-                            * PMath.clamp(this.bHeight, 0, 1) * 1.5F, 1.0F),
-                    -0.8F);
-            this.pBUpper.xRot += PMath.clamp(
-                    -((this.pBody.y + this.floatingHeight) / 16F + (float) this.entity.getDeltaMovement().y)
-                            * PMath.clamp(this.bHeight, 0, 1)
-                            * 0.4F * PMath.PI,
-                    0.25F * PMath.PI, 0.05F * PMath.PI);
+            float moveY = (float) this.entity.getDeltaMovement().y;
+            this.pBUpper.y += PMath.clamp(
+                    -((-this.pBody.y + this.floatingHeight) + moveY * 100F) * h * 1.5F,
+                    1.0F, -0.5F);
+            this.pBUpper.xRot += PMath.toRad(PMath.clamp(
+                    ((-this.pBody.y + this.floatingHeight) + moveY * 100F) * h * 72F,
+                    (90f - bXRot / PMath.Deg2Rad) / 2, -10F));
 
-            float f = PMath.clamp(this.bHeight, 0, 1);
-            if (this.bHeight > 0.5F)
-                f = 1.0F - f;
-            this.pBLower.xRot = -(this.pBUpper.xRot - PMath.PI / 2) * (2 + f);
+            PeopleMobsMod2.DEBUG("pBUpper.xRot", -this.pBody.y + this.floatingHeight + moveY, h,
+                    (-this.pBody.y + this.floatingHeight + moveY * 100F) * h * 72F);
         }
+
+        float f = h;
+        if (h > 0.5F)
+            f = 1.0F - f;
+        this.pBLower.xRot = -(this.pBUpper.xRot - PMath.PI / 2) * (2 + f);
     }
 
     /** しっぽのアニメーション */
@@ -978,13 +1006,14 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         }
 
         this.twinklesTimes.put(entityId, twTime);
-        if (this.twinkledNow.get(this.entityId)) {
-            this.pEyelidL.z = this.pEyelidR.z = 0F;
-            this.pEyelidL.y = this.pEyelidR.y = 0F;
-        } else {
-            this.pEyelidL.z = this.pEyelidR.z = 0.2F;
-            this.pEyelidL.y = this.pEyelidR.y = -2F;
-        }
+        // if (this.twinkledNow.get(this.entityId)) {
+        // this.pEyelidL.z = this.pEyelidR.z = 0F;
+        // this.pEyelidL.y = this.pEyelidR.y = 0F;
+        // } else {
+        // this.pEyelidL.z = this.pEyelidR.z = 0.2F;
+        // this.pEyelidL.y = this.pEyelidR.y = -2F;
+        // }
+        this.pFace.visible = !(this.pFace_twinkled.visible = this.twinkledNow.get(this.entityId));
     }
 
     protected void setPostAnimations() {
