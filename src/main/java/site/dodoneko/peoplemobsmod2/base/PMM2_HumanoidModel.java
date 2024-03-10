@@ -941,17 +941,14 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
                     -((-this.pBody.y + this.floatingHeight) + moveY * 100F) * h * 1.5F,
                     1.0F, -0.5F);
             this.pBUpper.xRot += PMath.toRad(PMath.clamp(
-                    ((-this.pBody.y + this.floatingHeight) + moveY * 100F) * h * 72F,
+                    ((-this.pBody.y + this.floatingHeight) + moveY * 1F) * h * 72F,
                     (90f - bXRot / PMath.Deg2Rad) / 2, -10F));
-
-            PeopleMobsMod2.DEBUG("pBUpper.xRot", -this.pBody.y + this.floatingHeight + moveY, h,
-                    (-this.pBody.y + this.floatingHeight + moveY * 100F) * h * 72F);
         }
 
         float f = h;
         if (h > 0.5F)
             f = 1.0F - f;
-        this.pBLower.xRot = -(this.pBUpper.xRot - PMath.PI / 2) * (2 + f);
+        this.pBLower.xRot = PMath.clamp(-(this.pBUpper.xRot - PMath.PI / 2) * (2 + f), 0, PMath.PI / 2 * 0.98F);
     }
 
     /** しっぽのアニメーション */
