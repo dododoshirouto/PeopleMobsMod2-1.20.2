@@ -52,8 +52,6 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
     public final ModelPart pAhoge;
     public final ModelPart pKemomimi;
     public final ModelPart pShippo;
-    public final ModelPart pEyelidL;
-    public final ModelPart pEyelidR;
     public final ModelPart frogTongue;
     public PMM2_HumanoidModel.ArmPose leftArmPose = PMM2_HumanoidModel.ArmPose.EMPTY;
     public PMM2_HumanoidModel.ArmPose rightArmPose = PMM2_HumanoidModel.ArmPose.EMPTY;
@@ -153,9 +151,6 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.pAhoge = pHead.getChild("pAhoge");
         this.pKemomimi = pHead.getChild("pKemomimi");
         this.pShippo = pBody.getChild("pShippo");
-        this.pEyelidL = pHead.getChild("pEyelidL");
-        this.pEyelidL.yRot = PMath.PI;
-        this.pEyelidR = pHead.getChild("pEyelidR");
 
         this.frogTongue = pHead.getChild("frogTongue");
 
@@ -262,12 +257,6 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
                 CubeListBuilder.create().texOffs(54, 16).addBox(-5.0F, 0.0F, 0.0F, 10, 12, 0,
                         EnumSet.of(Direction.NORTH)),
                 PartPose.offset(0, 10 + yOffset, 2));
-        pHead.addOrReplaceChild("pEyelidL",
-                CubeListBuilder.create().texOffs(12, 16).addBox(-3.0F, -4.0F, 2.1F, 2, 2, 2, cube),
-                PartPose.offset(0, 0 + yOffset, 0));
-        pHead.addOrReplaceChild("pEyelidR",
-                CubeListBuilder.create().texOffs(12, 16).addBox(-3.0F, -4.0F, -4.1F, 2, 2, 2, cube),
-                PartPose.offset(0, 0 + yOffset, 1.0F));
 
         pHead.addOrReplaceChild("frogTongue",
                 CubeListBuilder.create().texOffs(0, 0).addBox(-2F, -0.5F, -3F, 4, 0, 7,
@@ -340,8 +329,6 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
 
         this.pFace.visible = true;
         this.pFace_twinkled.visible = false;
-
-        this.pEyelidL.visible = this.pEyelidR.visible = false;
 
         this.frogTongue.setPos(0, -0.5F, 3);
         this.frogTongue.setRotation(0, 0, 0);
@@ -821,8 +808,7 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.pHead.yRot = PMath.toRad((PMath.sin1(ageInTicks / 30F) * 18F));
         this.pHead.xRot = PMath.toRad(16.2F);
 
-        this.pEyelidL.z = this.pEyelidR.z = 0F;
-        this.pEyelidL.y = this.pEyelidR.y = 0F;
+        this.pFace.visible = !(this.pFace_twinkled.visible = true);
     }
 
     // 羽ばたくアニメーション
@@ -916,8 +902,7 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.pHead.yRot = PMath.toRad((PMath.sin1(ageInTicks / 30) * 18));
         this.pHead.xRot = PMath.toRad(16);
 
-        this.pEyelidL.z = this.pEyelidR.z = 0F;
-        this.pEyelidL.y = this.pEyelidR.y = 0F;
+        this.pFace.visible = !(this.pFace_twinkled.visible = true);
     }
 
     /** Bのアニメーション */
@@ -948,7 +933,7 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         float f = h;
         if (h > 0.5F)
             f = 1.0F - f;
-        this.pBLower.xRot = PMath.clamp(-(this.pBUpper.xRot - PMath.PI / 2) * (2 + f), 0, PMath.PI / 2 * 0.98F);
+        this.pBLower.xRot = PMath.clamp(-(this.pBUpper.xRot - PMath.PI / 2) * (2 + f), PMath.PI / 2 * 0.2F, PMath.PI / 2 * 0.98F);
     }
 
     /** しっぽのアニメーション */
@@ -1003,13 +988,6 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         }
 
         this.twinklesTimes.put(entityId, twTime);
-        // if (this.twinkledNow.get(this.entityId)) {
-        // this.pEyelidL.z = this.pEyelidR.z = 0F;
-        // this.pEyelidL.y = this.pEyelidR.y = 0F;
-        // } else {
-        // this.pEyelidL.z = this.pEyelidR.z = 0.2F;
-        // this.pEyelidL.y = this.pEyelidR.y = -2F;
-        // }
         this.pFace.visible = !(this.pFace_twinkled.visible = this.twinkledNow.get(this.entityId));
     }
 
@@ -1033,8 +1011,8 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         model.pShippo.copyFrom(this.pShippo);
         model.pAhoge.copyFrom(this.pAhoge);
         model.pKemomimi.copyFrom(this.pKemomimi);
-        model.pEyelidL.copyFrom(this.pEyelidL);
-        model.pEyelidR.copyFrom(this.pEyelidR);
+        model.pFace.copyFrom(this.pFace);
+        model.pFace_twinkled.copyFrom(this.pFace_twinkled);
         model.pHeadWear.copyFrom(this.pHeadWear);
         model.pBodyWear.copyFrom(this.pBodyWear);
         model.pArmRWear.copyFrom(this.pArmRWear);
@@ -1089,8 +1067,8 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.pShippo.visible = allVisible;
         this.pAhoge.visible = allVisible;
         this.pKemomimi.visible = allVisible;
-        this.pEyelidL.visible = allVisible;
-        this.pEyelidR.visible = allVisible;
+        this.pFace.visible = allVisible;
+        this.pFace_twinkled.visible = allVisible;
         this.pHeadWear.visible = allVisible;
         this.pBodyWear.visible = allVisible;
         this.pArmRWear.visible = allVisible;
