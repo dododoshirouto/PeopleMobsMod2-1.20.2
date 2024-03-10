@@ -5,7 +5,6 @@ import java.util.Map;
 
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.monster.Slime;
-import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidModel;
 import site.dodoneko.peoplemobsmod2.base.PMath;
 import net.minecraftforge.api.distmarker.Dist;

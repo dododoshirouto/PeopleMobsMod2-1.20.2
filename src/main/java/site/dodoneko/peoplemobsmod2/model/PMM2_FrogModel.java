@@ -1,17 +1,15 @@
 package site.dodoneko.peoplemobsmod2.model;
 
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.builders.CubeDeformation;
-import net.minecraft.client.model.geom.builders.LayerDefinition;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.animal.frog.Frog;
-import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidModel;
 import site.dodoneko.peoplemobsmod2.base.PMath;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+/**
+ * @see net.minecraft.client.model.FrogModel
+ */
 @OnlyIn(Dist.CLIENT)
 public class PMM2_FrogModel extends PMM2_HumanoidModel<Frog> {
 
@@ -40,13 +38,6 @@ public class PMM2_FrogModel extends PMM2_HumanoidModel<Frog> {
             // croaking
             this.pHead.xRot = PMath.toRad(-45F + PMath.sin1(this.ageInTicks / 15F) * 5F);
             this.pHead.yRot += PMath.toRad(PMath.sin1(this.ageInTicks / 2F) * 5F);
-        }
-
-        if (this.entity.tongueAnimationState.isStarted()) {
-            // tongue
-            this.frogTongue.zScale = 5.0F;
-            this.frogTongue.xScale = 0.5F;
-            this.frogTongue.z = -3F + -3.5F * this.frogTongue.zScale;
         }
     }
 }

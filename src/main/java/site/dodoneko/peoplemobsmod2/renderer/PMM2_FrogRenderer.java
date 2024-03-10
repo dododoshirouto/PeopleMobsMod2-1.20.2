@@ -13,6 +13,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidMobRenderer;
+import site.dodoneko.peoplemobsmod2.layer.PMM2_FrogTongueLayer;
 import site.dodoneko.peoplemobsmod2.model.PMM2_FrogModel;
 
 /**
@@ -46,6 +47,7 @@ public class PMM2_FrogRenderer extends PMM2_HumanoidMobRenderer<Frog, PMM2_FrogM
     @SuppressWarnings("null")
     public PMM2_FrogRenderer(EntityRendererProvider.Context entity) {
         super(entity, new PMM2_FrogModel(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
+        this.addLayer(new PMM2_FrogTongueLayer(this, entity.getModelSet()));
     }
 
     @Override

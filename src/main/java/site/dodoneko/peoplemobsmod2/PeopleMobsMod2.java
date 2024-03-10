@@ -20,8 +20,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidMobRenderer;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidModel;
+import site.dodoneko.peoplemobsmod2.layer.PMM2_FrogTongueLayer;
 import site.dodoneko.peoplemobsmod2.layer.PMM2_OversizeModelLayer;
-import site.dodoneko.peoplemobsmod2.model.PMM2_FrogModel;
 import site.dodoneko.peoplemobsmod2.model.PMM2_PiglinModel;
 import site.dodoneko.peoplemobsmod2.model.PMM2_Slime;
 import site.dodoneko.peoplemobsmod2.renderer.*;
@@ -166,6 +166,8 @@ public class PeopleMobsMod2 {
         public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
             event.registerLayerDefinition(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER, PMM2_HumanoidModel::createBodyLayerUseTwinkleFace);
             event.registerLayerDefinition(PeopleMobsMod2.PMM2_HUMANOID_LAYER, PMM2_HumanoidModel::createBodyLayer);
+            
+            event.registerLayerDefinition(PMM2_FrogTongueLayer.PMM2_FROG_TONGUE_LAYER, PMM2_FrogTongueLayer.PMM2_FrogTongueModel::createFrogTongueLayer);
         }
     }
 
@@ -234,6 +236,9 @@ public class PeopleMobsMod2 {
         }
     }
 
+    /**
+     * @see SheepRenderer
+     */
     public static class PMM2_SheepRenderer extends PMM2_HumanoidMobRenderer<Sheep, PMM2_HumanoidModel<Sheep>> {
         @SuppressWarnings("null")
         public PMM2_SheepRenderer(EntityRendererProvider.Context entity) {

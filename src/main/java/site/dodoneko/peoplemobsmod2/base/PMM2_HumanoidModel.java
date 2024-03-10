@@ -52,7 +52,7 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
     public final ModelPart pAhoge;
     public final ModelPart pKemomimi;
     public final ModelPart pShippo;
-    public final ModelPart frogTongue;
+    // public final ModelPart frogTongue;
     public PMM2_HumanoidModel.ArmPose leftArmPose = PMM2_HumanoidModel.ArmPose.EMPTY;
     public PMM2_HumanoidModel.ArmPose rightArmPose = PMM2_HumanoidModel.ArmPose.EMPTY;
 
@@ -152,7 +152,7 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.pKemomimi = pHead.getChild("pKemomimi");
         this.pShippo = pBody.getChild("pShippo");
 
-        this.frogTongue = pHead.getChild("frogTongue");
+        // this.frogTongue = pHead.getChild("frogTongue");
 
         this.doWalkBounding = true;
         this.useChildModel = false;
@@ -275,10 +275,10 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
                         EnumSet.of(Direction.NORTH)),
                 PartPose.offset(0, 10 + yOffset, 2));
 
-        pHead.addOrReplaceChild("frogTongue",
-                CubeListBuilder.create().texOffs(0, 0).addBox(-2F, -0.5F, -3F, 4, 0, 7,
-                        EnumSet.of(Direction.UP)),
-                PartPose.offset(0, yOffset - 0.5F, -3F));
+        // pHead.addOrReplaceChild("frogTongue",
+        //         CubeListBuilder.create().texOffs(0, 0).addBox(-2F, -0.5F, -3F, 4, 0, 7,
+        //                 EnumSet.of(Direction.UP)),
+        //         PartPose.offset(0, yOffset - 0.5F, -3F));
 
         return mesh;
     }
@@ -347,9 +347,9 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.pFace.visible = true;
         this.pFace_twinkled.visible = false;
 
-        this.frogTongue.setPos(0, -0.5F, 3);
-        this.frogTongue.setRotation(0, 0, 0);
-        this.frogTongue.zScale = 0F;
+        // this.frogTongue.setPos(0, -0.5F, 3);
+        // this.frogTongue.setRotation(0, 0, 0);
+        // this.frogTongue.zScale = 0F;
 
         this.limbSwing = 0;
         this.limbSwingAmount = 0;
