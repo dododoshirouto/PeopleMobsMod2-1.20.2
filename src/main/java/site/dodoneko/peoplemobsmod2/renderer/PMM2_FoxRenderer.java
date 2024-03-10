@@ -35,7 +35,7 @@ public class PMM2_FoxRenderer extends PMM2_HumanoidMobRenderer<Fox, PMM2_FoxMode
 
     @SuppressWarnings("null")
     public PMM2_FoxRenderer(EntityRendererProvider.Context entity) {
-        super(entity, new PMM2_FoxModel(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+        super(entity, new PMM2_FoxModel(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
     }
 
     @SuppressWarnings("null")

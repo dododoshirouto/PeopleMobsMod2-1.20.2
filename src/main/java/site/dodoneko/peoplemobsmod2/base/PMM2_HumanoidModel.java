@@ -169,13 +169,19 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
     }
 
     @SuppressWarnings({ "null" })
-    public static LayerDefinition createBodyLayer() {
-        PeopleMobsMod2.LOGGER.info("[PMM2] PMM2_HumanoidModel.createBodyLayer()");
-        return LayerDefinition.create(createMesh(new CubeDeformation(0F), 0), 64, 64);
+    public static LayerDefinition createBodyLayerUseTwinkleFace() {
+        PeopleMobsMod2.LOGGER.info("[PMM2] PMM2_HumanoidModel.createBodyLayerUseTwinkleFace()");
+        return LayerDefinition.create(createMesh(new CubeDeformation(0F), 0, true), 64, 64);
     }
 
     @SuppressWarnings({ "null" })
-    public static MeshDefinition createMesh(CubeDeformation cube, float yOffset) {
+    public static LayerDefinition createBodyLayer() {
+        PeopleMobsMod2.LOGGER.info("[PMM2] PMM2_HumanoidModel.createBodyLayer()");
+        return LayerDefinition.create(createMesh(new CubeDeformation(0F), 0, false), 64, 64);
+    }
+
+    @SuppressWarnings({ "null" })
+    public static MeshDefinition createMesh(CubeDeformation cube, float yOffset, boolean useTwinkledFace) {
         MeshDefinition mesh = new MeshDefinition();
         PartDefinition root = mesh.getRoot();
         PeopleMobsMod2.LOGGER.info("[PMM2] PMM2_HumanoidModel.createMesh()");
@@ -191,18 +197,29 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         // PartDefinition pHead = root.addOrReplaceChild("pHead",
         // CubeListBuilder.create().texOffs(0, 0).addBox(-4, -8, -4, 8, 8, 8, cube),
         // PartPose.offset(0, yOffset, 0));
-        PartDefinition pHead = root.addOrReplaceChild("pHead",
-                CubeListBuilder.create().texOffs(0, 0).addBox(-4, -8, -4, 8, 8, 8,
-                        EnumSet.of(Direction.SOUTH, Direction.EAST, Direction.WEST, Direction.UP, Direction.DOWN)),
-                PartPose.offset(0, yOffset, 0));
-        pHead.addOrReplaceChild("pFace",
-                CubeListBuilder.create().texOffs(8, 8).addBox(-4, -8, -4, 8, 8, 0,
-                        EnumSet.of(Direction.NORTH)),
-                PartPose.offset(0, yOffset, 0));
-        pHead.addOrReplaceChild("pFace_twinkled",
-                CubeListBuilder.create().texOffs(0, 0).addBox(-4, -8, -4, 8, 8, 0,
-                        EnumSet.of(Direction.NORTH)),
-                PartPose.offset(0, yOffset, 0));
+        PartDefinition pHead = null;
+        if (useTwinkledFace) {
+            pHead = root.addOrReplaceChild("pHead",
+                    CubeListBuilder.create().texOffs(0, 0).addBox(-4, -8, -4, 8, 8, 8,
+                            EnumSet.of(Direction.SOUTH, Direction.EAST, Direction.WEST, Direction.UP, Direction.DOWN)),
+                    PartPose.offset(0, yOffset, 0));
+            pHead.addOrReplaceChild("pFace",
+                    CubeListBuilder.create().texOffs(8, 8).addBox(-4, -8, -4, 8, 8, 0,
+                            EnumSet.of(Direction.NORTH)),
+                    PartPose.offset(0, yOffset, 0));
+            pHead.addOrReplaceChild("pFace_twinkled",
+                    CubeListBuilder.create().texOffs(0, 0).addBox(-4, -8, -4, 8, 8, 0,
+                            EnumSet.of(Direction.NORTH)),
+                    PartPose.offset(0, yOffset, 0));
+        } else {
+            pHead = root.addOrReplaceChild("pHead",
+                    CubeListBuilder.create().texOffs(0, 0).addBox(-4, -8, -4, 8, 8, 8,
+                            cube),
+                    PartPose.offset(0, yOffset, 0));
+            pHead.addOrReplaceChild("pFace", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
+            pHead.addOrReplaceChild("pFace_twinkled", CubeListBuilder.create(),
+                    PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
+        }
         PartDefinition pBody = root.addOrReplaceChild("pBody",
                 CubeListBuilder.create().texOffs(16, 16).addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, cube),
                 PartPose.offset(0, yOffset, 0));
@@ -923,7 +940,7 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         if (true /* this.boobsSwing */) {
             float moveY = (float) this.entity.getDeltaMovement().y;
             this.pBUpper.y += PMath.clamp(
-                    -((-this.pBody.y + this.floatingHeight) + moveY * 100F) * h * 1.5F,
+                    -((-this.pBody.y + this.floatingHeight) + moveY * 1F) * h * 1.5F,
                     1.0F, -0.5F);
             this.pBUpper.xRot += PMath.toRad(PMath.clamp(
                     ((-this.pBody.y + this.floatingHeight) + moveY * 1F) * h * 72F,
@@ -933,7 +950,8 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         float f = h;
         if (h > 0.5F)
             f = 1.0F - f;
-        this.pBLower.xRot = PMath.clamp(-(this.pBUpper.xRot - PMath.PI / 2) * (2 + f), PMath.PI / 2 * 0.2F, PMath.PI / 2 * 0.98F);
+        this.pBLower.xRot = PMath.clamp(-(this.pBUpper.xRot - PMath.PI / 2) * (2 + f), PMath.PI / 2 * 0.2F,
+                PMath.PI / 2 * 0.98F);
     }
 
     /** しっぽのアニメーション */
@@ -1100,9 +1118,11 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
     public void renderToBuffer(PoseStack pose, VertexConsumer vertex, int i1, int overlayType,
             float col_r, float col_g, float col_b, float col_a) {
 
+        float scale = this.modelScale + (this.entityId % 628752F / 628752F + this.entityId % 199872F / 199872F + this.entityId % 36872F / 36872F)/3 * 2F / 16F;
+
         pose.pushPose();
-        pose.translate(0, (1F - this.modelScale) * 26F / 16F, 0);
-        pose.scale(this.modelScale, this.modelScale, this.modelScale);
+        pose.translate(0, (1F - scale) * 26F / 16F, 0);
+        pose.scale(scale, scale, scale);
 
         if (this.young || this.isChild || this.useChildModel) {
             pose.pushPose();

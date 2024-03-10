@@ -31,7 +31,7 @@ public class PMM2_SquidRenderer extends PMM2_HumanoidMobRenderer<Squid, PMM2_Hum
 
     @SuppressWarnings("null")
     public PMM2_SquidRenderer(EntityRendererProvider.Context entity) {
-        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
     }
 
     @SuppressWarnings("null")

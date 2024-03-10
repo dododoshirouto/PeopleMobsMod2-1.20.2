@@ -21,6 +21,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidMobRenderer;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidModel;
 import site.dodoneko.peoplemobsmod2.layer.PMM2_OversizeModelLayer;
+import site.dodoneko.peoplemobsmod2.model.PMM2_FrogModel;
 import site.dodoneko.peoplemobsmod2.model.PMM2_PiglinModel;
 import site.dodoneko.peoplemobsmod2.model.PMM2_Slime;
 import site.dodoneko.peoplemobsmod2.renderer.*;
@@ -33,6 +34,8 @@ public class PeopleMobsMod2 {
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final boolean DEBUG = true;
 
+    public static final ModelLayerLocation PMM2_TWINKLED_HUMANOID_LAYER = new ModelLayerLocation(
+            new ResourceLocation(MODID, "twinkled_humanoid_layer"), "main");
     public static final ModelLayerLocation PMM2_HUMANOID_LAYER = new ModelLayerLocation(
             new ResourceLocation(MODID, "humanoid_layer"), "main");
 
@@ -161,6 +164,7 @@ public class PeopleMobsMod2 {
         @SuppressWarnings("null")
         @SubscribeEvent
         public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
+            event.registerLayerDefinition(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER, PMM2_HumanoidModel::createBodyLayerUseTwinkleFace);
             event.registerLayerDefinition(PeopleMobsMod2.PMM2_HUMANOID_LAYER, PMM2_HumanoidModel::createBodyLayer);
         }
     }
@@ -182,14 +186,14 @@ public class PeopleMobsMod2 {
     public static class PMM2_ZombieRenderer extends PMM2_HumanoidMobRenderer<Zombie, PMM2_HumanoidModel<Zombie>> {
         @SuppressWarnings("null")
         public PMM2_ZombieRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
 
     public static class PMM2_SpiderRenderer extends PMM2_HumanoidMobRenderer<Spider, PMM2_HumanoidModel<Spider>> {
         @SuppressWarnings("null")
         public PMM2_SpiderRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
 
@@ -197,14 +201,14 @@ public class PeopleMobsMod2 {
             extends PMM2_HumanoidMobRenderer<CaveSpider, PMM2_HumanoidModel<CaveSpider>> {
         @SuppressWarnings("null")
         public PMM2_CaveSpiderRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
 
     public static class PMM2_SkeletonRenderer extends PMM2_HumanoidMobRenderer<Skeleton, PMM2_HumanoidModel<Skeleton>> {
         @SuppressWarnings("null")
         public PMM2_SkeletonRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
 
@@ -212,28 +216,28 @@ public class PeopleMobsMod2 {
             extends PMM2_HumanoidMobRenderer<WitherSkeleton, PMM2_HumanoidModel<WitherSkeleton>> {
         @SuppressWarnings("null")
         public PMM2_WitherSkeletonRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
 
     public static class PMM2_ChickenRenderer extends PMM2_HumanoidMobRenderer<Chicken, PMM2_HumanoidModel<Chicken>> {
         @SuppressWarnings("null")
         public PMM2_ChickenRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
 
     public static class PMM2_PigRenderer extends PMM2_HumanoidMobRenderer<Pig, PMM2_HumanoidModel<Pig>> {
         @SuppressWarnings("null")
         public PMM2_PigRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
 
     public static class PMM2_SheepRenderer extends PMM2_HumanoidMobRenderer<Sheep, PMM2_HumanoidModel<Sheep>> {
         @SuppressWarnings("null")
         public PMM2_SheepRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
             this.addLayer(new PMM2_OversizeModelLayer<>(this, entity.getModelSet()));
         }
     }
@@ -241,14 +245,14 @@ public class PeopleMobsMod2 {
     public static class PMM2_CowRenderer extends PMM2_HumanoidMobRenderer<Cow, PMM2_HumanoidModel<Cow>> {
         @SuppressWarnings("null")
         public PMM2_CowRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
 
     public static class PMM2_BatRenderer extends PMM2_HumanoidMobRenderer<Bat, PMM2_HumanoidModel<Bat>> {
         @SuppressWarnings("null")
         public PMM2_BatRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
 
@@ -257,28 +261,28 @@ public class PeopleMobsMod2 {
     public static class PMM2_SilverfishRenderer extends PMM2_HumanoidMobRenderer<Silverfish, PMM2_HumanoidModel<Silverfish>> {
         @SuppressWarnings("null")
         public PMM2_SilverfishRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
 
     public static class PMM2_EndermiteRenderer extends PMM2_HumanoidMobRenderer<Endermite, PMM2_HumanoidModel<Endermite>> {
         @SuppressWarnings("null")
         public PMM2_EndermiteRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
 
     public static class PMM2_DolphinRenderer extends PMM2_HumanoidMobRenderer<Dolphin, PMM2_HumanoidModel<Dolphin>> {
         @SuppressWarnings("null")
         public PMM2_DolphinRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
 
     public static class PMM2_SnowGolemRenderer extends PMM2_HumanoidMobRenderer<SnowGolem, PMM2_HumanoidModel<SnowGolem>> {
         @SuppressWarnings("null")
         public PMM2_SnowGolemRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
 
@@ -291,7 +295,7 @@ public class PeopleMobsMod2 {
     public static class PMM2_BlazeRenderer extends PMM2_HumanoidMobRenderer<Blaze, PMM2_HumanoidModel<Blaze>> {
         @SuppressWarnings("null")
         public PMM2_BlazeRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
     /**
@@ -301,7 +305,7 @@ public class PeopleMobsMod2 {
     public static class PMM2_GhastRenderer extends PMM2_HumanoidMobRenderer<Ghast, PMM2_HumanoidModel<Ghast>> {
         @SuppressWarnings("null")
         public PMM2_GhastRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
     /**
@@ -311,7 +315,7 @@ public class PeopleMobsMod2 {
     public static class PMM2_MagmaCubeRenderer extends PMM2_HumanoidMobRenderer<MagmaCube, PMM2_Slime<MagmaCube>> {
         @SuppressWarnings("null")
         public PMM2_MagmaCubeRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_Slime<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_Slime<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
     /**
@@ -321,7 +325,7 @@ public class PeopleMobsMod2 {
     public static class PMM2_HoglinRenderer extends PMM2_HumanoidMobRenderer<Hoglin, PMM2_HumanoidModel<Hoglin>> {
         @SuppressWarnings("null")
         public PMM2_HoglinRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
     /**
@@ -331,7 +335,7 @@ public class PeopleMobsMod2 {
     public static class PMM2_ZoglinRenderer extends PMM2_HumanoidMobRenderer<Zoglin, PMM2_HumanoidModel<Zoglin>> {
         @SuppressWarnings("null")
         public PMM2_ZoglinRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
     /**
@@ -341,7 +345,7 @@ public class PeopleMobsMod2 {
     public static class PMM2_PiglinRenderer extends PMM2_HumanoidMobRenderer<Piglin, PMM2_PiglinModel> {
         @SuppressWarnings("null")
         public PMM2_PiglinRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_PiglinModel(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_PiglinModel(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
     /**
@@ -351,7 +355,7 @@ public class PeopleMobsMod2 {
     public static class PMM2_PiglinBruteRenderer extends PMM2_HumanoidMobRenderer<PiglinBrute, PMM2_HumanoidModel<PiglinBrute>> {
         @SuppressWarnings("null")
         public PMM2_PiglinBruteRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
     /**
@@ -361,7 +365,7 @@ public class PeopleMobsMod2 {
     public static class PMM2_ZombifiedPiglinRenderer extends PMM2_HumanoidMobRenderer<ZombifiedPiglin, PMM2_HumanoidModel<ZombifiedPiglin>> {
         @SuppressWarnings("null")
         public PMM2_ZombifiedPiglinRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
     /**
@@ -371,7 +375,7 @@ public class PeopleMobsMod2 {
     public static class PMM2_StriderRenderer extends PMM2_HumanoidMobRenderer<Strider, PMM2_HumanoidModel<Strider>> {
         @SuppressWarnings("null")
         public PMM2_StriderRenderer(EntityRendererProvider.Context entity) {
-            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+            super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         }
     }
 }

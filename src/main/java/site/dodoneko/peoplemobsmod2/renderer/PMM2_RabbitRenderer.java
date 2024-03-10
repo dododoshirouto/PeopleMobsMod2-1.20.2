@@ -36,7 +36,7 @@ public class PMM2_RabbitRenderer<T extends Rabbit> extends PMM2_HumanoidMobRende
 
     @SuppressWarnings("null")
     public PMM2_RabbitRenderer(EntityRendererProvider.Context entity) {
-        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
     }
 
     @Override

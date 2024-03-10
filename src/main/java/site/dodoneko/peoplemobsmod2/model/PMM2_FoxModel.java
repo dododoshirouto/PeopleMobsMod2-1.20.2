@@ -111,11 +111,9 @@ public class PMM2_FoxModel extends PMM2_HumanoidModel<Fox> {
     public void setPostAnimations() {
         if (this.isCrouching) {
             // かがんで地面のにおいを追跡
-            this.pEyelidL.z = this.pEyelidR.z = 0F;
-            this.pEyelidL.y = this.pEyelidR.y = 0F;
+        this.pFace.visible = !(this.pFace_twinkled.visible = true);
         } else if (this.isSleeping) {
-            this.pEyelidL.z = this.pEyelidR.z = 0F;
-            this.pEyelidL.y = this.pEyelidR.y = 0F;
+            this.pFace.visible = !(this.pFace_twinkled.visible = true);
         } else if (this.isSittingOnGround) {
         } else if (this.isHeadInGround) {
         } else if (this.isJumping) {

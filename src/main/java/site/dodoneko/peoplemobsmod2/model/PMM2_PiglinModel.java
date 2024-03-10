@@ -150,7 +150,7 @@ public class PMM2_PiglinModel extends PMM2_HumanoidModel<Piglin> {
         this.pArmL.xRot = PMath.toRad(swing_1_0 * 45 - 90);
         this.pArmR.xRot = PMath.toRad(-swing_1_0 * 45 - 90);
 
-        this.pEyelidL.y = this.pEyelidL.z = this.pEyelidR.y = this.pEyelidR.z = 0;
+        this.pFace.visible = !(this.pFace_twinkled.visible = true);
 
         this.pBody.y = this.pHead.y = PMath.abs(PMath.sinD(swing_1_0 * bodyRotateAngleZ))*PMath.abs(PMath.sinD(swing_1_0 * bodyRotateAngleX))*4;
     }

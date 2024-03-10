@@ -32,7 +32,7 @@ public class PMM2_MooshroomRenderer extends PMM2_HumanoidMobRenderer<MushroomCow
 
     @SuppressWarnings("null")
     public PMM2_MooshroomRenderer(EntityRendererProvider.Context entity) {
-        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         this.addLayer(new PMM2_HumanBlockOnHeadLayer<>(this, entity.getBlockRenderDispatcher()));
     }
 

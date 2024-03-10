@@ -23,7 +23,7 @@ public class PMM2_EndermanRenderer extends PMM2_HumanoidMobRenderer<EnderMan, PM
 
     @SuppressWarnings("null")
     public PMM2_EndermanRenderer(EntityRendererProvider.Context entity) {
-        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_HUMANOID_LAYER)), modelScale);
+        super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
         this.addLayer(new PMM2_EyesLayer<>(this));
         this.addLayer(new PMM2_HumanHeldBlockLayer<>(this, entity.getBlockRenderDispatcher()));
     }
