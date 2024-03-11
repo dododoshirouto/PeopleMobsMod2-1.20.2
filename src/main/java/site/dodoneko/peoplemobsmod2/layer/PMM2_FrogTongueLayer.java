@@ -111,52 +111,41 @@ public class PMM2_FrogTongueLayer extends RenderLayer<Frog, PMM2_FrogModel> {
         }
 
         @SuppressWarnings("null")
-        public static LayerDefinition createFrogTongueLayer() {
+        public static LayerDefinition createLayerModelParts() {
             float yOffset = 0F;
             MeshDefinition mesh = new MeshDefinition();
             PartDefinition root = mesh.getRoot();
 
-            root.addOrReplaceChild("head", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            root.addOrReplaceChild("hat", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            root.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            root.addOrReplaceChild("right_arm", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            root.addOrReplaceChild("left_arm", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            root.addOrReplaceChild("right_leg", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            root.addOrReplaceChild("left_leg", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
+            root.addOrReplaceChild("head", CubeListBuilder.create(), PartPose.ZERO);
+            root.addOrReplaceChild("hat", CubeListBuilder.create(), PartPose.ZERO);
+            root.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.ZERO);
+            root.addOrReplaceChild("right_arm", CubeListBuilder.create(), PartPose.ZERO);
+            root.addOrReplaceChild("left_arm", CubeListBuilder.create(), PartPose.ZERO);
+            root.addOrReplaceChild("right_leg", CubeListBuilder.create(), PartPose.ZERO);
+            root.addOrReplaceChild("left_leg", CubeListBuilder.create(), PartPose.ZERO);
 
-            PartDefinition pHead = root.addOrReplaceChild("pHead", CubeListBuilder.create(),
-                    PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            pHead.addOrReplaceChild("pFace", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            pHead.addOrReplaceChild("pFace_twinkled", CubeListBuilder.create(),
-                    PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            PartDefinition pBody = root.addOrReplaceChild("pBody", CubeListBuilder.create(),
-                    PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            PartDefinition pArmL = pBody.addOrReplaceChild("pArmL", CubeListBuilder.create(),
-                    PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            PartDefinition pArmR = pBody.addOrReplaceChild("pArmR", CubeListBuilder.create(),
-                    PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            PartDefinition pLegL = pBody.addOrReplaceChild("pLegL", CubeListBuilder.create(),
-                    PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            PartDefinition pLegR = pBody.addOrReplaceChild("pLegR", CubeListBuilder.create(),
-                    PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            PartDefinition pBUpper = pBody.addOrReplaceChild("pBUpper", CubeListBuilder.create(),
-                    PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            PartDefinition pBLower = pBUpper.addOrReplaceChild("pBLower", CubeListBuilder.create(),
-                    PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
+            PartDefinition pHead = root.addOrReplaceChild("pHead", CubeListBuilder.create(), PartPose.ZERO);
+            pHead.addOrReplaceChild("pFace", CubeListBuilder.create(), PartPose.ZERO);
+            pHead.addOrReplaceChild("pFace_twinkled", CubeListBuilder.create(), PartPose.ZERO);
+            PartDefinition pBody = root.addOrReplaceChild("pBody", CubeListBuilder.create(), PartPose.ZERO);
+            PartDefinition pArmL = pBody.addOrReplaceChild("pArmL", CubeListBuilder.create(), PartPose.ZERO);
+            PartDefinition pArmR = pBody.addOrReplaceChild("pArmR", CubeListBuilder.create(), PartPose.ZERO);
+            PartDefinition pLegL = pBody.addOrReplaceChild("pLegL", CubeListBuilder.create(), PartPose.ZERO);
+            PartDefinition pLegR = pBody.addOrReplaceChild("pLegR", CubeListBuilder.create(), PartPose.ZERO);
+            PartDefinition pBUpper = pBody.addOrReplaceChild("pBUpper", CubeListBuilder.create(), PartPose.ZERO);
+            PartDefinition pBLower = pBUpper.addOrReplaceChild("pBLower", CubeListBuilder.create(), PartPose.ZERO);
 
-            pHead.addOrReplaceChild("pHeadWear", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            pBody.addOrReplaceChild("pBodyWear", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            pArmL.addOrReplaceChild("pArmLWear", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            pArmR.addOrReplaceChild("pArmRWear", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            pLegL.addOrReplaceChild("pLegLWear", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            pLegR.addOrReplaceChild("pLegRWear", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            pBUpper.addOrReplaceChild("pBUpperWear", CubeListBuilder.create(),
-                    PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            pBLower.addOrReplaceChild("pBLowerWear", CubeListBuilder.create(),
-                    PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            pHead.addOrReplaceChild("pAhoge", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            pHead.addOrReplaceChild("pKemomimi", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
-            pBody.addOrReplaceChild("pShippo", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F + yOffset, 0.0F));
+            pHead.addOrReplaceChild("pHeadWear", CubeListBuilder.create(), PartPose.ZERO);
+            pBody.addOrReplaceChild("pBodyWear", CubeListBuilder.create(), PartPose.ZERO);
+            pArmL.addOrReplaceChild("pArmLWear", CubeListBuilder.create(), PartPose.ZERO);
+            pArmR.addOrReplaceChild("pArmRWear", CubeListBuilder.create(), PartPose.ZERO);
+            pLegL.addOrReplaceChild("pLegLWear", CubeListBuilder.create(), PartPose.ZERO);
+            pLegR.addOrReplaceChild("pLegRWear", CubeListBuilder.create(), PartPose.ZERO);
+            pBUpper.addOrReplaceChild("pBUpperWear", CubeListBuilder.create(), PartPose.ZERO);
+            pBLower.addOrReplaceChild("pBLowerWear", CubeListBuilder.create(), PartPose.ZERO);
+            pHead.addOrReplaceChild("pAhoge", CubeListBuilder.create(), PartPose.ZERO);
+            pHead.addOrReplaceChild("pKemomimi", CubeListBuilder.create(), PartPose.ZERO);
+            pBody.addOrReplaceChild("pShippo", CubeListBuilder.create(), PartPose.ZERO);
 
             pHead.addOrReplaceChild("frogTongue",
                     CubeListBuilder.create().texOffs(24, 13).addBox(-2F, -0.5F, -7F, 4, 0, 7,

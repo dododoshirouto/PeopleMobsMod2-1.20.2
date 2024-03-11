@@ -34,16 +34,6 @@ public class PMM2_FrogRenderer extends PMM2_HumanoidMobRenderer<Frog, PMM2_FrogM
                         new ResourceLocation("textures/entity/frog/warm_frog-chan.png"));
             });
 
-    // model options
-    public static float modelScale = 0.9F;
-    public static float bHeight = 0.3F;
-    public static boolean useChildModel = false;
-    public static boolean doFlyFlap = false;
-    public static boolean forwardArm = false;
-    public static boolean isFloating = false;
-    public static float floatingHeight = 0.0F;
-    public static boolean doWalkBounding = true;
-
     @SuppressWarnings("null")
     public PMM2_FrogRenderer(EntityRendererProvider.Context entity) {
         super(entity, new PMM2_FrogModel(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);

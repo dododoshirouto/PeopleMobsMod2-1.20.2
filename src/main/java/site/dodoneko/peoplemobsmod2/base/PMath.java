@@ -1,5 +1,7 @@
 package site.dodoneko.peoplemobsmod2.base;
 
+import net.minecraft.util.Mth;
+
 public class PMath {
     public static final float Deg2Rad = 0.0174532F;
     public static final float PI = 3.141592653F;
@@ -10,27 +12,27 @@ public class PMath {
     }
 
     public static float sin(float v) {
-        return (float) Math.sin(v);
+        return (float) Mth.sin(v);
     }
 
     public static float sin1(float v) {
-        return (float) Math.sin(v * PI2);
+        return sin(v * PI2);
     }
 
     public static float sinD(float v) {
-        return (float) Math.sin(toRad(v));
+        return sin(toRad(v));
     }
 
     public static float cos(float v) {
-        return (float) Math.cos(v);
+        return (float) Mth.cos(v);
     }
 
     public static float cos1(float v) {
-        return (float) Math.cos(v * PI2);
+        return cos(v * PI2);
     }
 
     public static float cosD(float v) {
-        return (float) Math.cos(toRad(v));
+        return cos(toRad(v));
     }
 
     public static float asin(float v) {
@@ -38,7 +40,7 @@ public class PMath {
     }
 
     public static float abs(float v) {
-        return (float) Math.abs(v);
+        return (float) Mth.abs(v);
     }
 
     public static float max(float a, float b) {
@@ -56,7 +58,7 @@ public class PMath {
     }
 
     public static float sqrt(float v) {
-        return (float) Math.sqrt(v);
+        return (float) Mth.sqrt(v);
     }
 
     public static float pow(float v, float p) {
@@ -68,7 +70,7 @@ public class PMath {
     }
 
     public static float easeOut(float time) {
-        return sqrt(abs(sin(time * PI / 2))) * PMath.sign(time);
+        return sqrt(abs(sin(time * PI / 2))) * sign(time);
     }
 
     private static float sign(float time) {
@@ -76,7 +78,7 @@ public class PMath {
     }
 
     public static float easeOut(float time, float start, float end) {
-        return start + (end - start) * easeOut(time) * PMath.sign(time);
+        return start + (end - start) * easeOut(time) * sign(time);
     }
 
     public static float easeIn(float time) {
@@ -100,11 +102,11 @@ public class PMath {
     }
 
     public static float floor(float v) {
-        return (float) Math.floor(v);
+        return (float) Mth.floor(v);
     }
 
     public static int floori(float v) {
-        return (int) Math.floor(v);
+        return (int) floor(v);
     }
 
     public static float log(float v) {

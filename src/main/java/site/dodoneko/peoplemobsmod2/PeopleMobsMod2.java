@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidMobRenderer;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidModel;
+import site.dodoneko.peoplemobsmod2.layer.PMM2_BlazeRodsLayer;
 import site.dodoneko.peoplemobsmod2.layer.PMM2_FrogTongueLayer;
 import site.dodoneko.peoplemobsmod2.layer.PMM2_OversizeModelLayer;
 import site.dodoneko.peoplemobsmod2.model.PMM2_PiglinModel;
@@ -54,7 +55,7 @@ public class PeopleMobsMod2 {
             LOGGER.info("[PMM2] PEOPLE MOBS MOD2 LOADED!");
             LOGGER.info("[PMM2] A world where there is only me and girls.");
 
-            // older 1.5
+            // older than 0.1.5
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_ZombieRenderer.class, 0.9F, 0.3F);
             PMM2_HumanoidMobRenderer.setForwardArm(PMM2_ZombieRenderer.class, true);
             PMM2_HumanoidMobRenderer.setUseArmor(PMM2_ZombieRenderer.class, true);
@@ -110,7 +111,7 @@ public class PeopleMobsMod2 {
             EntityRenderers.register(EntityType.SQUID, PMM2_SquidRenderer::new);
             EntityRenderers.register(EntityType.BAT, PMM2_BatRenderer::new);
 
-            // 1.6 Pyon Pyon Update
+            // 0.1.6 Pyon Pyon Update
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_RabbitRenderer.class, 0.5F, 0.3F);
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_SilverfishRenderer.class, 0.5F, 0.3F, true);
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_EndermiteRenderer.class, 0.5F, 0.4F, true);
@@ -130,7 +131,7 @@ public class PeopleMobsMod2 {
             EntityRenderers.register(EntityType.DOLPHIN, PMM2_DolphinRenderer::new);
             EntityRenderers.register(EntityType.FROG, PMM2_FrogRenderer::new);
 
-            // 1.7 Cutey Nether Update
+            // 0.1.7 Cutey Nether Update
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_BlazeRenderer.class, 0.67F, 0.5F);
             PMM2_HumanoidMobRenderer.setIsFloating(PMM2_BlazeRenderer.class, true, 8F);
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_GhastRenderer.class, 6.0F, 0.5F, true);
@@ -150,14 +151,17 @@ public class PeopleMobsMod2 {
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_StriderRenderer.class, 0.83F, 0.5F);
             PMM2_HumanoidMobRenderer.addTexture(Piglin.class, "piglin/piglin-chan");
             PMM2_HumanoidMobRenderer.addTexture(ZombifiedPiglin.class, "piglin/zombified_piglin-chan");
+            EntityRenderers.register(EntityType.PIGLIN, PMM2_PiglinRenderer::new);
+            EntityRenderers.register(EntityType.ZOMBIFIED_PIGLIN, PMM2_ZombifiedPiglinRenderer::new);
             EntityRenderers.register(EntityType.BLAZE, PMM2_BlazeRenderer::new);
+
+            if (true) return;
+
             EntityRenderers.register(EntityType.GHAST, PMM2_GhastRenderer::new);
             EntityRenderers.register(EntityType.MAGMA_CUBE, PMM2_MagmaCubeRenderer::new);
             EntityRenderers.register(EntityType.HOGLIN, PMM2_HoglinRenderer::new);
             EntityRenderers.register(EntityType.ZOGLIN, PMM2_ZoglinRenderer::new);
-            EntityRenderers.register(EntityType.PIGLIN, PMM2_PiglinRenderer::new);
             EntityRenderers.register(EntityType.PIGLIN_BRUTE, PMM2_PiglinBruteRenderer::new);
-            EntityRenderers.register(EntityType.ZOMBIFIED_PIGLIN, PMM2_ZombifiedPiglinRenderer::new);
             EntityRenderers.register(EntityType.STRIDER, PMM2_StriderRenderer::new);
         }
 
@@ -167,7 +171,8 @@ public class PeopleMobsMod2 {
             event.registerLayerDefinition(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER, PMM2_HumanoidModel::createBodyLayerUseTwinkleFace);
             event.registerLayerDefinition(PeopleMobsMod2.PMM2_HUMANOID_LAYER, PMM2_HumanoidModel::createBodyLayer);
             
-            event.registerLayerDefinition(PMM2_FrogTongueLayer.PMM2_FROG_TONGUE_LAYER, PMM2_FrogTongueLayer.PMM2_FrogTongueModel::createFrogTongueLayer);
+            event.registerLayerDefinition(PMM2_FrogTongueLayer.PMM2_FROG_TONGUE_LAYER, PMM2_FrogTongueLayer.PMM2_FrogTongueModel::createLayerModelParts);
+            event.registerLayerDefinition(PMM2_BlazeRodsLayer.PMM2_BLAZE_RODS_LAYER, PMM2_BlazeRodsLayer.PMM2_BlazeRodsModel::createLayerModelParts);
         }
     }
 
@@ -301,6 +306,7 @@ public class PeopleMobsMod2 {
         @SuppressWarnings("null")
         public PMM2_BlazeRenderer(EntityRendererProvider.Context entity) {
             super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
+            this.addLayer(new PMM2_BlazeRodsLayer(this, entity.getModelSet()));
         }
     }
     /**
