@@ -1,8 +1,13 @@
 package site.dodoneko.peoplemobsmod2.layer;
 
 import java.util.EnumSet;
+import java.util.Map;
+
+import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.animation.definitions.FrogAnimation;
@@ -22,6 +27,7 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.AnimationState;
+import net.minecraft.world.entity.animal.FrogVariant;
 import net.minecraft.world.entity.animal.frog.Frog;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -33,7 +39,16 @@ import site.dodoneko.peoplemobsmod2.model.PMM2_FrogModel;
 @OnlyIn(Dist.CLIENT)
 public class PMM2_FrogTongueLayer extends RenderLayer<Frog, PMM2_FrogModel> {
 
-    public static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/frog/temperate_frog.png");
+    @SuppressWarnings("null")
+    private static final Map<FrogVariant, ResourceLocation> TEXTURES = Util.make(Maps.newHashMap(),
+            (entity) -> {
+                entity.put(FrogVariant.TEMPERATE,
+                        new ResourceLocation("textures/entity/frog/temperate_frog.png"));
+                entity.put(FrogVariant.COLD,
+                        new ResourceLocation("textures/entity/frog/cold_frog.png"));
+                entity.put(FrogVariant.WARM,
+                        new ResourceLocation("textures/entity/frog/warm_frog.png"));
+            });
     public static final ModelLayerLocation PMM2_FROG_TONGUE_LAYER = new ModelLayerLocation(
             new ResourceLocation(PeopleMobsMod2.MODID, "frog_tongue_layer"), "main");
 
@@ -72,9 +87,10 @@ public class PMM2_FrogTongueLayer extends RenderLayer<Frog, PMM2_FrogModel> {
 
     }
 
-    @SuppressWarnings({ "null" })
+    @Override
+    @SuppressWarnings("null")
     public ResourceLocation getTextureLocation(Frog entity) {
-        return TEXTURE;
+        return TEXTURES.get(entity.getVariant());
     }
 
     @SuppressWarnings({ "null" })
