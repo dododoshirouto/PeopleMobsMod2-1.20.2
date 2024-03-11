@@ -36,9 +36,7 @@ public class PMM2_PiglinModel extends PMM2_HumanoidModel<Piglin> {
     protected void setAddAnimations() {
         if (this.isDancing) {
 
-            this.entity.getUUID().hashCode();
-
-            switch (PMath.floori(PMath.abs(this.entityId)/1772)%4) {
+            switch (PMath.floori(PMath.getEntityRand(this, "piglinDance")*4)) {
                 case 0:
                     danceAnimation1();
                     break;

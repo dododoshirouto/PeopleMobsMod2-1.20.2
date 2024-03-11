@@ -5,10 +5,7 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import net.minecraft.Util;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.animal.Fox;
-import net.minecraftforge.unsafe.UnsafeFieldAccess.Int;
 
 public class PMath {
     public static final float Deg2Rad = 0.0174532F;
@@ -134,6 +131,7 @@ public class PMath {
                 entity.put("modelScale1", 208462);
                 entity.put("modelScale2", 250111);
                 entity.put("modelScale3", 301008);
+                entity.put("piglinDance", 350172);
             });
     
     public static float getEntityRand(PMM2_HumanoidModel<?> model, String name) {
