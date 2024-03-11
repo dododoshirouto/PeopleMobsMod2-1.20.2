@@ -1,6 +1,14 @@
 package site.dodoneko.peoplemobsmod2.base;
 
+import java.util.Map;
+
+import com.google.common.collect.Maps;
+
+import net.minecraft.Util;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.animal.Fox;
+import net.minecraftforge.unsafe.UnsafeFieldAccess.Int;
 
 public class PMath {
     public static final float Deg2Rad = 0.0174532F;
@@ -116,5 +124,22 @@ public class PMath {
             return -log(-v);
         }
         return (float) Math.log(v);
+    }
+
+    @SuppressWarnings("null")
+    private static final Map<String, Integer> ENTITY_ID_TO_RND_MAPS = Util.make(Maps.newHashMap(),
+            (entity) -> {
+                entity.put("ageInTicks", 102445);
+                entity.put("bHOffset", 150749);
+                entity.put("modelScale1", 208462);
+                entity.put("modelScale2", 250111);
+                entity.put("modelScale3", 301008);
+            });
+    
+    public static float getEntityRand(PMM2_HumanoidModel<?> model, String name) {
+        return getEntityRand(model.entityId, name);
+    }
+    public static float getEntityRand(int entityId, String name) {
+        return abs(entityId) % (float)ENTITY_ID_TO_RND_MAPS.get(name) / (float)ENTITY_ID_TO_RND_MAPS.get(name);
     }
 }

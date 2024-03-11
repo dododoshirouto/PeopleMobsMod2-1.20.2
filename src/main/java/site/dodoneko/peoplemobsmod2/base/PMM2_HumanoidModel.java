@@ -276,9 +276,9 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
                 PartPose.offset(0, 10 + yOffset, 2));
 
         // pHead.addOrReplaceChild("frogTongue",
-        //         CubeListBuilder.create().texOffs(0, 0).addBox(-2F, -0.5F, -3F, 4, 0, 7,
-        //                 EnumSet.of(Direction.UP)),
-        //         PartPose.offset(0, yOffset - 0.5F, -3F));
+        // CubeListBuilder.create().texOffs(0, 0).addBox(-2F, -0.5F, -3F, 4, 0, 7,
+        // EnumSet.of(Direction.UP)),
+        // PartPose.offset(0, yOffset - 0.5F, -3F));
 
         return mesh;
     }
@@ -387,7 +387,7 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.limbSwing = limbSwing;
         this.limbSwingAmount = limbSwingAmount;
         // TODO: change to /1000 from /100
-        this.ageInTicks = (float) Util.getMillis() / 100f + (float) this.entityId / 9956 % 1000f;
+        this.ageInTicks = (float) Util.getMillis() / 100f + PMath.getEntityRand(this, "ageInTicks") * 60 * 100f;
         this.headRotY = netHeadYaw;
         this.headRotX = headPitch;
         this.isChild = this.entity.isBaby();
@@ -924,7 +924,7 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
 
     /** Bのアニメーション */
     protected void setBAnimations() {
-        float hOffset = PMath.abs(this.entityId % 628752F / 628752F) * 0.3F - 0.1F;
+        float hOffset = PMath.getEntityRand(this, "bHOffset") * 0.3F - 0.1F;
         float h = PMath.clamp(this.bHeight + hOffset, 0F, 1F);
         if (h == 0)
             return;
@@ -1118,7 +1118,8 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
     public void renderToBuffer(PoseStack pose, VertexConsumer vertex, int i1, int overlayType,
             float col_r, float col_g, float col_b, float col_a) {
 
-        float scale = this.modelScale + (this.entityId % 628752F / 628752F + this.entityId % 199872F / 199872F + this.entityId % 36872F / 36872F)/3 * 2F / 16F;
+        float scale = this.modelScale + ((PMath.getEntityRand(this, "modelScale1")*2f-1f)
+                + (PMath.getEntityRand(this, "modelScale2")*2f-1f) + (PMath.getEntityRand(this, "modelScale3")*2f-1f)) / 3f * 2F / 16F;
 
         pose.pushPose();
         pose.translate(0, (1F - scale) * 26F / 16F, 0);

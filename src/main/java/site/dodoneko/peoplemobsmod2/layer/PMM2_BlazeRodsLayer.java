@@ -203,8 +203,9 @@ public class PMM2_BlazeRodsLayer extends RenderLayer<Blaze, PMM2_HumanoidModel<B
 
         @Override
         protected void setPostAnimations() {
-            float parentModelScale = this.parentModel.modelScale + (this.entityId % 628752F / 628752F
-                    + this.entityId % 199872F / 199872F + this.entityId % 36872F / 36872F) / 3 * 2F / 16F;
+            float parentModelScale = this.parentModel.modelScale
+                    + (PMath.getEntityRand(this, "modelScale1") + PMath.getEntityRand(this, "modelScale2")
+                            + PMath.getEntityRand(this, "modelScale3")) / 3 * 2F / 16F;
             float antiScale = 1f / PMath.max(0.01F, parentModelScale);
             float f = this.ageInTicks * PMath.PI * -0.1F;
 
