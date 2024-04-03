@@ -117,7 +117,7 @@ public class PeopleMobsMod2 {
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_EndermiteRenderer.class, 0.5F, 0.4F, true);
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_DolphinRenderer.class, 0.8F, 0.6F);
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_SnowGolemRenderer.class, 1.0F, 0.4F);
-            PMM2_HumanoidMobRenderer.setModelScales(PMM2_IronGolemRenderer.class, 1.5F, 0.7F);
+            PMM2_HumanoidMobRenderer.setModelScales(PMM2_IronGolemRenderer.class, 1.3F, 0.7F);
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_FrogRenderer.class, 0.4F, 0.6F);
             PMM2_HumanoidMobRenderer.addTexture(Rabbit.class, "rabbit/white-chan");
             PMM2_HumanoidMobRenderer.addTexture(Silverfish.class, "silverfish-chan");
@@ -151,12 +151,13 @@ public class PeopleMobsMod2 {
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_StriderRenderer.class, 0.83F, 0.5F);
             PMM2_HumanoidMobRenderer.addTexture(Piglin.class, "piglin/piglin-chan");
             PMM2_HumanoidMobRenderer.addTexture(ZombifiedPiglin.class, "piglin/zombified_piglin-chan");
+            PMM2_HumanoidMobRenderer.addTexture(Blaze.class, "blaze-chan");
             EntityRenderers.register(EntityType.PIGLIN, PMM2_PiglinRenderer::new);
             EntityRenderers.register(EntityType.ZOMBIFIED_PIGLIN, PMM2_ZombifiedPiglinRenderer::new);
             EntityRenderers.register(EntityType.BLAZE, PMM2_BlazeRenderer::new);
-
+            
             if (true) return;
-
+            
             EntityRenderers.register(EntityType.GHAST, PMM2_GhastRenderer::new);
             EntityRenderers.register(EntityType.MAGMA_CUBE, PMM2_MagmaCubeRenderer::new);
             EntityRenderers.register(EntityType.HOGLIN, PMM2_HoglinRenderer::new);
@@ -289,6 +290,9 @@ public class PeopleMobsMod2 {
         }
     }
 
+    /**
+     * @see SnowGolemRenderer
+     */
     public static class PMM2_SnowGolemRenderer extends PMM2_HumanoidMobRenderer<SnowGolem, PMM2_HumanoidModel<SnowGolem>> {
         @SuppressWarnings("null")
         public PMM2_SnowGolemRenderer(EntityRendererProvider.Context entity) {

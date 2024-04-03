@@ -10,6 +10,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidMobRenderer;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidModel;
+import site.dodoneko.peoplemobsmod2.base.PMath;
+import site.dodoneko.peoplemobsmod2.layer.PMM2_HumanHeldBlockLayer;
 
 /**
  * @see net.minecraft.client.model.IronGolemModel
@@ -21,15 +23,16 @@ public class PMM2_IronGolemRenderer extends PMM2_HumanoidMobRenderer<IronGolem, 
     @SuppressWarnings("null")
     public PMM2_IronGolemRenderer(EntityRendererProvider.Context entity) {
         super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
+        this.addLayer(new PMM2_HumanHeldBlockLayer<>(this, entity.getBlockRenderDispatcher()));
+        this.model.walkSwingSpeed = 0.5f;
     }
 
    @SuppressWarnings("null")
    protected void setupRotations(IronGolem entity, PoseStack matrix, float p1, float p2, float partialTick) {
       super.setupRotations(entity, matrix, p1, p2, partialTick);
-      if (!((double)entity.walkAnimation.speed() < 0.01D)) {
-         float f1 = entity.walkAnimation.position(partialTick) + 6.0F;
-         float f2 = (Math.abs(f1 % 13.0F - 6.5F) - 3.25F) / 3.25F;
-         matrix.mulPose(Axis.ZP.rotationDegrees(6.5F * f2));
+      
+      if (this.model.limbSwingAmount > 0.01F && !this.model.isFloating && !this.model.isSwimming && !this.model.isFlying && !this.model.isJumping && !this.model.isClimbing) {
+         matrix.mulPose(Axis.ZP.rotationDegrees( -this.model.pLegL.xRot / PMath.Deg2Rad * 0.3f ));
       }
    }
 }

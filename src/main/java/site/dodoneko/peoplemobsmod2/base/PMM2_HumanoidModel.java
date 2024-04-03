@@ -77,6 +77,7 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
     public boolean isFloating = false;
     public float floatingHeight = 0.0F;
     public boolean doWalkBounding = true;
+    public float walkSwingSpeed = 1.0f;
 
     // entity status
     public E entity;
@@ -384,7 +385,7 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.entity = entity;
         // this.entityId = entity.getId();
         this.entityId = this.entity.getUUID().hashCode();
-        this.limbSwing = limbSwing;
+        this.limbSwing = limbSwing * walkSwingSpeed;
         this.limbSwingAmount = limbSwingAmount;
         // TODO: change to /1000 from /100
         this.ageInTicks = (float) Util.getMillis() / 100f + PMath.getEntityRand(this, "ageInTicks") * 60 * 100f;
@@ -950,8 +951,9 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         float f = h;
         if (h > 0.5F)
             f = 1.0F - f;
-        this.pBLower.xRot = PMath.clamp(-(this.pBUpper.xRot - PMath.PI / 2) * (2 + f), PMath.PI / 2 * 0.2F,
-                PMath.PI / 2 * 0.98F);
+        this.pBLower.xRot = PMath.clamp(-(this.pBUpper.xRot - PMath.PI / 2) * (2 + f),
+            PMath.PI / 2 * 0.2F,
+            PMath.PI / 2 * 0.95F);
     }
 
     /** しっぽのアニメーション */
