@@ -944,8 +944,9 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
                     -((-this.pBody.y + this.floatingHeight) + moveY * 1F) * h * 1.5F,
                     1.0F, -0.5F);
             this.pBUpper.xRot += PMath.toRad(PMath.clamp(
-                    ((-this.pBody.y + this.floatingHeight) + moveY * 1F) * h * 72F,
-                    (90f - bXRot / PMath.Deg2Rad) / 2, -10F));
+                    ((-this.pBody.y + this.floatingHeight) + moveY * 1F) * h * 50F,
+                    (90f - bXRot / PMath.Deg2Rad) / 2,
+                    -10F));
         }
 
         float f = h;

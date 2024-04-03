@@ -150,9 +150,11 @@ public class PeopleMobsMod2 {
             PMM2_HumanoidMobRenderer.setUseArmor(PMM2_ZombifiedPiglinRenderer.class, true);
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_StriderRenderer.class, 0.83F, 0.5F);
             PMM2_HumanoidMobRenderer.addTexture(Piglin.class, "piglin/piglin-chan");
+            PMM2_HumanoidMobRenderer.addTexture(PiglinBrute.class, "piglin/piglin_brute-chan");
             PMM2_HumanoidMobRenderer.addTexture(ZombifiedPiglin.class, "piglin/zombified_piglin-chan");
             PMM2_HumanoidMobRenderer.addTexture(Blaze.class, "blaze-chan");
             EntityRenderers.register(EntityType.PIGLIN, PMM2_PiglinRenderer::new);
+            EntityRenderers.register(EntityType.PIGLIN_BRUTE, PMM2_PiglinBruteRenderer::new);
             EntityRenderers.register(EntityType.ZOMBIFIED_PIGLIN, PMM2_ZombifiedPiglinRenderer::new);
             EntityRenderers.register(EntityType.BLAZE, PMM2_BlazeRenderer::new);
             
@@ -162,7 +164,6 @@ public class PeopleMobsMod2 {
             EntityRenderers.register(EntityType.MAGMA_CUBE, PMM2_MagmaCubeRenderer::new);
             EntityRenderers.register(EntityType.HOGLIN, PMM2_HoglinRenderer::new);
             EntityRenderers.register(EntityType.ZOGLIN, PMM2_ZoglinRenderer::new);
-            EntityRenderers.register(EntityType.PIGLIN_BRUTE, PMM2_PiglinBruteRenderer::new);
             EntityRenderers.register(EntityType.STRIDER, PMM2_StriderRenderer::new);
         }
 
@@ -283,6 +284,7 @@ public class PeopleMobsMod2 {
         }
     }
 
+    /** @see DolphinRenderer */
     public static class PMM2_DolphinRenderer extends PMM2_HumanoidMobRenderer<Dolphin, PMM2_HumanoidModel<Dolphin>> {
         @SuppressWarnings("null")
         public PMM2_DolphinRenderer(EntityRendererProvider.Context entity) {

@@ -11,7 +11,6 @@ import site.dodoneko.peoplemobsmod2.PeopleMobsMod2;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidMobRenderer;
 import site.dodoneko.peoplemobsmod2.base.PMM2_HumanoidModel;
 import site.dodoneko.peoplemobsmod2.base.PMath;
-import site.dodoneko.peoplemobsmod2.layer.PMM2_HumanHeldBlockLayer;
 
 /**
  * @see net.minecraft.client.model.IronGolemModel
@@ -23,7 +22,6 @@ public class PMM2_IronGolemRenderer extends PMM2_HumanoidMobRenderer<IronGolem, 
     @SuppressWarnings("null")
     public PMM2_IronGolemRenderer(EntityRendererProvider.Context entity) {
         super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)), modelScale);
-        this.addLayer(new PMM2_HumanHeldBlockLayer<>(this, entity.getBlockRenderDispatcher()));
         this.model.walkSwingSpeed = 0.5f;
     }
 
