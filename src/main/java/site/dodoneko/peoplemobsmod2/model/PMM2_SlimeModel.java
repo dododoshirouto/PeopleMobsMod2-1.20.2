@@ -15,12 +15,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
  * @see net.minecraft.client.renderer.entity.SlimeRenderer
  */
 @OnlyIn(Dist.CLIENT)
-public class PMM2_Slime<E extends Slime> extends PMM2_HumanoidModel<E> {
+public class PMM2_SlimeModel<E extends Slime> extends PMM2_HumanoidModel<E> {
 
     static final Map<Integer, Float> LAST_MOVEMENT_Y = new HashMap<Integer, Float>();
     static final Map<Integer, Float> PUYOPUYO_SCALE = new HashMap<Integer, Float>();
 
-    public PMM2_Slime(ModelPart root) {
+    public PMM2_SlimeModel(ModelPart root) {
         super(root);
     }
 
