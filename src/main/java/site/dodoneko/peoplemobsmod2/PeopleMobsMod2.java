@@ -156,16 +156,18 @@ public class PeopleMobsMod2 {
             PMM2_HumanoidMobRenderer.addTexture(PiglinBrute.class, "piglin/piglin_brute-chan");
             PMM2_HumanoidMobRenderer.addTexture(ZombifiedPiglin.class, "piglin/zombified_piglin-chan");
             PMM2_HumanoidMobRenderer.addTexture(Blaze.class, "blaze-chan");
+            PMM2_HumanoidMobRenderer.addTexture(Ghast.class, "ghast/ghast-chan");
+            PMM2_HumanoidMobRenderer.addTexture(MagmaCube.class, "slime/magmacube-chan");
             EntityRenderers.register(EntityType.PIGLIN, PMM2_PiglinRenderer::new);
             EntityRenderers.register(EntityType.PIGLIN_BRUTE, PMM2_PiglinBruteRenderer::new);
             EntityRenderers.register(EntityType.ZOMBIFIED_PIGLIN, PMM2_ZombifiedPiglinRenderer::new);
             EntityRenderers.register(EntityType.BLAZE, PMM2_BlazeRenderer::new);
+            EntityRenderers.register(EntityType.GHAST, PMM2_GhastRenderer::new);
+            EntityRenderers.register(EntityType.MAGMA_CUBE, PMM2_MagmaCubeRenderer::new);
 
             if (true)
                 return;
 
-            EntityRenderers.register(EntityType.GHAST, PMM2_GhastRenderer::new);
-            EntityRenderers.register(EntityType.MAGMA_CUBE, PMM2_MagmaCubeRenderer::new);
             EntityRenderers.register(EntityType.HOGLIN, PMM2_HoglinRenderer::new);
             EntityRenderers.register(EntityType.ZOGLIN, PMM2_ZoglinRenderer::new);
             EntityRenderers.register(EntityType.STRIDER, PMM2_StriderRenderer::new);
@@ -342,9 +344,17 @@ public class PeopleMobsMod2 {
      * @see GhastModel
      */
     public static class PMM2_GhastRenderer extends PMM2_HumanoidMobRenderer<Ghast, PMM2_HumanoidModel<Ghast>> {
+        private static final ResourceLocation GHAST_SHOOTING_LOCATION = new ResourceLocation(
+                "textures/entity/ghast/ghast-chan_shooting.png");
+
         public PMM2_GhastRenderer(EntityRendererProvider.Context entity) {
             super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)),
                     modelScale);
+        }
+
+        @Override
+        public ResourceLocation getTextureLocation(Ghast entity) {
+            return entity.isCharging() ? GHAST_SHOOTING_LOCATION : super.getTextureLocation(entity);
         }
     }
 
