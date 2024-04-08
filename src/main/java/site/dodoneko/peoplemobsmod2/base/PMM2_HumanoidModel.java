@@ -169,19 +169,16 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.bodyYOffset = 24.0F;
     }
 
-    @SuppressWarnings({ "null" })
     public static LayerDefinition createBodyLayerUseTwinkleFace() {
         PeopleMobsMod2.LOGGER.info("[PMM2] PMM2_HumanoidModel.createBodyLayerUseTwinkleFace()");
         return LayerDefinition.create(createMesh(new CubeDeformation(0F), 0, true), 64, 64);
     }
 
-    @SuppressWarnings({ "null" })
     public static LayerDefinition createBodyLayer() {
         PeopleMobsMod2.LOGGER.info("[PMM2] PMM2_HumanoidModel.createBodyLayer()");
         return LayerDefinition.create(createMesh(new CubeDeformation(0F), 0, false), 64, 64);
     }
 
-    @SuppressWarnings({ "null" })
     public static MeshDefinition createMesh(CubeDeformation cube, float yOffset, boolean useTwinkledFace) {
         MeshDefinition mesh = new MeshDefinition();
         PartDefinition root = mesh.getRoot();
@@ -385,8 +382,8 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.entity = entity;
         // this.entityId = entity.getId();
         this.entityId = this.entity.getUUID().hashCode();
-        this.limbSwing = limbSwing * walkSwingSpeed;
-        this.limbSwingAmount = limbSwingAmount;
+        this.limbSwing = limbSwing * this.walkSwingSpeed;
+        this.limbSwingAmount = limbSwingAmount / this.walkSwingSpeed;
         // TODO: change to /1000 from /100
         this.ageInTicks = (float) Util.getMillis() / 100f + PMath.getEntityRand(this, "ageInTicks") * 60 * 100f;
         this.headRotY = netHeadYaw;
