@@ -5,7 +5,7 @@ license="${mod_license}"
 [[mods]]
 modId="${mod_id}"
 version="${mod_version}"
-logoFile="pmm2_banner_0.1.6.png"
+logoFile="pmm2_banner_0.1.7.png"
 displayName="${mod_name}"
 authors="${mod_authors}"
 credits="${mod_authors}"
