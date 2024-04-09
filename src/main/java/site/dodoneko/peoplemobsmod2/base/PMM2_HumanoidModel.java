@@ -96,6 +96,10 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
     public boolean isSwimming;
     public boolean isFlying;
     public boolean isDying;
+    /** 乗客がいる状態 */
+    public boolean hasPassengers;
+    /** 震えている | 息苦しい(Suffocating) */
+    public boolean isShaking;
 
     public boolean hasAnything;
     public boolean hasItem;
@@ -281,12 +285,10 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         return mesh;
     }
 
-    @SuppressWarnings("null")
     protected Iterable<ModelPart> headParts() {
         return ImmutableList.of(this.pHead);
     }
 
-    @SuppressWarnings("null")
     protected Iterable<ModelPart> bodyParts() {
         return ImmutableList.of(this.pBody);
     }
@@ -362,6 +364,7 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.isSwimming = false;
         this.isFlying = false;
         this.isDying = false;
+        this.isShaking = false;
 
         this.hasAnything = false;
         this.hasItem = false;
@@ -376,7 +379,6 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.isEating = false;
     }
 
-    @SuppressWarnings("null")
     public void setEntityStatus(E entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
             float headPitch) {
         this.entity = entity;
@@ -397,6 +399,10 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.hasFood = this.entity.getMainHandItem().isEdible();
         this.hasBow = this.entity.getMainHandItem().is(Items.BOW) || this.entity.getMainHandItem().is(Items.CROSSBOW);
 
+        this.hasPassengers = !entity.getPassengers().isEmpty();
+        this.isShaking = entity.isFullyFrozen();
+        this.eggTime = 9999;
+
         if (entity instanceof Creeper) {
             this.isSwelling = ((Creeper) entity).getSwelling(this.limbSwingAmount) > 0F;
         } else if (entity instanceof EnderMan) {
@@ -408,7 +414,6 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
             // TODO: create chicken egg animation.
             this.eggTime = (float) ((Chicken) entity).eggTime / 100F;
         } else if (entity instanceof Sheep) {
-            // TODO: create eating animation.
             this.isEating = ((Sheep) entity).getHeadEatPositionScale(0F) != 0F;
         } else if (entity instanceof Rabbit) {
             this.isJumping = ((Rabbit) entity).getJumpCompletion(0F) > 0.0F;
@@ -422,25 +427,26 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
                 this.isAggressive = true;
         } else if (entity instanceof MagmaCube) {
             this.modelScale = ((MagmaCube) entity).getScale() * 0.55F;
+        } else if (entity instanceof Strider) {
+            this.isShaking = this.isShaking || ((Strider) entity).isSuffocating();
         }
 
         // set pose
-        // TODO: set pose to rided when isChickenJockey, saddle
         if (!this.entity.onGround()) {
             if (this.entity.isInWaterOrBubble()) {
                 this.isSwimming = true;
             } else {
                 this.isFlying = true;
             }
-        } else if (isFlying) {
-            isFlying = false;
+        } else if (this.isFlying) {
+            this.isFlying = false;
         }
 
         if (!this.entity.isInWaterOrBubble() && this.isSwelling) {
             this.isSwelling = false;
         }
         if (this.entity.isDeadOrDying()) {
-            isDying = true;
+            this.isDying = true;
         }
 
         this.prepareMobModel(this.entity, this.limbSwing, this.limbSwingAmount, this.ageInTicks);
@@ -464,6 +470,11 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
 
         // 何もしてないときのモーション
         this.setStayAnimations();
+        
+        if (this.hasPassengers) {
+            this.setSneakAnimations();
+            this.pBody.z = this.pHead.z = -2f;
+        }
 
         if (this.isFloating) {
             // 浮遊するモブのモーション
@@ -510,6 +521,18 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
             if (this.isClimbing) {
                 this.setClimbingAnimations();
             }
+        }
+
+        if (this.isShaking) {
+            this.setShakingAnimations();
+        }
+
+        if (this.isEating) {
+            this.setSittingAnimations();
+        }
+
+        if (this.eggTime < 5F) { // 動作してるか…?
+            this.setSwellingAnimations();
         }
 
         // ダメージ時のモーション
@@ -650,7 +673,6 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.pLegL.zRot = PMath.toRad(-4.5F);
     }
 
-    @SuppressWarnings("null")
     protected void setArmPoses() {
         ArmPose mainArmPose = this.entity.getMainArm() == HumanoidArm.LEFT ? this.leftArmPose : this.rightArmPose;
         ArmPose otherArmPose = this.entity.getMainArm() == HumanoidArm.LEFT ? this.rightArmPose : this.leftArmPose;
@@ -872,6 +894,13 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.pLegL.xRot -= PMath.toRad(45F);
     }
 
+    /** 震えているアニメーション */
+    protected void setShakingAnimations() {
+        this.setSneakAnimations();
+        this.pBody.yRot = PMath.toRad(PMath.cos1(this.ageInTicks * 52f) * 36f);
+        this.pHead.yRot += PMath.toRad(PMath.cos1(this.ageInTicks * 52f) * 36f);
+    }
+
     /**
      * 座りモーション（任意呼び出し）
      */
@@ -1012,7 +1041,6 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
     protected void setPostAnimations() {
     }
 
-    @SuppressWarnings("null")
     public void copyPropertiesTo(PMM2_HumanoidModel<E> model) {
         super.copyPropertiesTo(model);
 
@@ -1062,6 +1090,7 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         model.isSwimming = this.isSwimming;
         model.isFlying = this.isFlying;
         model.isDying = this.isDying;
+        model.hasPassengers = this.hasPassengers;
         model.hasAnything = this.hasAnything;
         model.hasItem = this.hasItem;
         model.hasBlock = this.hasBlock;

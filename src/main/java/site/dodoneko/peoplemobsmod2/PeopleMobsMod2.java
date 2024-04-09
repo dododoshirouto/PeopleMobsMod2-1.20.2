@@ -151,26 +151,27 @@ public class PeopleMobsMod2 {
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_ZombifiedPiglinRenderer.class, 0.9F, 0.5F);
             PMM2_HumanoidMobRenderer.setForwardArm(PMM2_ZombifiedPiglinRenderer.class, true);
             PMM2_HumanoidMobRenderer.setUseArmor(PMM2_ZombifiedPiglinRenderer.class, true);
-            PMM2_HumanoidMobRenderer.setModelScales(PMM2_StriderRenderer.class, 0.83F, 0.5F);
+            PMM2_HumanoidMobRenderer.setModelScales(PMM2_StriderRenderer.class, 1.0F, 0.5F);
             PMM2_HumanoidMobRenderer.addTexture(Piglin.class, "piglin/piglin-chan");
             PMM2_HumanoidMobRenderer.addTexture(PiglinBrute.class, "piglin/piglin_brute-chan");
             PMM2_HumanoidMobRenderer.addTexture(ZombifiedPiglin.class, "piglin/zombified_piglin-chan");
             PMM2_HumanoidMobRenderer.addTexture(Blaze.class, "blaze-chan");
             PMM2_HumanoidMobRenderer.addTexture(Ghast.class, "ghast/ghast-chan");
             PMM2_HumanoidMobRenderer.addTexture(MagmaCube.class, "slime/magmacube-chan");
+            PMM2_HumanoidMobRenderer.addTexture(Strider.class, "strider/strider-chan");
             EntityRenderers.register(EntityType.PIGLIN, PMM2_PiglinRenderer::new);
             EntityRenderers.register(EntityType.PIGLIN_BRUTE, PMM2_PiglinBruteRenderer::new);
             EntityRenderers.register(EntityType.ZOMBIFIED_PIGLIN, PMM2_ZombifiedPiglinRenderer::new);
             EntityRenderers.register(EntityType.BLAZE, PMM2_BlazeRenderer::new);
             EntityRenderers.register(EntityType.GHAST, PMM2_GhastRenderer::new);
             EntityRenderers.register(EntityType.MAGMA_CUBE, PMM2_MagmaCubeRenderer::new);
+            EntityRenderers.register(EntityType.STRIDER, PMM2_StriderRenderer::new);
 
             if (true)
                 return;
 
             EntityRenderers.register(EntityType.HOGLIN, PMM2_HoglinRenderer::new);
             EntityRenderers.register(EntityType.ZOGLIN, PMM2_ZoglinRenderer::new);
-            EntityRenderers.register(EntityType.STRIDER, PMM2_StriderRenderer::new);
         }
 
         @SubscribeEvent
@@ -431,9 +432,17 @@ public class PeopleMobsMod2 {
      * @see StriderModel
      */
     public static class PMM2_StriderRenderer extends PMM2_HumanoidMobRenderer<Strider, PMM2_HumanoidModel<Strider>> {
+        private static final ResourceLocation STRIDER_COLD_LOCATION = new ResourceLocation(
+                "textures/entity/strider/strider-chan_cold.png");
+
         public PMM2_StriderRenderer(EntityRendererProvider.Context entity) {
             super(entity, new PMM2_HumanoidModel<>(entity.bakeLayer(PeopleMobsMod2.PMM2_TWINKLED_HUMANOID_LAYER)),
                     modelScale);
+        }
+
+        @Override
+        public ResourceLocation getTextureLocation(Strider entity) {
+            return entity.isSuffocating() ? STRIDER_COLD_LOCATION : super.getTextureLocation(entity);
         }
     }
 }
