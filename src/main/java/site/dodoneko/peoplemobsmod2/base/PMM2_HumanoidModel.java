@@ -375,7 +375,7 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.isCreepy = false;
         this.isSwelling = false;
         this.isClimbing = false;
-        this.eggTime = 0;
+        this.eggTime = 9999;
         this.isEating = false;
     }
 
@@ -401,7 +401,6 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
 
         this.hasPassengers = !entity.getPassengers().isEmpty();
         this.isShaking = entity.isFullyFrozen();
-        this.eggTime = 9999;
 
         if (entity instanceof Creeper) {
             this.isSwelling = ((Creeper) entity).getSwelling(this.limbSwingAmount) > 0F;
@@ -470,7 +469,7 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
 
         // 何もしてないときのモーション
         this.setStayAnimations();
-        
+
         if (this.hasPassengers) {
             this.setSneakAnimations();
             this.pBody.z = this.pHead.z = -2f;
@@ -483,11 +482,6 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         // 歩いてるときのモーション
         if (this.limbSwingAmount > 0.01F) {
             this.setWalkingAnimations();
-        }
-
-        // 乗ってる時のモーション
-        if (this.riding) {
-            this.setRidingAnimations();
         }
 
         // 手に何か持ってるとき
@@ -522,8 +516,16 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
                 this.setClimbingAnimations();
             }
         }
+        
+
+        // 乗ってる時のモーション
+        if (this.riding) {
+            this.setRidingAnimations();
+            // this.setSittingAnimations();
+        }
 
         if (this.isShaking) {
+            // PeopleMobsMod2.DEBUG("is shaking");
             this.setShakingAnimations();
         }
 
@@ -663,14 +665,24 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
 
     /** 何かに乗ってる時のモーション */
     protected void setRidingAnimations() {
-        this.pArmR.xRot = PMath.toRad(-12F);
-        this.pArmL.xRot = PMath.toRad(-12F);
+        this.pBody.y = this.pHead.y = 12f;
+
+        this.pArmR.zRot = -PMath.toRad(0);
+        this.pArmR.xRot = PMath.toRad(-45);
+        this.pArmR.yRot = -PMath.toRad(35);
+        this.pArmL.zRot = PMath.toRad(0);
+        this.pArmL.xRot = PMath.toRad(-45);
+        this.pArmL.yRot = PMath.toRad(35);
+
         this.pLegR.xRot = PMath.toRad(-80);
         this.pLegR.yRot = PMath.toRad(5);
         this.pLegR.zRot = PMath.toRad(4.5F);
         this.pLegL.xRot = PMath.toRad(-80);
         this.pLegL.yRot = PMath.toRad(-5);
         this.pLegL.zRot = PMath.toRad(-4.5F);
+
+        this.pLegL.z = -6f;
+        this.pLegR.z = -6f;
     }
 
     protected void setArmPoses() {
@@ -757,8 +769,8 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
     /** スニーク時のモーション */
     protected void setSneakAnimations() {
         this.pBody.xRot += 0.5F;
-        this.pArmR.xRot += 0.2F;
-        this.pArmL.xRot += 0.2F;
+        this.pArmR.xRot -= 0.2F;
+        this.pArmL.xRot -= 0.2F;
         this.pArmR.zRot += 0.2F;
         this.pArmL.zRot -= 0.2F;
         this.pLegR.xRot -= 0.75F;
@@ -897,8 +909,8 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
     /** 震えているアニメーション */
     protected void setShakingAnimations() {
         this.setSneakAnimations();
-        this.pBody.yRot = PMath.toRad(PMath.cos1(this.ageInTicks * 52f) * 36f);
-        this.pHead.yRot += PMath.toRad(PMath.cos1(this.ageInTicks * 52f) * 36f);
+        this.pBody.yRot += PMath.toRad(PMath.cos1(this.ageInTicks * 5f) * 3f);
+        this.pHead.yRot += PMath.toRad(PMath.cos1(this.ageInTicks * 5f) * 3f);
     }
 
     /**
@@ -906,19 +918,63 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
      */
     protected void setSittingAnimations() {
         this.pBody.xRot += 0.3F;
-        this.pArmR.yRot -= 60F * PMath.Deg2Rad;
-        this.pArmL.yRot += 60F * PMath.Deg2Rad;
-        this.pArmR.xRot -= 0.25F;
-        this.pArmL.xRot -= 0.25F;
-        this.pArmR.zRot -= 0.18F;
-        this.pArmL.zRot += 0.18F;
-        this.pLegR.yRot += 30F * PMath.Deg2Rad;
-        this.pLegL.yRot -= 30F * PMath.Deg2Rad;
-        this.pLegR.xRot -= 80F * PMath.Deg2Rad;
-        this.pLegL.xRot -= 80F * PMath.Deg2Rad;
-        this.pHead.y += 5F;
-        this.pBody.y += 5F;
+        this.pArmR.yRot = -60F * PMath.Deg2Rad;
+        this.pArmL.yRot = 60F * PMath.Deg2Rad;
+        this.pArmR.xRot = -0.25F;
+        this.pArmL.xRot = -0.25F;
+        this.pArmR.zRot = -0.18F;
+        this.pArmL.zRot = 0.18F;
+        this.pLegR.yRot = 30F * PMath.Deg2Rad;
+        this.pLegL.yRot = -30F * PMath.Deg2Rad;
+        this.pLegR.xRot = -80F * PMath.Deg2Rad;
+        this.pLegL.xRot = -80F * PMath.Deg2Rad;
+        this.pHead.y = 5F;
+        this.pBody.y = 5F;
         this.pShippo.xRot += 3F;
+    }
+
+    /**
+     * 眠りモーション（任意呼び出し）
+     */
+    protected void setSleepingAnimations() {
+        float f = PMath.sin1(this.ageInTicks / (50f + PMath.getEntityRand(this, "sleepMotion") * 20f));
+        float d = (PMath.getEntityRand(this, "sleepMotion") < 0.5f)? 1: -1;
+
+        this.pBody.y = this.pHead.y = 24f - 12f;
+
+        this.pBody.xRot = PMath.toRad(60f);
+
+        this.pHead.xRot = PMath.toRad(60f);
+        this.pHead.yRot = PMath.toRad(30f * d);
+        this.pHead.zRot = PMath.toRad(-30f * d);
+
+        this.pArmL.xRot = PMath.toRad(-90f - 20f);
+        this.pArmL.yRot = PMath.toRad(0f);
+        this.pArmL.zRot = -PMath.toRad(20f);
+        this.pArmR.xRot = PMath.toRad(-90f - 20f);
+        this.pArmR.yRot = PMath.toRad(0f);
+        this.pArmR.zRot = -PMath.toRad(-20f);
+
+        this.pLegL.xRot = PMath.toRad(-90f - 50f);
+        this.pLegL.yRot = PMath.toRad(0f);
+        this.pLegL.zRot = -PMath.toRad(-40f);
+        this.pLegR.xRot = PMath.toRad(-90f - 50f);
+        this.pLegR.yRot = PMath.toRad(0f);
+        this.pLegR.zRot = -PMath.toRad(40f);
+
+        this.pLegL.z = -4f;
+        this.pLegR.z = -4f;
+
+        this.pBody.xRot += PMath.toRad(f * 3f - 3f);
+        this.pHead.xRot += PMath.toRad(f * 1f);
+        this.pBody.y += (f * 0.5f + 0.5f);
+        this.pHead.y += (f * 0.5f + 0.5f);
+        this.pArmL.xRot -= PMath.toRad(f * 4f - 3f);
+        this.pArmR.xRot -= PMath.toRad(f * 4f - 3f);
+        this.pLegL.xRot -= PMath.toRad(f * 3f - 3f);
+        this.pLegR.xRot -= PMath.toRad(f * 3f - 3f);
+        
+        this.pFace.visible = !(this.pFace_twinkled.visible = true);
     }
 
     //
@@ -943,7 +999,7 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         this.pLegL.xRot = PMath.toRad(-35);
 
         this.pBody.xRot = PMath.toRad(12);
-        this.pHead.yRot = PMath.toRad((PMath.sin1(ageInTicks / 30) * 18));
+        this.pHead.yRot = PMath.toRad((PMath.sin1(this.ageInTicks / 30) * 18));
         this.pHead.xRot = PMath.toRad(16);
 
         this.pFace.visible = !(this.pFace_twinkled.visible = true);
@@ -979,8 +1035,8 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
         if (h > 0.5F)
             f = 1.0F - f;
         this.pBLower.xRot = PMath.clamp(-(this.pBUpper.xRot - PMath.PI / 2) * (2 + f),
-            PMath.PI / 2 * 0.2F,
-            PMath.PI / 2 * 0.95F);
+                PMath.PI / 2 * 0.2F,
+                PMath.PI / 2 * 0.95F);
     }
 
     /** しっぽのアニメーション */
@@ -1147,8 +1203,9 @@ public class PMM2_HumanoidModel<E extends Mob> extends HumanoidModel<E> {
     public void renderToBuffer(PoseStack pose, VertexConsumer vertex, int i1, int overlayType,
             float col_r, float col_g, float col_b, float col_a) {
 
-        float scale = this.modelScale + ((PMath.getEntityRand(this, "modelScale1")*2f-1f)
-                + (PMath.getEntityRand(this, "modelScale2")*2f-1f) + (PMath.getEntityRand(this, "modelScale3")*2f-1f)) / 3f * 2F / 16F;
+        float scale = this.modelScale + ((PMath.getEntityRand(this, "modelScale1") * 2f - 1f)
+                + (PMath.getEntityRand(this, "modelScale2") * 2f - 1f)
+                + (PMath.getEntityRand(this, "modelScale3") * 2f - 1f)) / 3f * 2F / 16F;
 
         pose.pushPose();
         pose.translate(0, (1F - scale) * 26F / 16F, 0);

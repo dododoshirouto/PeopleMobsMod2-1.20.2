@@ -30,6 +30,8 @@ public class PMM2_FoxModel extends PMM2_HumanoidModel<Fox> {
     @Override
     public void setEntityStatus(Fox entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
             float headPitch) {
+        super.setEntityStatus(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+        
         this.isSittingOnGround = ((Fox) entity).isSitting();
         this.isJumping = ((Fox) entity).isJumping();
         this.isInterested = ((Fox) entity).isInterested();
@@ -54,11 +56,7 @@ public class PMM2_FoxModel extends PMM2_HumanoidModel<Fox> {
         } else
 
         if (this.isSleeping) {
-            // 仮りのモーション
-            this.setSittingAnimations();
-
-            this.pHead.xRot += PMath.toRad(PMath.abs(PMath.sin1(this.ageInTicks / 7.85F)) * 15F
-                    + PMath.sin1(this.ageInTicks / 130F) * 7F + 8F);
+            this.setSleepingAnimations();
         } else
 
         if (this.isSittingOnGround) {

@@ -123,15 +123,15 @@ public class PMath {
         return (float) Math.log(v);
     }
 
-    @SuppressWarnings("null")
     private static final Map<String, Integer> ENTITY_ID_TO_RND_MAPS = Util.make(Maps.newHashMap(),
             (entity) -> {
-                entity.put("ageInTicks", 102445);
-                entity.put("bHOffset", 150749);
+                entity.put("ageInTicks" , 102445);
+                entity.put("bHOffset"   , 150749);
                 entity.put("modelScale1", 208462);
                 entity.put("modelScale2", 250111);
                 entity.put("modelScale3", 301008);
                 entity.put("piglinDance", 350172);
+                entity.put("sleepMotion", 400012);
             });
     
     public static float getEntityRand(PMM2_HumanoidModel<?> model, String name) {

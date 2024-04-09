@@ -78,7 +78,7 @@ public class PeopleMobsMod2 {
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_SquidRenderer.class, 0.7F, 0.3F);
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_GlowSquidRenderer.class, 0.67F, 0.4F);
             PMM2_HumanoidMobRenderer.setModelScales(PMM2_BatRenderer.class, 0.8F, 0.2F, true, true);
-            PMM2_HumanoidMobRenderer.setModelScales(PMM2_FoxRenderer.class, 0.4F, 0.25F);
+            PMM2_HumanoidMobRenderer.setModelScales(PMM2_FoxRenderer.class, 0.6F, 0.25F);
             PMM2_HumanoidMobRenderer.addTexture(Zombie.class, "zombie/zombie-chan");
             PMM2_HumanoidMobRenderer.addTexture(Skeleton.class, "skeleton/skeleton-chan");
             PMM2_HumanoidMobRenderer.addTexture(WitherSkeleton.class, "skeleton/wither_skeleton-chan");
