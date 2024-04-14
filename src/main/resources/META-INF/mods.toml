@@ -9,7 +9,7 @@ logoFile="pmm2_banner_0.1.7.png"
 displayName="${mod_name}"
 authors="${mod_authors}"
 credits="${mod_authors}"
-description='''${mod_description}'''
+description='''${mod_description+"\n\n"+mod_version}'''
 issueTrackerURL="https://github.com/dododoshirouto/PeopleMobsMod2/issues"
 displayURL="https://github.com/dododoshirouto/PeopleMobsMod2"
 [[dependencies.${mod_id}]]
