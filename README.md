@@ -51,6 +51,35 @@ Mob textures can be used as is with player skins.
 
 When I complete this mod, **we can live with cute girls**.
 
+# Kawaii Mobs List
+
+![Zombified_Piglin](https://test.dodoneko.site/pmm2/mobs-gif/Zombified_Piglin.gif)
+![Strider](https://test.dodoneko.site/pmm2/mobs-gif/Strider.gif)
+![Squid](https://test.dodoneko.site/pmm2/mobs-gif/Squid.gif)
+![Spider](https://test.dodoneko.site/pmm2/mobs-gif/Spider.gif)
+![Snow_Golem](https://test.dodoneko.site/pmm2/mobs-gif/Snow_Golem.gif)
+![Sheep](https://test.dodoneko.site/pmm2/mobs-gif/Sheep.gif)
+![Rabbit](https://test.dodoneko.site/pmm2/mobs-gif/Rabbit.gif)
+![Piglin_Brute](https://test.dodoneko.site/pmm2/mobs-gif/Piglin_Brute.gif)
+![Piglin](https://test.dodoneko.site/pmm2/mobs-gif/Piglin.gif)
+![Pig](https://test.dodoneko.site/pmm2/mobs-gif/Pig.gif)
+![Mooshroom](https://test.dodoneko.site/pmm2/mobs-gif/Mooshroom.gif)
+![Magma_Cube](https://test.dodoneko.site/pmm2/mobs-gif/Magma_Cube.gif)
+![Iron_Golem](https://test.dodoneko.site/pmm2/mobs-gif/Iron_Golem.gif)
+![Glow_Squid](https://test.dodoneko.site/pmm2/mobs-gif/Glow_Squid.gif)
+![Ghast](https://test.dodoneko.site/pmm2/mobs-gif/Ghast.gif)
+![Frog](https://test.dodoneko.site/pmm2/mobs-gif/Frog.gif)
+![Fox](https://test.dodoneko.site/pmm2/mobs-gif/Fox.gif)
+![Enderman](https://test.dodoneko.site/pmm2/mobs-gif/Enderman.gif)
+![Dolphin](https://test.dodoneko.site/pmm2/mobs-gif/Dolphin.gif)
+![Cow](https://test.dodoneko.site/pmm2/mobs-gif/Cow.gif)
+![Chicken](https://test.dodoneko.site/pmm2/mobs-gif/Chicken.gif)
+![Cave_Spider](https://test.dodoneko.site/pmm2/mobs-gif/Cave_Spider.gif)
+![Blaze](https://test.dodoneko.site/pmm2/mobs-gif/Blaze.gif)
+![Bat](https://test.dodoneko.site/pmm2/mobs-gif/Bat.gif)
+
+# Screenshot
+
 [![Image from Gyazo](https://i.gyazo.com/4c6c8a3d9096007ec7e997deb67df5c8.png)](https://gyazo.com/4c6c8a3d9096007ec7e997deb67df5c8)
 
 [![Image from Gyazo](https://i.gyazo.com/cf4bc62c4a8296eef626583ab20f5483.png)](https://gyazo.com/cf4bc62c4a8296eef626583ab20f5483)
