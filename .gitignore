@@ -26,3 +26,5 @@ forge*changelog.txt
 
 *.mp4
 *.mkv
+
+!mob-videos/*.mp4
