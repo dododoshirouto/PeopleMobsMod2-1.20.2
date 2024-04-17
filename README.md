@@ -1,8 +1,7 @@
 # People Mobs Mod2
 
-for Minecraft 1.20.2 (Forge 48.1.0)
+for Minecraft 1.20.x (Forge 48.1.x)
 
-Warn! このプロジェクトは[1.14.4版](https://github.com/dododoshirouto/PeopleMobsMod2)の移植作業中です。
 ![banner-1 20 2-0 1 0](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/assets/87510462/a43492c8-27b0-4df0-a360-0b65c655ac21)
 ![main-banner](https://user-images.githubusercontent.com/87510462/140615380-bfba3cff-98b1-4d00-affc-90c9b183d081.png)
 
@@ -24,12 +23,6 @@ Warn! このプロジェクトは[1.14.4版](https://github.com/dododoshirouto/P
 4. If you see `People Mobs Mod2` in Mods list in launched Minecraft, you are complete installation.
 
 ## About
-
-[![Video ver 0.1.6 pre](https://img.youtube.com/vi/j9aCEPiPEXI/0.jpg)](https://www.youtube.com/watch?v=j9aCEPiPEXI)
-
-https://user-images.githubusercontent.com/87510462/140570259-b50abc6e-fab0-4419-b6c7-4c0ab34875c6.mp4
-
-[![Video ver 0.1.3+α](https://img.youtube.com/vi/FYLCwDNG7ho/0.jpg)](https://www.youtube.com/watch?v=FYLCwDNG7ho)
 
 既存のMobの見た目を女の子にするMODです。
 
@@ -53,32 +46,38 @@ When I complete this mod, **we can live with cute girls**.
 
 # Kawaii Mobs List
 
-![Zombified_Piglin](https://test.dodoneko.site/pmm2/mobs-gif/Zombified_Piglin.gif)
-![Strider](https://test.dodoneko.site/pmm2/mobs-gif/Strider.gif)
-![Squid](https://test.dodoneko.site/pmm2/mobs-gif/Squid.gif)
-![Spider](https://test.dodoneko.site/pmm2/mobs-gif/Spider.gif)
-![Snow_Golem](https://test.dodoneko.site/pmm2/mobs-gif/Snow_Golem.gif)
-![Sheep](https://test.dodoneko.site/pmm2/mobs-gif/Sheep.gif)
-![Rabbit](https://test.dodoneko.site/pmm2/mobs-gif/Rabbit.gif)
-![Piglin_Brute](https://test.dodoneko.site/pmm2/mobs-gif/Piglin_Brute.gif)
-![Piglin](https://test.dodoneko.site/pmm2/mobs-gif/Piglin.gif)
-![Pig](https://test.dodoneko.site/pmm2/mobs-gif/Pig.gif)
-![Mooshroom](https://test.dodoneko.site/pmm2/mobs-gif/Mooshroom.gif)
-![Magma_Cube](https://test.dodoneko.site/pmm2/mobs-gif/Magma_Cube.gif)
-![Iron_Golem](https://test.dodoneko.site/pmm2/mobs-gif/Iron_Golem.gif)
-![Glow_Squid](https://test.dodoneko.site/pmm2/mobs-gif/Glow_Squid.gif)
-![Ghast](https://test.dodoneko.site/pmm2/mobs-gif/Ghast.gif)
-![Frog](https://test.dodoneko.site/pmm2/mobs-gif/Frog.gif)
-![Fox](https://test.dodoneko.site/pmm2/mobs-gif/Fox.gif)
-![Enderman](https://test.dodoneko.site/pmm2/mobs-gif/Enderman.gif)
-![Dolphin](https://test.dodoneko.site/pmm2/mobs-gif/Dolphin.gif)
-![Cow](https://test.dodoneko.site/pmm2/mobs-gif/Cow.gif)
-![Chicken](https://test.dodoneko.site/pmm2/mobs-gif/Chicken.gif)
-![Cave_Spider](https://test.dodoneko.site/pmm2/mobs-gif/Cave_Spider.gif)
-![Blaze](https://test.dodoneko.site/pmm2/mobs-gif/Blaze.gif)
-![Bat](https://test.dodoneko.site/pmm2/mobs-gif/Bat.gif)
+![Bat](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Bat_1.gif?raw=true)
+![Blaze](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Blaze_1.gif?raw=true)
+![Cave_Spider](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Cave_Spider_1.gif?raw=true)
+![Chicken](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Chicken_1.gif?raw=true)
+![Cow](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Cow_1.gif?raw=true)
+![Dolphin](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Dolphin_1.gif?raw=true)
+![Enderman](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Enderman_1.gif?raw=true)
+![Fox](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Fox_1.gif?raw=true)
+![Frog](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Frog_1.gif?raw=true)
+![Ghast](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Ghast_1.gif?raw=true)
+![Glow_Squid](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Glow_Squid_1.gif?raw=true)
+![Iron_Golem](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Iron_Golem_1.gif?raw=true)
+![Magma_Cube](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Magma_Cube_1.gif?raw=true)
+![Mooshroom](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Mooshroom_1.gif?raw=true)
+![Pig](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Pig_1.gif?raw=true)
+![Piglin](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Piglin_1.gif?raw=true)
+![Piglin_Brute](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Piglin_Brute_1.gif?raw=true)
+![Rabbit](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Rabbit_1.gif?raw=true)
+![Sheep](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Sheep_1.gif?raw=true)
+![Snow_Golem](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Snow_Golem_1.gif?raw=true)
+![Spider](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Spider_1.gif?raw=true)
+![Squid](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Squid_1.gif?raw=true)
+![Strider](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Strider_1.gif?raw=true)
+![Zombified_Piglin](https://github.com/dododoshirouto/PeopleMobsMod2-1.20.2/blob/master/mob-gifs/Zombified_Piglin_1.gif?raw=true)
 
 # Screenshot
+
+[![Video ver 0.1.6 pre](https://img.youtube.com/vi/j9aCEPiPEXI/0.jpg)](https://www.youtube.com/watch?v=j9aCEPiPEXI)
+
+https://user-images.githubusercontent.com/87510462/140570259-b50abc6e-fab0-4419-b6c7-4c0ab34875c6.mp4
+
+[![Video ver 0.1.3+α](https://img.youtube.com/vi/FYLCwDNG7ho/0.jpg)](https://www.youtube.com/watch?v=FYLCwDNG7ho)
 
 [![Image from Gyazo](https://i.gyazo.com/4c6c8a3d9096007ec7e997deb67df5c8.png)](https://gyazo.com/4c6c8a3d9096007ec7e997deb67df5c8)
 
@@ -93,3 +92,7 @@ When I complete this mod, **we can live with cute girls**.
 [People Mobs Mod2 - Minecraft Mods - Mapping and Modding: Java Edition - Minecraft Forum - Minecraft Forum](https://www.minecraftforum.net/forums/mapping-and-modding-java-edition/minecraft-mods/3126640-people-mobs-mod2)
 
 [People Mobs Mod2 - Mods - Minecraft - CurseForge](https://www.curseforge.com/minecraft/mc-mods/people-mobs-mod2/)
+
+
+
+[Minecraft 1.14.x版](https://github.com/dododoshirouto/PeopleMobsMod2)
